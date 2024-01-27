@@ -34,6 +34,10 @@ class Users extends Migration
                 'constraint' => 11,
                 'unique' => true
             ],
+            'password' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
             ],

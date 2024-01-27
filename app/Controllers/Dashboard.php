@@ -6,6 +6,10 @@ class Dashboard extends BaseController
 {
     public function index(): string
     {
-        return view('Dashboard/index');
+        $data = [
+            'title' => 'Dashboard',
+            'pageHeader' => 'Dashboard'
+        ];
+        return view('Dashboard/index', $data);
     }
 }
