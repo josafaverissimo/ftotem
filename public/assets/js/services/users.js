@@ -17,4 +17,21 @@ export class UsersService {
             data: userData
         })
     }
+
+    get(callback, searchOptions = {}) {
+        this.__requester.onResponse = callback
+
+        const params = new URLSearchParams()
+
+        if(searchOptions.term) {
+            params.append('term', searchOptions.term)
+        }
+
+        if(searchOptions.page) {
+            params.append('page', searchOptions.page)
+        }
+
+
+        return this.__requester.get(`/users/get?${params.toString()}`)
+    }
 }

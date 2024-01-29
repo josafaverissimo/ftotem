@@ -30,22 +30,4 @@ class UserEntity extends Entity
         'updated_at' => '?datetime',
         'deleted_at' => '?datetime'
     ];
-
-    public function setCpf(string $cpf): UserEntity
-    {
-        helper('masks');
-
-        $this->attributes['cpf'] = removeCpfMask($cpf);
-
-        return $this;
-    }
-
-    public function setCellphone(string $cellphone): UserEntity
-    {
-        helper('masks');
-
-        $this->attributes['cellphone'] = removeCellphoneMask($cellphone);
-
-        return $this;
-    }
 }

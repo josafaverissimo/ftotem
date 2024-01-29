@@ -1,3 +1,12 @@
+<?php
+
+/**
+ * @var \CodeIgniter\Pager\Pager $pager
+ * @var array[] $userTableColumns
+ */
+
+?>
+
 <?= $this->extend('master') ?>
 
 <?= $this->section('css') ?>
@@ -14,7 +23,8 @@
 <h1 class="display-6 fw-bold border-bottom animate__animated animate__fadeInLeft">Tabela de usuários</h1>
 
 <?= newView('Components/myTable', [
-        'id' => 'usersTable',
-        'formViewPath' => 'Users/Partials/form'
+    'id' => 'usersTable',
+    'formViewPath' => 'Users/Partials/form',
+    'columns' => $userTableColumns
 ]) ?>
 <?= $this->endSection() ?>

@@ -13,9 +13,9 @@ class CustomRules
         return checkAlphaSpaces($value);
     }
 
-    public function custom_alpha_numeric_underscore(string $value): bool
+    public function custom_alpha_numeric_dashs_dot(string $value): bool
     {
-        return checkAlphaNumericUnderscore($value);
+        return checkAlphaNumericDashsDot($value);
     }
 
     public function valid_cpf(string $cpf): bool

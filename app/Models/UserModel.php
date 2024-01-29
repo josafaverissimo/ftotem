@@ -9,7 +9,7 @@ class UserModel extends Model
     protected $table            = 'ft_users';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
-    protected $returnType       = '\App\Entities\User';
+    protected $returnType       = '\App\Entities\UserEntity';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = ['name', 'username', 'cpf', 'cellphone', 'password'];
@@ -24,9 +24,9 @@ class UserModel extends Model
     // Validation
     protected $validationRules      = [
         'name' => 'required|custom_alpha_spaces|max_length[255]',
-        'username' => 'required|custom_alpha_numeric_underscore|max_length[255]|is_unique[ft_users.username]',
-        'cpf' => 'required|numeric|exact_length[11]|valid_cpf|is_unique[ft_users.cpf]',
-        'cellphone' => 'required|numeric|exact_length[11]|is_unique[ft_users.cellphone]',
+        'username' => 'required|custom_alpha_numeric_dashs_dot|max_length[255]|is_unique[ft_users.username]',
+        'cpf' => 'required|exact_length[14]|valid_cpf|is_unique[ft_users.cpf]',
+        'cellphone' => 'required|exact_length[16]|is_unique[ft_users.cellphone]',
         'password' => 'required|min_length[8]|max_length[255]'
     ];
     protected $validationMessages   = [];

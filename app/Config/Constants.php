@@ -94,3 +94,4 @@ define('EVENT_PRIORITY_NORMAL', 100);
 define('EVENT_PRIORITY_HIGH', 10);
 
 define('VIEW_DEFAULT_TITLE', 'Relive');
+define('DATETIME_BR_FORMAT', 'd/m/Y H:i:s');

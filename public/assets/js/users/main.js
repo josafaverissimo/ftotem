@@ -1,4 +1,4 @@
-import { MyTable } from "../myTable/main.js";
+import { MyTable, TableEvent } from "../myTable/main.js";
 import { FormValidation } from "../utils/formvalidation.js";
 import { UsersService } from "../services/users.js";
 
@@ -13,18 +13,30 @@ export class UserPage {
     __formValidation
     /** @type UsersService */
     __usersServices
+    __currentPage = 1
+    __currentTerm = ''
 
     constructor() {
         this.__init()
+        this.__loadTableData()
+        this.__listenFormAction()
     }
 
     __init() {
         this.__tableId = 'usersTable'
-        this.__mainTable = new MyTable()
-        this.__mainTable.loadTable(this.__tableId)
+        this.__usersServices = new UsersService()
+        this.__setMainTable()
         this.__formAction = this.__mainTable.formAction
         this.__setFormValidation()
-        this.__usersServices = new UsersService()
+    }
+
+    __setMainTable() {
+        this.__mainTable = new MyTable()
+        this.__mainTable.currentPage = this.__currentPage
+        this.__mainTable.onSearch = this.__onTableSearch.bind(this)
+        this.__mainTable.onSearchClear = this.__onTableSearchClear.bind(this)
+        this.__mainTable.onChangePage = this.changeTablePage.bind(this)
+        this.__mainTable.loadTable(this.__tableId)
     }
 
     __setFormValidation() {
@@ -62,6 +74,25 @@ export class UserPage {
         return new FormData(this.__formAction)
     }
 
+    /**
+     *
+     * @param tableEvent {TableEvent}
+     * @private
+     */
+    __onTableSearch(tableEvent) {
+        const {term} = tableEvent
+
+        this.__currentTerm = term
+
+        this.__loadTableData()
+    }
+
+    __onTableSearchClear() {
+        this.__currentTerm = ''
+
+        this.__loadTableData()
+    }
+
     validateForm() {
         const validation = this.__formValidation.run()
 
@@ -72,7 +103,7 @@ export class UserPage {
         return validation
     }
 
-    listenFormAction() {
+    __listenFormAction() {
         this.__formAction.addEventListener('submit', event => {
             event.preventDefault()
 
@@ -104,9 +135,11 @@ export class UserPage {
                 toastify('Usuário cadastrado!', 'success')
             })
         })
+
+        this.__togglePasswordInput()
     }
 
-    togglePasswordInput() {
+    __togglePasswordInput() {
         const passwordInput = this.__formAction.password
         const passwordEyeContainer = passwordInput.nextElementSibling
         const passwordEyeIcon = passwordInput.nextElementSibling.firstElementChild
@@ -126,5 +159,30 @@ export class UserPage {
             passwordEyeIcon.classList.remove('bi-eye-fill')
             passwordEyeIcon.classList.add('bi-eye-slash-fill')
         })
+    }
+
+    __loadTableData() {
+        this.__mainTable.disableTable()
+
+        this.__usersServices.get(response => {
+            const { data } = response
+
+            if(data.pageCount > 0) {
+                this.__mainTable.loadTableData(data)
+            } else {
+                toastify('Nenhum dado encontrado', 'info')
+            }
+
+            this.__mainTable.enableTable()
+        }, {
+            page: this.__currentPage,
+            term: this.__currentTerm
+        })
+    }
+
+    changeTablePage(pageNumber) {
+        this.__currentPage = pageNumber
+
+        this.__loadTableData()
     }
 }

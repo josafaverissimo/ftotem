@@ -50,4 +50,3 @@
         </a>
     </div>
 </aside>
-<div class="spacer"></div>

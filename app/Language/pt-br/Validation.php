@@ -12,7 +12,7 @@ return [
     'custom_alpha_spaces'   => 'O campo pode conter apenas caracteres alfabéticos',
 	'alpha'                 => 'O campo pode conter apenas caracteres alfabéticos',
 	'alpha_dash'            => 'O campo pode conter apenas caracteres alfa-numéricos, sublinhados, e traços',
-    'custom_alpha_numeric_underscore'  => 'O campo pode conter apenas caracteres alfa-numéricos e sublinhados',
+    'custom_alpha_numeric_dashs_dot'  => 'O campo pode conter apenas caracteres alfa-numéricos, sublinhados, traços e pontos',
 	'alpha_numeric'         => 'O campo pode conter apenas caracteres alfa-numéricos',
 	'alpha_numeric_space'   => 'O campo pode conter apenas caracteres alfa-numéricos e espaços',
 	'alpha_space'           => 'O campo pode conter apenas caracteres alfabéticos e espaços',

@@ -9,6 +9,7 @@ $routes->get('/', [\App\Controllers\Dashboard::class, 'index'], ['as' => 'dashbo
 
 $routes->group('users', static function($routes) {
     $routes->get('/', [\App\Controllers\UsersController::class, 'index'], ['as' => 'users']);
+    $routes->get('get', [\App\Controllers\UsersController::class, 'get'], ['as' => 'users.get']);
     $routes->post('save', [\App\Controllers\UsersController::class, 'save'], ['as' => 'users.save']);
 });
 
