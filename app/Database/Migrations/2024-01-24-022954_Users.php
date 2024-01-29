@@ -26,12 +26,12 @@ class Users extends Migration
             ],
             'cpf' => [
                 'type' => 'VARCHAR',
-                'constraint' => 11,
+                'constraint' => 14,
                 'unique' => true
             ],
             'cellphone' => [
                 'type' => 'VARCHAR',
-                'constraint' => 11,
+                'constraint' => 16,
                 'unique' => true
             ],
             'password' => [
