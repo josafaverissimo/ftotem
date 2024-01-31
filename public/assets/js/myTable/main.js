@@ -1,11 +1,24 @@
 export class MyTable {
     __table
+    __tableColumnsName = []
     __formAction
     __searchInput
     __currentPage
-    __onSearch
-    __onSearchClear
-    __onChangePage
+    __pageCount
+    __order
+    __orderColumnName
+    __onSearch = () => {}
+    __onSearchClear = () => {}
+    __onChangePage = () => {}
+    __onOrderBy = () => {}
+    __onDelete = () => {}
+    __onEdit = () => {}
+    __onCreate = () => {}
+    /** @type CheckedRows */
+    __checkedRows
+    __editForm = false
+    __createFormTitle = ''
+    __editFormTitle = ''
 
     get formAction() {
         return this.__formAction
@@ -22,12 +35,50 @@ export class MyTable {
     set onChangePage(callback) {
         this.__onChangePage = (pageNumber) => {
             this.__currentPage = pageNumber
-            callback(pageNumber)
+            this.__resetCheckedRows()
+
+            callback(this.__getTableEvent())
         }
+    }
+
+    set onOrderBy(callback) {
+        this.__onOrderBy = callback
+    }
+
+    set onDelete(callback) {
+        this.__onDelete = callback
+    }
+
+    set onEdit(callback) {
+        this.__onEdit = callback
+    }
+
+    set onCreate(callback) {
+        this.__onCreate = callback
     }
 
     set currentPage(pageNumber) {
         this.__currentPage = pageNumber
+    }
+
+    setCreateFormTitle(title) {
+        this.__createFormTitle = title
+    }
+
+    setEditFormTitle(title) {
+        this.__editFormTitle = title
+    }
+
+    orderBy(column, order) {
+        this.__order = order
+        this.__orderColumnName = column
+        this.__resetCheckedRows()
+        const tableEvent = this.__getTableEvent()
+        const th = [].find.call(this.__table.querySelectorAll('th'), th => th.textContent === column)
+
+        th.dataset.order = th.dataset.order === 'asc' ? 'desc' : 'asc'
+
+        this.__onOrderBy(tableEvent)
     }
 
     __setTable(tableId) {
@@ -47,6 +98,8 @@ export class MyTable {
 
         tableEvent.term = this.__searchInput.value
         tableEvent.page = this.__currentPage
+        tableEvent.order = this.__order
+        tableEvent.orderColumn = this.__orderColumnName
 
         return tableEvent
     }
@@ -57,12 +110,267 @@ export class MyTable {
         this.__setSearchInput(this.__table)
         this.__listenSearchInputSubmit()
         this.__listenSearchClearClick()
+        this.__listenColumnOrderClick()
+        this.__listenActionsClick()
+        this.__checkedRows = new CheckedRows(this.__tableColumnsName)
+        this.__listenCloseModal()
+        this.__listenFormAction()
+    }
+
+    __getFormActionData() {
+        return new FormData(this.__formAction)
+    }
+
+    __getEditFormData() {
+        const editFormData = new FormData(this.__formAction)
+        const [row] = Object.values(this.__checkedRows.rows)
+        delete row.id
+
+        Array.prototype.forEach.call(this.__formAction.elements, input => {
+            if(input.value === row[input.name] || input.value === '') {
+                editFormData.delete(input.name)
+            }
+        })
+
+        return editFormData
+    }
+
+    __listenFormAction() {
+        this.__formAction.addEventListener('submit', event => {
+            event.preventDefault()
+
+            let formData
+
+            if(!this.__editForm) {
+                formData = this.__getFormActionData()
+            } else {
+                formData = this.__getEditFormData()
+                const formDataLength = Array.from(formData.keys()).length
+
+                if(formDataLength <= 1) {
+                    toastify('Altere algum valor', 'warning')
+                    return
+                }
+            }
+
+            this.__editForm ? this.__onEdit(formData, event) : this.__onCreate(formData, event)
+        })
+    }
+
+    closeModal() {
+        const modal = bootstrap.Modal.getOrCreateInstance(this.__table.querySelector('#mytable__form-modal'))
+
+        modal.hide()
+    }
+
+    clearFormValues() {
+        [].forEach.call(this.__formAction.elements, input => {
+            updateFieldValue(input, '')
+        })
+    }
+
+    __listenCloseModal() {
+        const modal = this.__table.querySelector('#mytable__form-modal')
+
+        modal.addEventListener('hidden.bs.modal', () => {
+            const inputId = this.__formAction.id
+
+            if(inputId) {
+                inputId.remove()
+            }
+        })
+    }
+
+    __setIdInEditForm(id) {
+        const input = document.createElement('input')
+        input.id = 'mytable__form-input-id'
+        input.value = id
+        input.type = 'hidden'
+        input.name = 'id'
+
+        this.__formAction.appendChild(input)
+    }
+
+    __fillFormAction(valuesByInputName) {
+        if(valuesByInputName.id) {
+            this.__setIdInEditForm(valuesByInputName.id)
+        }
+
+        Object.keys(valuesByInputName).forEach(inputName => {
+            if(this.__formAction[inputName]) {
+                updateFieldValue(this.__formAction[inputName], valuesByInputName[inputName])
+            }
+        })
+    }
+
+    __changeFormTitle(title) {
+        this.__table.querySelector('#mytable__form-modal .mytable__form-modal-title').textContent = title
+    }
+
+    __listenActionsClick() {
+        const createButton = this.__table.querySelector('#mytable__actions-create')
+        const editButton = this.__table.querySelector('#mytable__actions-edit')
+        const deleteButton = this.__table.querySelector('#mytable__actions-delete')
+
+        createButton.addEventListener('click', () => {
+            this.__editForm = false
+            this.__changeFormTitle(this.__createFormTitle)
+        })
+
+        editButton.addEventListener('click', () => {
+            this.__editForm = true
+            this.__changeFormTitle(this.__editFormTitle)
+
+
+            if(this.__checkedRows.size > 1) {
+                toastify('Selecione apenas um registro', 'warning')
+                return
+            } else if(this.__checkedRows.size === 0) {
+                toastify('Selecione algum registro', 'warning')
+                return
+            }
+
+            const bsModal = new bootstrap.Modal(this.__table.querySelector('#mytable__form-modal'))
+            const [ row ] = Object.values(this.__checkedRows.rows)
+
+            this.__fillFormAction(row)
+            bsModal.show()
+        })
+
+        deleteButton.addEventListener('click', () => {
+            this.__onDelete(Object.values(this.__checkedRows.rows), () => {
+                if(this.__currentPage === this.__pageCount) {
+                    this.__currentPage--
+                }
+            })
+        })
+    }
+
+    __getCheckbox(id) {
+        const checkbox = document.createElement('input')
+        checkbox.id = id
+        checkbox.type = 'checkbox'
+        checkbox.classList.add('form-check-input')
+
+        return checkbox
+    }
+
+    __listenColumnOrderClick() {
+        const headers = this.__table.querySelectorAll('th')
+        headers.forEach(th => {
+            th.setAttribute('role', 'button')
+
+            const arrowDownUp = document.createElement('i')
+            arrowDownUp.classList.add('bi', 'bi-arrow-down-up', 'ms-2')
+
+            th.appendChild(arrowDownUp)
+
+            th.addEventListener('click', () => {
+                if(!th.dataset.order) {
+                    th.dataset.order = 'desc'
+                }
+
+                this.__order = th.dataset.order
+                this.__orderColumnName = th.textContent
+
+                this.__resetCheckedRows()
+                const tableEvent = this.__getTableEvent()
+
+                th.dataset.order = th.dataset.order === 'asc' ? 'desc' : 'asc'
+
+                this.__onOrderBy(tableEvent)
+            })
+
+            this.__tableColumnsName.push(th.textContent)
+        })
+
+        const firstHeader = headers[0]
+        const checkbox = this.__getCheckbox(`${this.__table.id}__header-checkbox`)
+        firstHeader.classList.add('d-flex', 'align-items-center')
+
+        firstHeader.insertBefore(checkbox, firstHeader.firstChild)
+
+        checkbox.addEventListener('click', event => {
+            event.stopPropagation()
+
+            if(checkbox.checked) {
+                this.__table.querySelectorAll('tbody tr input[type="checkbox"]').forEach(rowCheckbox => {
+                    rowCheckbox.checked = true
+                    this.__checkedRows.append(rowCheckbox.id)
+                })
+            } else {
+                this.__resetCheckedRows()
+            }
+        })
+    }
+
+    __getRowElementByRowValues(rowValues, rowIndex) {
+        const tr = document.createElement('tr')
+
+        const firstCellName = rowValues.shift()
+        const td = this.__getFirstCellRowWithCheckBox(firstCellName, rowIndex)
+        tr.appendChild(td)
+
+        rowValues.forEach(cell => {
+            const td = document.createElement('td')
+            td.textContent = cell
+
+            tr.appendChild(td)
+        })
+
+
+        tr.addEventListener('click', () => {
+            const rowCheckboxId = `${this.__table.id}__row-${rowIndex}`
+            const rowCheckbox = this.__table.querySelector(`#${rowCheckboxId}`)
+            const headCheckbox = this.__table.querySelector(`#${this.__table.id}__header-checkbox`)
+            const totalRows = this.__table.querySelectorAll('tbody tr').length
+
+            rowCheckbox.checked = !rowCheckbox.checked
+
+            if(rowCheckbox.checked) {
+                this.__checkedRows.append(rowCheckboxId)
+
+                if(this.__checkedRows.size === totalRows) {
+                    headCheckbox.indeterminate = false
+                    headCheckbox.checked = true
+                } else {
+                    headCheckbox.indeterminate = true
+                }
+            } else {
+                this.__checkedRows.delete(rowCheckboxId)
+
+                if(this.__checkedRows.size === 0) {
+                    headCheckbox.checked = false
+                    headCheckbox.indeterminate = false
+                } else {
+                    headCheckbox.indeterminate = true
+                }
+            }
+        })
+
+        return tr
+    }
+
+    __resetCheckedRows() {
+        const headerCheckbox = this.__table.querySelector(`#${this.__table.id}__header-checkbox`)
+        this.__checkedRows = new CheckedRows(this.__tableColumnsName)
+        headerCheckbox.indeterminate = false
+        headerCheckbox.checked = false
+
+        this.__table.querySelectorAll('tbody tr input[type="checkbox"]').forEach(rowCheckbox => {
+            rowCheckbox.checked = false
+        })
     }
 
     __listenSearchClearClick() {
         this.__table.querySelector('.mytable__action__search-clear').addEventListener('click', () => {
             this.__searchInput.value = ''
-            this.__onSearchClear()
+
+            this.__currentPage = 1
+            this.__resetCheckedRows()
+            const tableEvent = this.__getTableEvent()
+
+            this.__onSearchClear(tableEvent)
         })
     }
 
@@ -73,10 +381,11 @@ export class MyTable {
 
             setTimeout(function() {
                 label.classList.remove('animate__animated', 'animate__fadeIn', 'animate__slower', 'pe-none')
-            }, 3000)
+            }, 2000)
 
-            const tableEvent = this.__getTableEvent()
             this.__currentPage = 1
+            this.__resetCheckedRows()
+            const tableEvent = this.__getTableEvent()
 
 
             this.__onSearch(tableEvent)
@@ -92,30 +401,47 @@ export class MyTable {
     }
 
     __clearTableData() {
+        this.__resetCheckedRows()
         this.__table.querySelectorAll('tbody tr').forEach(tr => tr.remove())
     }
 
-    __getRowElementByRowValues(rowValues) {
-        const tr = document.createElement('tr')
+    __getHeaderCheckbox() {
+        return this.__table.querySelector(`#${this.__table.id}__header-checkbox`)
+    }
 
-        rowValues.forEach(cell => {
-            const td = document.createElement('td')
-            td.textContent = cell
+    __getFirstCellRowWithCheckBox(cellName, rowIndex) {
+        const td = document.createElement('td')
+        const checkboxId = `${this.__table.id}__row-${rowIndex}`
+        const checkbox = this.__getCheckbox(checkboxId)
+        const headerCheckbox = this.__getHeaderCheckbox()
+        const label = document.createElement('label')
 
-            tr.appendChild(td)
-        })
+        checkbox.setAttribute('name', `${this.__table.id}__row`)
 
-        return tr
+        checkbox.addEventListener('click', () => checkbox.checked = !checkbox.checked)
+
+        if(this.__checkedRows[checkboxId] || headerCheckbox.checked) {
+            checkbox.checked = true
+        }
+
+        td.classList.add('d-flex', 'align-items-center')
+        label.textContent = cellName
+        label.setAttribute('for', checkbox.id)
+
+        td.appendChild(checkbox)
+        td.appendChild(label)
+
+        return td
     }
 
     __clearPagination() {
         this.__table.querySelectorAll('.mytable__pagination__wrapper').forEach(wrapper => wrapper.innerHTML = '')
     }
 
-    __showPagination(pageCount) {
+    __showPagination() {
         this.__clearPagination()
 
-        const pagination = new Pagination(this.__currentPage, pageCount, this.__onChangePage)
+        const pagination = new Pagination(this.__currentPage, this.__pageCount, this.__onChangePage)
 
         this.__table.querySelectorAll('.mytable__pagination__wrapper').forEach(wrapper => {
             const paginationContainer = pagination.getPagination()
@@ -124,21 +450,74 @@ export class MyTable {
     }
 
     loadTableData(tableData) {
+        this.__pageCount = tableData.pageCount
         this.__clearTableData()
-        this.__showPagination(tableData.pageCount)
+        this.__showPagination()
 
         const tbody = this.__table.querySelector('tbody')
 
-        tableData.data.forEach(row => {
-            const rowElement = this.__getRowElementByRowValues(Object.values(row))
+        tableData.data.forEach((row, rowIndex) => {
+            const rowElement = this.__getRowElementByRowValues(Object.values(row), rowIndex)
 
             tbody.appendChild(rowElement)
         })
+    }
+
+    dataNotFound() {
+        this.__clearTableData()
+
+        const tbody = this.__table.querySelector('tbody')
+        const tr = document.createElement('tr')
+        const td = document.createElement('td')
+
+        td.textContent = 'Nenhum dado encontrado'
+        td.classList.add('text-center')
+        td.colSpan = this.__tableColumnsName.length
+        tr.appendChild(td)
+        tbody.appendChild(tr)
+    }
+}
+
+class CheckedRows {
+    __size = 0
+    __rows = {}
+    __columnsName
+
+    constructor(columnsName) {
+        this.__columnsName = columnsName
+    }
+
+    get size() {
+        return this.__size
+    }
+
+    get rows() {
+        return this.__rows
+    }
+
+    append(checkboxId) {
+        const rowChildren = document.getElementById(checkboxId).parentNode.parentNode.children
+        this.__rows[checkboxId] = [].reduce.call(rowChildren, (row, cell, cellIndex) => {
+            row[this.__columnsName[cellIndex]] = cell.textContent
+
+            return row
+        }, {})
+
+        this.__size++
+    }
+
+    delete(checkboxId) {
+        delete this.__rows[checkboxId]
+
+        this.__size--
     }
 }
 
 export class TableEvent {
     __term
+    __page
+    __order
+    __orderColumn
 
     set term(value) {
         this.__term = value
@@ -154,6 +533,22 @@ export class TableEvent {
 
     get page() {
         return this.__page
+    }
+
+    set order(value) {
+        this.__order = value
+    }
+
+    get order() {
+        return this.__order
+    }
+
+    set orderColumn(value) {
+        this.__orderColumn = value
+    }
+
+    get orderColumn() {
+        return this.__orderColumn
     }
 }
 

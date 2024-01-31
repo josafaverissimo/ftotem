@@ -2,45 +2,20 @@
 
 namespace App\Database\Seeds;
 
+use App\Entities\ClientEntity;
 use CodeIgniter\Database\Seeder;
+use CodeIgniter\Model;
 use Faker\Factory;
 use App\Entities\UserEntity;
 use App\Models\UserModel;
+use App\Models\ClientModel;
+use Faker\Generator;
 
-class Populate extends Seeder
+class Populate extends BaseSeeder
 {
-    private function populateUsers(): void
-    {
-        helper('generators');
-        helper('masks');
-
-        $userModel = new UserModel();
-
-        for($i = 0; $i <= 1000; $i++) {
-            $faker = Factory::create('pt_BR');
-            $user = new UserEntity();
-            $cpf = $faker->unique()->numerify('#########');
-            $data = [
-                'name' => "{$faker->firstName()} {$faker->lastName()}",
-                'username' => $faker->userName(),
-                'cpf' => applyCpfMask($cpf . generateCpfDigits($cpf)),
-                'cellphone' => applyCellphoneMask($faker->unique()->numerify('###########')),
-                'password' => $faker->password(8)
-            ];
-            $user->fill($data);
-
-            $success = $userModel->save($user);
-
-            if(!$success) {
-                log_message('error', "Usuário não cadastrado: " . implode(', ', $data) . "\n
-                model error: " . implode(', ', $userModel->errors()) . "
-                ");
-            }
-        }
-    }
-
     public function run()
     {
-        $this->populateUsers();
+        $this->call('Users');
+        $this->call('Clients');
     }
 }

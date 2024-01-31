@@ -24,3 +24,8 @@ function applyDateBrFormat(string $date): string
 {
     return date('d/m/Y H:i:s', strtotime($date));
 }
+
+function applyCepMask(string $cep): string
+{
+    return preg_replace('/(\d{5})(\d{3})/', '$1-$2', $cep);
+}

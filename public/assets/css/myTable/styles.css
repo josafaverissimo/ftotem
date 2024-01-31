@@ -9,8 +9,17 @@
     padding: 1rem 2rem;
 }
 
-.mytable__wrapper .form-check-input {
-    font-size: 1.3rem;
+.mytable {
+    margin: 1rem 0;
+}
+
+.mytable table {
+    display: table;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.mytable table tbody {
 }
 
 input[type="checkbox"] {
@@ -63,7 +72,7 @@ input[type="checkbox"] {
 .mytable__actions {
     display: flex;
     justify-content: space-between;
-    padding: 1rem 0;
+    padding-top: 1rem;
 }
 
 .mytable__actions__search {

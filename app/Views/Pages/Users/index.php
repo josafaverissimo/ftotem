@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @var \CodeIgniter\Pager\Pager $pager
- * @var array[] $userTableColumns
+ * @var array $tableColumns
+ * @var string $tableTitle
  */
 
 ?>
@@ -20,11 +20,11 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-<h1 class="display-6 fw-bold border-bottom animate__animated animate__fadeInLeft">Tabela de usuários</h1>
+<h1 class="display-6 fw-bold border-bottom animate__animated animate__fadeInLeft"><?= $tableTitle ?></h1>
 
 <?= newView('Components/myTable', [
     'id' => 'usersTable',
-    'formViewPath' => 'Users/Partials/form',
-    'columns' => $userTableColumns
+    'formViewPath' => 'Pages/Users/Partials/form',
+    'columns' => $tableColumns
 ]) ?>
 <?= $this->endSection() ?>

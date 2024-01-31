@@ -5,7 +5,7 @@
     transition: all .25s ease-in-out;
     display: flex;
     flex-direction: column;
-    background-color: #262424;
+    background-color: #323031;
     position: fixed;
     height: 100vh;
 }
@@ -65,8 +65,8 @@ a.sidebar__nav-link {
 }
 
 .sidebar__nav-link:hover {
-    background-color: #312f2f;
-    border-left: 3px solid #3b7ddd;
+    background-color: #3D3B3C;
+    border-left: 3px solid #F7C873;
 }
 
 a.sidebar__nav-link i {
@@ -76,7 +76,7 @@ a.sidebar__nav-link i {
 .sidebar__nav-item {
     position: relative;
     cursor: pointer;
-    background-color: #262424;
+    background-color: #323031;
     transition: all .2s;
 }
 
@@ -84,7 +84,7 @@ a.sidebar__nav-link i {
     position: absolute;
     top: 0;
     left: 70px;
-    background-color: #262424;
+    background-color: #323031;
     padding: 0;
     min-width: 15rem;
     display: none;
@@ -108,6 +108,11 @@ a.sidebar__nav-link i {
     justify-content: flex-start;
     height: 100%;
     padding-left: 1rem;
+    border-left: none;
+    border-right: 3px solid transparent;
+}
+#sidebar:not(.expand) .sidebar__nav-item:hover .sidebar__has-dropdown+.sidebar__dropdown .sidebar__nav-link:hover {
+    border-right: 3px solid #F7C873;
 }
 
 #sidebar:not(.expand) .sidebar__toggle-dropdown {

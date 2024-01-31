@@ -22,4 +22,14 @@ class CustomRules
     {
         return validCpf($cpf);
     }
+
+    public function valid_cep(string $cep): bool
+    {
+        return validCep($cep);
+    }
+
+    public function custom_alpha_numeric_spaces_dot_comma(string $value): bool
+    {
+        return checkAlphaNumericSpacesDotComma($value);
+    }
 }

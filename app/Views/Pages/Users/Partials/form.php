@@ -1,7 +1,7 @@
 <form class="container mytable__form-action" method="post" novalidate>
     <div class="row row-cols-2 gy-1 gx-3">
         <div class="col-12">
-            <label for="mytable__form-input-fullname" class="fs-5 w-100">
+            <label for="mytable__form-input-name" class="fs-5 w-100">
                 Informe o nome e sobrenome
             </label>
             <div class="input-group input-group-lg">
@@ -20,7 +20,7 @@
             </label>
             <div class="input-group input-group-lg">
                 <input id="mytable__form-input-username" name="username" type="text" class="form-control"
-                       placeholder="e.g.: joseeveraldo123" required data-mask="alphanumeric">
+                       placeholder="e.g.: joseeveraldo123" required data-mask="alphanumericdashsdots">
                 <span class="input-group-text">
                     <i class="bi bi-person-circle"></i>
                 </span>

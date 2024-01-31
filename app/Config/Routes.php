@@ -11,10 +11,14 @@ $routes->group('users', static function($routes) {
     $routes->get('/', [\App\Controllers\UsersController::class, 'index'], ['as' => 'users']);
     $routes->get('get', [\App\Controllers\UsersController::class, 'get'], ['as' => 'users.get']);
     $routes->post('save', [\App\Controllers\UsersController::class, 'save'], ['as' => 'users.save']);
+    $routes->delete('/', [\App\Controllers\UsersController::class, 'delete'], ['as' => 'users.delete']);
 });
 
 $routes->group('clients', static function($routes) {
-    $routes->get('/', [\App\Controllers\Clients::class, 'index'], ['as' => 'clients']);
+    $routes->get('/', [\App\Controllers\ClientsController::class, 'index'], ['as' => 'clients']);
+    $routes->get('get', [\App\Controllers\ClientsController::class, 'get'], ['as' => 'clients.get']);
+    $routes->post('save', [\App\Controllers\ClientsController::class, 'save'], ['as' => 'clients.save']);
+    $routes->delete('/', [\App\Controllers\ClientsController::class, 'delete'], ['as' => 'clients.delete']);
 });
 
 $routes->group('events', static function($routes) {

@@ -8,10 +8,11 @@ return [
 	'groupNotArray'         => 'O grupo de regras {0} deve ser um array.',
 	'invalidTemplate'       => '{0} não é um template de Validation válido.',
 
-	// Rule Messages
-    'custom_alpha_spaces'   => 'O campo pode conter apenas caracteres alfabéticos',
+	// Rule Messages'
+    'custom_alpha_spaces'   => 'O campo pode conter apenas caracteres alfabéticos e espaços',
 	'alpha'                 => 'O campo pode conter apenas caracteres alfabéticos',
 	'alpha_dash'            => 'O campo pode conter apenas caracteres alfa-numéricos, sublinhados, e traços',
+    'custom_alpha_numeric_spaces_dot_comma' => 'O campo pode conter apenas caracteres alfa-numéricos, pontos, vírgulas e espaços',
     'custom_alpha_numeric_dashs_dot'  => 'O campo pode conter apenas caracteres alfa-numéricos, sublinhados, traços e pontos',
 	'alpha_numeric'         => 'O campo pode conter apenas caracteres alfa-numéricos',
 	'alpha_numeric_space'   => 'O campo pode conter apenas caracteres alfa-numéricos e espaços',
@@ -44,6 +45,8 @@ return [
 	'valid_url'             => 'O campo deve conter uma URL válida',
 	'valid_date'            => 'O campo deve conter uma data válida',
     'valid_cpf'             => 'O campo deve conter um cpf válido',
+    'valid_cep'             => 'O campo deve conter um cep válido',
+
 
 	// Credit Cards
 	'valid_cc_num'          => '{field} não parece ser um número de cartão de crédito válido.',

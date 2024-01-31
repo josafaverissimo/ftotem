@@ -3,87 +3,39 @@
 namespace App\Controllers;
 
 use App\Entities\UserEntity;
-use App\Libraries\MyTable\PaginationMetadata;
 use App\Models\UserModel;
-use App\Libraries\MyTable\TableData;
-use CodeIgniter\HTTP\ResponseInterface;
 
-class UsersController extends BaseController
+class UsersController extends ManagerController
 {
-    private UserModel $userModel;
+    protected string $entityClass = UserEntity::class;
+    protected array $tableColumns = [
+        'id',
+        'name',
+        'username',
+        'cpf',
+        'cellphone',
+        'created_at'
+    ];
+    protected array $tableBodyFormatters = [
+        'created_at' => 'applyDateBrFormat'
+    ];
 
-    public function __construct() {
-        $this->userModel = new UserModel();
-    }
-
-    private function getUserTableColumns(): array
+    public function __construct()
     {
-        return [
-            'id',
-            'name',
-            'username',
-            'cpf',
-            'cellphone',
-            'created_at'
-        ];
+        helper('masks');
+
+        parent::__construct(new UserModel());
     }
 
-    public function index()
+    public function index(): string
     {
         $data = [
             'title' => 'Usuários',
             'pageHeader' => 'Usuários',
-            'userTableColumns' => $this->getUserTableColumns()
+            'tableTitle' => 'Tabela de Usuários',
+            'tableColumns' => $this->tableColumns
         ];
 
-        return view('Users/index', $data);
-    }
-
-    private function getUsersTableDataBody(array $users): array
-    {
-        helper('masks');
-
-        $tableData = new TableData();
-        $tableData->setHead($this->getUserTableColumns());
-        $tableData->setFormatters([
-            'created_at' => applyDateBrFormat(...)
-        ]);
-        $tableData->setBody($users);
-
-        return $tableData->getBody();
-    }
-
-    public function get(): ResponseInterface
-    {
-        $term = $this->request->getGet('term');
-
-        $this->userModel->select('id, name, username, cpf, cellphone, created_at');
-
-        if(!empty($term)) {
-            $this->userModel->like('name', $term)
-                ->orLike('username', $term)
-                ->orLike('cpf', $term)
-                ->orLike('cellphone', $term);
-        }
-
-        $usersData = $this->userModel->asArray()->paginate(15);
-
-        return $this->response->setJSON([
-            'pageCount' => $this->userModel->pager->getPageCount(),
-            'data' => $this->getUsersTableDataBody($usersData)
-        ]);
-    }
-
-    public function save()
-    {
-        $postData = $this->request->getPost();
-        $user = new UserEntity();
-        $user->fill($postData);
-        $success = $this->userModel->save($user);
-
-        return $this->response->setJSON([
-            'success' => $success,
-            'errors' => $this->userModel->errors()
-        ]);
+        return view('Pages/Users/index', $data);
     }
 }

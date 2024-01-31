@@ -21,17 +21,17 @@ class Clients extends Migration
             ],
             'cpf' => [
                 'type' => 'VARCHAR',
-                'constraint' => 11,
+                'constraint' => 14,
                 'unique' => true
             ],
             'cellphone' => [
                 'type' => 'VARCHAR',
-                'constraint' => 11,
+                'constraint' => 16,
                 'unique' => true
             ],
             'cep' => [
                 'type' => 'VARCHAR',
-                'constraint' => 8
+                'constraint' => 9
             ],
             'state' => [
                 'type' => 'VARCHAR',

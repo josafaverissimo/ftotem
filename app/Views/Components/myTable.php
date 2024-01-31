@@ -13,12 +13,14 @@
 
     <div class="mytable__actions container-fluid">
         <div class="btn-group btn-group-sm align-self-end" role="group">
-            <button type="button" class="btn btn-light" data-bs-toggle="modal"
+            <button id="mytable__actions-create" type="button" class="btn btn-light" data-bs-toggle="modal"
                     data-bs-target="#mytable__form-modal">
                 Adicionar
             </button>
-            <button type="button" class="btn btn-light">Editar</button>
-            <button type="button" class="btn btn-light">Excluir</button>
+            <button id="mytable__actions-edit" type="button" class="btn btn-light">
+                Editar
+            </button>
+            <button id="mytable__actions-delete" type="button" class="btn btn-light">Excluir</button>
         </div>
 
         <div class="mytable__pagination__wrapper"></div>
@@ -32,12 +34,12 @@
         </div>
     </div>
 
-    <div class="mytable">
+    <div class="mytable table-responsive shadow">
         <table class="table table-striped table-hover shadow animate__animated animate__pulse">
             <thead>
                 <tr>
                     <?php foreach($columns as $columName): ?>
-                        <th><?= $columName ?></th>
+                        <th><?= esc($columName) ?></th>
                     <?php endforeach; ?>
                 </tr>
             </thead>
@@ -63,7 +65,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <h1 class="display-3 fw-bold text-center">Cadastrar usuário</h1>
+                    <h1 class="display-3 fw-bold text-center mytable__form-modal-title">Cadastrar usuário</h1>
 
                     <?= $this->include($formViewPath) ?>
                 </div>
