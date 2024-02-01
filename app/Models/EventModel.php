@@ -30,7 +30,7 @@ class EventModel extends Model
     protected $validationRules      = [
         'name' => 'required|custom_alpha_spaces|max_length[255]',
         'background' => 'required|max_length[255]',
-        'active' => 'required|not_in_list[T,F]',
+        'active' => 'required|in_list[T,F]',
         'event_category_id' => 'required|numeric'
     ];
     protected $validationMessages   = [];

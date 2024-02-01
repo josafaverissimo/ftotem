@@ -8,8 +8,23 @@ clientsManagerRequester.setPrefix('/events')
 
 clientsPage.setRequester(clientsManagerRequester)
 clientsPage.setMainTable('eventsTable', 'Cadastrar Evento', 'Editar Evento')
+clientsPage.setEventsCategories()
+clientsPage.fillEventsCategories()
 clientsPage.setBackgroundImageInput()
 clientsPage.listenBackgroundFileInput()
-clientsPage.setFormValidation()
+clientsPage.setFormValidation([
+    {
+        name: 'name',
+        nativeValidations: ['isRequired']
+    },
+    {
+        name: 'event_category_id',
+        nativeValidations: ['isRequired']
+    },
+    {
+        name: 'background',
+        nativeValidations: ['isRequired']
+    }
+])
 
 clientsPage.getData()

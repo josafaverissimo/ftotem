@@ -30,6 +30,7 @@ $routes->group('events', static function($routes) {
     $routes->group('categories', static function($routes) {
         $routes->get('/', [\App\Controllers\EventsCategoriesController::class, 'index'], ['as' => 'events.categories']);
         $routes->get('get', [\App\Controllers\EventsCategoriesController::class, 'get'], ['as' => 'events.categories.get']);
+        $routes->get('getAll', [\App\Controllers\EventsCategoriesController::class, 'getAll'], ['as' => 'events.categories.getAll']);
         $routes->post('save', [\App\Controllers\EventsCategoriesController::class, 'save'], ['as' => 'events.categories.save']);
         $routes->delete('/', [\App\Controllers\EventsCategoriesController::class, 'delete'], ['as' => 'events.categories.delete']);
     });

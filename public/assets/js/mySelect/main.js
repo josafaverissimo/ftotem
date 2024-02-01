@@ -53,21 +53,16 @@ export class MySelect {
             this.__mySelectList.classList.remove('d-block')
 
             const options = this.__getFilteredOptions()
-            const isUnique = options.length === 1
 
-            if(!isUnique) {
+            if(options.length === 0) {
                 this.__resetInputValues()
-            } else {
-                const [option] = options
-
-                if(option.textContent !== this.__input.value) {
-                    this.__resetInputValues()
-                }
             }
         })
     }
 
     __clearList() {
+        this.__selectElement.value = ''
+        this.__selectElement.innerHTML = ''
         this.__mySelectList.innerHTML = ''
     }
 
@@ -100,6 +95,8 @@ export class MySelect {
             li.addEventListener('mousedown', () => {
                 this.changeTo(option.value)
             })
+
+            this.__selectElement.value = ''
 
             ul.appendChild(li)
         })

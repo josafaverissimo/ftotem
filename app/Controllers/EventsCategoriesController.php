@@ -4,9 +4,11 @@ namespace App\Controllers;
 
 use App\Entities\EventCategoryEntity;
 use App\Models\EventCategoryModel;
+use CodeIgniter\HTTP\ResponseInterface;
 
 class EventsCategoriesController extends ManagerController
 {
+    private EventCategoryModel $model;
     protected string $entityClass = EventCategoryEntity::class;
     protected array $tableColumns = [
         'id',
@@ -22,7 +24,9 @@ class EventsCategoriesController extends ManagerController
     {
         helper('masks');
 
-        parent::__construct(new EventCategoryModel);
+        $this->model = new EventCategoryModel;
+
+        parent::__construct($this->model);
     }
     public function index()
     {
@@ -47,5 +51,11 @@ class EventsCategoriesController extends ManagerController
         ];
 
         return view('Pages/Manager/index', $data);
+    }
+
+    public function getAll(): ResponseInterface
+    {
+        $eventsCategories = $this->model->select('id, name')->asArray()->findAll();
+        return $this->response->setJSON($eventsCategories);
     }
 }

@@ -3,9 +3,14 @@ import { Requester } from '../utils/requester.js'
 export class ManagerService {
     __requester
     __prefix
+    __config = {}
 
     constructor() {
         this.__requester = new Requester()
+    }
+
+    setConfig(config) {
+        this.__config = config
     }
 
     setPrefix(prefix) {
@@ -19,7 +24,8 @@ export class ManagerService {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            data: data
+            data: data,
+            ...this.__config
         })
     }
 

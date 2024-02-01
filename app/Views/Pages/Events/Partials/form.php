@@ -5,11 +5,11 @@
                 <div class="d-flex gap-5">
                     <div>
                         <label for="mytable__form-input-name" class="fs-5 w-100">
-                            Informe o nome e sobrenome
+                            Informe o nome do evento
                         </label>
                         <div class="input-group input-group-lg">
                             <input id="mytable__form-input-name" name="name" type="text" class="form-control mask-alpha"
-                                   placeholder="e.g.: Osias Vasi Ferjmo" required data-mask="alphaspaces">
+                                   placeholder="e.g.: Festa ReLive" required data-mask="alphaspaces">
                             <span class="input-group-text">
                                 <i class="bi bi-person-lines-fill"></i>
                             </span>
@@ -20,8 +20,8 @@
                     <div class="d-flex flex-column justify-content-between h-100">
                         <label for="mytable__form-input-active" class="fs-5 m-0">Deseja ativar?</label>
                         <label class="switch">
-                            <input id="mytable__form-input-active" name="name" type="checkbox" class="switch-input"
-                                   checked>
+                            <input id="mytable__form-input-active" name="active" type="checkbox" class="switch-input"
+                                   checked value="T">
                             <span class="switch-slider"></span>
                         </label>
                         <p class="form-text mytable__form-action-error-message opacity-0">O campo é obrigatório</p>
@@ -29,22 +29,22 @@
                 </div>
 
                 <div class="col">
-                    <label for="mytable__form-input-state" class="fs-5 w-100">
+                    <label for="mytable__form-input-event-category-id" class="fs-5 w-100">
                         Selecione a categoria
                     </label>
                     <div id="mytable__form-myselect-event-category-id" class="myselect">
-                        <select class="visually-hidden" name="state"></select>
+                        <select class="visually-hidden" name="event_category_id"></select>
 
                         <div class="input-group input-group-lg">
-                            <input id="mytable__form-input-event-catgegory-id" type="text" class="form-control"
+                            <input id="mytable__form-input-event-category-id" type="text" class="form-control"
                                    placeholder="e.g.: Casamento" required data-mask="alphaspaces">
                             <span class="input-group-text">
                             <i class="bi bi-globe-americas"></i>
-                        </span>
                         </div>
 
                         <div class="myselect__list"></div>
                     </div>
+                    <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
                 </div>
             </div>
         </div>
@@ -56,7 +56,7 @@
 
                 <label>
                     <span class="fs-5">Selecione uma imagem</span>
-                    <input id="mytable__form-input-background-image" type="file" name="background_image"
+                    <input id="mytable__form-input-background-image" type="file" name="background"
                            accept="image/png, image/jpeg">
                 </label>
 
@@ -66,6 +66,7 @@
                     <span class="filesize d-block"></span>
                 </div>
             </div>
+            <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
         </div>
 
         <div class="col w-100 mt-3">

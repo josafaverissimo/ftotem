@@ -26,7 +26,7 @@ class Events extends Migration
             'active' => [
                 'type' => 'ENUM',
                 'constraint' => ['T', 'F'],
-                'default' => 'T'
+                'default' => 'F'
             ],
             'event_category_id' => [
                 'type' => 'INT',

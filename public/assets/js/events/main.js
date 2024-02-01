@@ -1,10 +1,21 @@
 import {ManagerPage} from "../managerPage.js";
+import {MySelect} from "../mySelect/main.js";
+import {EventsCategoriesService} from "../services/eventsCategories.js";
 
 export class EventPage extends ManagerPage
 {
     __backgroundImageInput
     __selectedImageContainer
     __allowedImgTypes = ['image/jpeg', 'image/png']
+    /** @type MySelect */
+    __eventsCategoriesSelect
+    __eventsCategoriesService
+
+    constructor() {
+        super();
+
+        this.__eventsCategoriesService = new EventsCategoriesService()
+    }
 
     setBackgroundImageInput() {
         this.__backgroundImageInput = document.getElementById('file-input__background-image')
@@ -57,7 +68,7 @@ export class EventPage extends ManagerPage
     }
 
     listenBackgroundFileInput() {
-        const backgroundImageInput = this.__formAction['background_image']
+        const backgroundImageInput = this.__formAction['background']
 
         this.__selectedImageContainer.addEventListener('click', () => {
             backgroundImageInput.click()
@@ -71,9 +82,23 @@ export class EventPage extends ManagerPage
                 return
             }
 
-            console.log(file)
-
             this.__changeFile(file)
         })
+    }
+
+    setEventsCategories() {
+        this.__eventsCategoriesSelect = new MySelect()
+        this.__eventsCategoriesSelect.loadSelect('mytable__form-myselect-event-category-id')
+    }
+
+    async fillEventsCategories() {
+        const eventsCategories = await this.__eventsCategoriesService.getAll()
+
+        const options = eventsCategories.map(eventCategory => ({
+            value: eventCategory.id,
+            textContent: eventCategory.name
+        }))
+        this.__eventsCategoriesSelect.setOptions(options)
+        this.__eventsCategoriesSelect.fill()
     }
 }
