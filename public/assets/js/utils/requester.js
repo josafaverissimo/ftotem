@@ -1,8 +1,6 @@
 export class Requester {
     __http
-    __observers = []
-    __response
-    onResponse
+    onResponse = () => {}
 
     constructor(baseURL = baseUrl) {
         this.__http = axios.create({
@@ -27,11 +25,13 @@ export class Requester {
     }
 
     __request(method, uri = '/', config = {}) {
-        this.__http(uri, {
+        return this.__http(uri, {
             ...config,
             method: method
         }).then(response => {
             this.onResponse(response)
+
+            return response
         })
     }
 }

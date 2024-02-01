@@ -2,18 +2,15 @@
 
 namespace App\Controllers;
 
-use App\Entities\UserEntity;
-use App\Models\UserModel;
+use App\Entities\EventCategoryEntity;
+use App\Models\EventCategoryModel;
 
-class UsersController extends ManagerController
+class EventsCategoriesController extends ManagerController
 {
-    protected string $entityClass = UserEntity::class;
+    protected string $entityClass = EventCategoryEntity::class;
     protected array $tableColumns = [
         'id',
         'name',
-        'username',
-        'cpf',
-        'cellphone',
         'created_at'
     ];
     protected array $tableBodyFormatters = [
@@ -25,27 +22,26 @@ class UsersController extends ManagerController
     {
         helper('masks');
 
-        parent::__construct(new UserModel());
+        parent::__construct(new EventCategoryModel);
     }
-
-    public function index(): string
+    public function index()
     {
         $data = [
-            'title' => 'Usuários',
-            'pageHeader' => 'Usuários',
-            'tableTitle' => 'Tabela de Usuários',
+            'title' => 'Categorias de Eventos',
+            'pageHeader' => 'Categorias de Eventos',
+            'tableTitle' => 'Tabela das Categorias de Eventos',
             'styles' => ['assets/css/myTable/styles.css'],
             'scripts' => [
                 ['src' => 'assets/js/myTable/main.js', 'type' => 'module'],
-                ['src' => 'assets/js/users/main.js', 'type' => 'module'],
-                ['src' => 'assets/js/users/scripts.js', 'type' => 'module']
+                ['src' => 'assets/js/eventsCategories/main.js', 'type' => 'module'],
+                ['src' => 'assets/js/eventsCategories/scripts.js', 'type' => 'module']
             ],
             'myTableModalComponent' => newView('Components/myTableModal', [
-                'modalHeader' => 'Formulário de Usuários',
-                'formViewPath' => 'Pages/Users/Partials/form'
+                'modalHeader' => 'Formulário das Categorias de Eventos',
+                'formViewPath' => 'Pages/EventsCategories/Partials/form'
             ]),
             'myTableComponent' => newView('Components/myTable', [
-                'id' => 'usersTable',
+                'id' => 'eventsCategoriesTable',
                 'columns' => $this->tableColumns
             ])
         ];

@@ -1,0 +1,27 @@
+.myselect {
+    position: relative;
+}
+
+.myselect__list {
+    display: none;
+    position: absolute;
+    z-index: 2000;
+    width: 100%;
+    max-height: 10rem;
+    overflow-y: auto;
+    background-color: #fff;
+    box-shadow: 1px 1px 16px #0003;
+    margin-top: .3rem;
+    border-radius: .5rem;
+}
+
+.myselect__list li {
+    padding: .5rem 2rem;
+    cursor: pointer;
+    transition: all .1s;
+}
+
+.myselect__list li:hover {
+    background-color: #6c757d;
+    color: #fff;
+}

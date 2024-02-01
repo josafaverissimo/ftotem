@@ -28,7 +28,7 @@ class Events extends Migration
                 'constraint' => ['T', 'F'],
                 'default' => 'T'
             ],
-            'events_categories_id' => [
+            'event_category_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => true
@@ -46,7 +46,7 @@ class Events extends Migration
             ]
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('events_categories_id', 'ft_events_categories', 'id');
+        $this->forge->addForeignKey('event_category_id', 'ft_events_categories', 'id');
         $this->forge->createTable('ft_events');
     }
 

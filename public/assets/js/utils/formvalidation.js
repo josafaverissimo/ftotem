@@ -35,7 +35,7 @@ export class FormValidation {
     }
 
     __getErrorTextElementByField(field) {
-        return this.__form[field].parentNode.nextElementSibling
+        return this.__form[field].closest('div[class^="col"]').querySelector('p.mytable__form-action-error-message')
     }
 
     __removeErrorsInForm() {

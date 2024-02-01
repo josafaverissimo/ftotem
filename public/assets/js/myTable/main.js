@@ -19,6 +19,7 @@ export class MyTable {
     __editForm = false
     __createFormTitle = ''
     __editFormTitle = ''
+    __tableFormModal
 
     get formAction() {
         return this.__formAction
@@ -85,12 +86,12 @@ export class MyTable {
         this.__table = document.getElementById(tableId)
     }
 
-    __setFormAction(table) {
-        this.__formAction = table.querySelector('.mytable__form-action')
+    __setFormAction() {
+        this.__formAction = this.__tableFormModal.querySelector('.mytable__form-action')
     }
 
-    __setSearchInput(table) {
-        this.__searchInput = table.querySelector('#mytable__actions__search')
+    __setSearchInput() {
+        this.__searchInput = this.__table.querySelector('#mytable__actions__search')
     }
 
     __getTableEvent() {
@@ -105,8 +106,9 @@ export class MyTable {
     }
 
     loadTable(tableId) {
+        this.__tableFormModal = document.getElementById('mytable__form-modal')
         this.__setTable(tableId)
-        this.__setFormAction(this.__table)
+        this.__setFormAction()
         this.__setSearchInput(this.__table)
         this.__listenSearchInputSubmit()
         this.__listenSearchClearClick()
@@ -158,7 +160,7 @@ export class MyTable {
     }
 
     closeModal() {
-        const modal = bootstrap.Modal.getOrCreateInstance(this.__table.querySelector('#mytable__form-modal'))
+        const modal = bootstrap.Modal.getOrCreateInstance(this.__tableFormModal)
 
         modal.hide()
     }
@@ -170,9 +172,7 @@ export class MyTable {
     }
 
     __listenCloseModal() {
-        const modal = this.__table.querySelector('#mytable__form-modal')
-
-        modal.addEventListener('hidden.bs.modal', () => {
+        this.__tableFormModal.addEventListener('hidden.bs.modal', () => {
             const inputId = this.__formAction.id
 
             if(inputId) {
@@ -204,7 +204,7 @@ export class MyTable {
     }
 
     __changeFormTitle(title) {
-        this.__table.querySelector('#mytable__form-modal .mytable__form-modal-title').textContent = title
+        this.__tableFormModal.querySelector('.mytable__form-modal-title').textContent = title
     }
 
     __listenActionsClick() {
@@ -230,7 +230,7 @@ export class MyTable {
                 return
             }
 
-            const bsModal = new bootstrap.Modal(this.__table.querySelector('#mytable__form-modal'))
+            const bsModal = new bootstrap.Modal(this.__tableFormModal)
             const [ row ] = Object.values(this.__checkedRows.rows)
 
             this.__fillFormAction(row)
@@ -238,6 +238,11 @@ export class MyTable {
         })
 
         deleteButton.addEventListener('click', () => {
+            if(this.__checkedRows.size === 0) {
+                toastify('Selecione apenas um registro', 'warning')
+                return
+            }
+
             this.__onDelete(Object.values(this.__checkedRows.rows), () => {
                 if(this.__currentPage === this.__pageCount) {
                     this.__currentPage--
@@ -393,11 +398,11 @@ export class MyTable {
     }
 
     disableTable() {
-        this.__table.classList.add('mytable__disabled')
+        this.__table.classList.add('loading')
     }
 
     enableTable() {
-        this.__table.classList.remove('mytable__disabled')
+        this.__table.classList.remove('loading')
     }
 
     __clearTableData() {

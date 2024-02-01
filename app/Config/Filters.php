@@ -8,6 +8,7 @@ use CodeIgniter\Filters\DebugToolbar;
 use CodeIgniter\Filters\Honeypot;
 use CodeIgniter\Filters\InvalidChars;
 use CodeIgniter\Filters\SecureHeaders;
+use App\Filters\Minify;
 
 class Filters extends BaseConfig
 {
@@ -24,6 +25,7 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
+        'minify'        => Minify::class
     ];
 
     /**
@@ -40,7 +42,7 @@ class Filters extends BaseConfig
         ],
         'after' => [
             'toolbar',
-            // 'honeypot',
+            'minify',
             // 'secureheaders',
         ],
     ];

@@ -35,9 +35,9 @@
             <div class="input-group input-group-lg">
                 <input id="mytable__form-input-password" name="password" type="password" class="form-control"
                        placeholder="e.g.: ********" required>
-                <span class="input-group-text" role="button">
+                <button class="btn btn-secondary" type="button">
                     <i class="bi bi-eye-slash-fill"></i>
-                </span>
+                </button>
             </div>
             <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
         </div>
@@ -48,7 +48,7 @@
             </label>
             <div class="input-group input-group-lg">
                 <input id="mytable__form-input-cpf" name="cpf" type="text" class="form-control" data-mask="cpf"
-                       placeholder="e.g.: 123.456.789-10" required>
+                       placeholder="e.g.: 123.456.789-09" required>
                 <span class="input-group-text">
                     <i class="bi bi-file-person-fill"></i>
                 </span>

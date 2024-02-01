@@ -22,6 +22,15 @@ $routes->group('clients', static function($routes) {
 });
 
 $routes->group('events', static function($routes) {
-   $routes->get('/', [\App\Controllers\Events::class, 'index'], ['as' => 'events']);
-   $routes->get('categories', [\App\Controllers\EventsCategories::class, 'index'], ['as' => 'events.categories']);
+    $routes->get('/', [\App\Controllers\EventsController::class, 'index'], ['as' => 'events']);
+    $routes->get('get', [\App\Controllers\EventsController::class, 'get'], ['as' => 'events.get']);
+    $routes->post('save', [\App\Controllers\EventsController::class, 'save'], ['as' => 'events.save']);
+    $routes->delete('/', [\App\Controllers\EventsController::class, 'delete'], ['as' => 'events.delete']);
+
+    $routes->group('categories', static function($routes) {
+        $routes->get('/', [\App\Controllers\EventsCategoriesController::class, 'index'], ['as' => 'events.categories']);
+        $routes->get('get', [\App\Controllers\EventsCategoriesController::class, 'get'], ['as' => 'events.categories.get']);
+        $routes->post('save', [\App\Controllers\EventsCategoriesController::class, 'save'], ['as' => 'events.categories.save']);
+        $routes->delete('/', [\App\Controllers\EventsCategoriesController::class, 'delete'], ['as' => 'events.categories.delete']);
+    });
 });

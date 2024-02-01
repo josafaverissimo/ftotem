@@ -6,7 +6,7 @@
             </label>
             <div class="input-group input-group-lg">
                 <input id="mytable__form-input-name" name="name" type="text" class="form-control mask-alpha"
-                       placeholder="e.g.: José Everaldo" required data-mask="alphaspaces">
+                       placeholder="e.g.: Osias Vasi Ferjmo" required data-mask="alphaspaces">
                 <span class="input-group-text">
                     <i class="bi bi-person-lines-fill"></i>
                 </span>
@@ -20,7 +20,7 @@
             </label>
             <div class="input-group input-group-lg">
                 <input id="mytable__form-input-cpf" name="cpf" type="text" class="form-control"
-                       placeholder="e.g.: 123.456.789-10" required data-mask="cpf">
+                       placeholder="e.g.: 123.456.789-09" required data-mask="cpf">
                 <span class="input-group-text">
                     <i class="bi bi-person-circle"></i>
                 </span>
@@ -48,10 +48,11 @@
             </label>
             <div class="input-group input-group-lg">
                 <input id="mytable__form-input-cep" name="cep" type="text" class="form-control"
-                       placeholder="e.g.: 57075-440" required data-mask="cep">
-                <span class="input-group-text">
-                    <i class="bi bi-signpost-split-fill"></i>
-                </span>
+                       placeholder="e.g.: 57035-900" required data-mask="cep">
+                <button class="btn btn-secondary" type="button">
+                    <i class="bi bi-search"></i>
+                </button>
+
             </div>
             <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
         </div>
@@ -60,12 +61,18 @@
             <label for="mytable__form-input-state" class="fs-5 w-100">
                 Informe o estado
             </label>
-            <div class="input-group input-group-lg">
-                <input id="mytable__form-input-state" name="state" type="text" class="form-control"
-                       placeholder="e.g.: Alagoas" required data-mask="alphaspaces">
-                <span class="input-group-text">
-                    <i class="bi bi-globe-americas"></i>
-                </span>
+            <div id="mytable__form-myselect-state" class="myselect">
+                <select class="visually-hidden" name="state"></select>
+
+                <div class="input-group input-group-lg">
+                    <input id="mytable__form-input-state" type="text" class="form-control"
+                           placeholder="e.g.: Alagoas" required data-mask="alphaspaces">
+                    <span class="input-group-text">
+                        <i class="bi bi-globe-americas"></i>
+                    </span>
+                </div>
+
+                <div class="myselect__list"></div>
             </div>
             <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
         </div>
@@ -76,7 +83,7 @@
             </label>
             <div class="input-group input-group-lg">
                 <input id="mytable__form-input-city" name="city" type="text" class="form-control"
-                       placeholder="e.g.: São Paulo" required data-mask="alphaspaces">
+                       placeholder="e.g.: Maceió" required data-mask="alphaspaces">
                 <span class="input-group-text">
                     <i class="bi bi-buildings-fill"></i>
                 </span>
@@ -90,9 +97,9 @@
             </label>
             <div class="input-group input-group-lg">
                 <input id="mytable__form-input-address" name="address" type="text" class="form-control"
-                       placeholder="e.g.: Avenida Professor Paulo Cardoso" required data-mask="alhpanumericspacesdots">
+                       placeholder="e.g.: Avenida Álvaro Otacílio" required data-mask="alhpanumericspacesdots">
                 <span class="input-group-text">
-                    <i class="bi bi-signpost-fill"></i>
+                    <i class="bi bi-signpost-split-fill"></i>
                 </span>
             </div>
             <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
@@ -104,7 +111,7 @@
             </label>
             <div class="input-group input-group-lg">
                 <input id="mytable__form-input-neighborhood" name="neighborhood" type="text" class="form-control"
-                       placeholder="e.g.: Santos Dumont" required data-mask="alphaspaces">
+                       placeholder="e.g.: Ponta Verde" required data-mask="alphaspaces">
                 <span class="input-group-text">
                     <i class="bi bi-houses-fill"></i>
                 </span>

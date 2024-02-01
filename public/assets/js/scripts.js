@@ -29,3 +29,19 @@ document.querySelectorAll('input[data-mask]').forEach(input => {
         mask: masksByName[mask]
     })
 })
+
+String.prototype.removeAccents = function() {
+    return this.toString()
+        .replace(/[àáâã]/g, "a")
+        .replace(/[éê]/g, "e")
+        .replace(/í/g, "i")
+        .replace(/[óôõ]/g, "o")
+        .replace(/ú/g, "u")
+        .replace(/ç/g, "c")
+        .replace(/[ÀÁÂÃ]/g, "A")
+        .replace(/[ÉÊ]/g, "E")
+        .replace(/Í/g, "I")
+        .replace(/[ÓÔÕ]/g, "O")
+        .replace(/ÚÜ/g, "U")
+        .replace(/Ç/g, "C")
+}

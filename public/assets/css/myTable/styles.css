@@ -13,6 +13,10 @@
     margin: 1rem 0;
 }
 
+.mytable #mytable__form-modal {
+    z-index: 2000;
+}
+
 .mytable table {
     display: table;
     overflow-x: auto;
@@ -104,41 +108,7 @@ input[type="checkbox"] {
     font-size: 1.4rem;
 }
 
-.mytable__disabled {
-    pointer-events: none;
-    position: relative;
-}
-
-.mytable__disabled::before {
-    display: block;
-    position: absolute;
-    content: "";
-    width: 100%;
-    height: 100%;
-    background-color: #0002;
-    border-radius: 2rem;
-    z-index: 1000;
-
-    animation: zoomInDown;
-    animation-duration: 1s;
-}
-
-.mytable__wrapper:not(.mytable__disabled) .mytable__spinner {
-    display: none;
-}
-
-.mytable__disabled .mytable__spinner {
-    position: absolute;
-    display: block;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    z-index: 1000;
-    animation: fadeIn;
-    animation-duration: 1s;
-}
-
-.mytable__disabled .mytable__spinner .spinner-border {
+.loading__spinner .spinner-border {
     width: 10rem;
     height: 10rem;
 }

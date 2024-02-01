@@ -22,6 +22,11 @@ class ClientsController extends ManagerController
         'created_at'
     ];
     protected array $tableBodyFormatters = [
+        'name' => 'capitalize',
+        'state' => 'mb_strtoupper',
+        'city' => 'capitalize',
+        'address' => 'capitalize',
+        'neighborhood' => 'capitalize',
         'created_at' => 'applyDateBrFormat'
     ];
 
@@ -38,9 +43,22 @@ class ClientsController extends ManagerController
             'title' => 'Clientes',
             'pageHeader' => 'Clientes',
             'tableTitle' => 'Tabela de Clientes',
-            'tableColumns' => $this->tableColumns
+            'styles' => ['assets/css/myTable/styles.css', 'assets/css/mySelect/styles.css'],
+            'scripts' => [
+                ['src' => 'assets/js/myTable/main.js', 'type' => 'module'],
+                ['src' => 'assets/js/mySelect/main.js', 'type' => 'module'],
+                ['src' => 'assets/js/clients/scripts.js', 'type' => 'module']
+            ],
+            'myTableModalComponent' => newView('Components/myTableModal', [
+                'modalHeader' => 'Formulário de Clientes',
+                'formViewPath' => 'Pages/Clients/Partials/form'
+            ]),
+            'myTableComponent' => newView('Components/myTable', [
+                'id' => 'clientsTable',
+                'columns' => $this->tableColumns
+            ])
         ];
 
-        return view('Pages/Clients/index', $data);
+        return view('Pages/Manager/index', $data);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 
-class UserEntity extends Entity
+class EventEntity extends Entity
 {
     public function __construct(?array $data = null)
     {
@@ -16,10 +16,9 @@ class UserEntity extends Entity
     protected $attributes = [
         'id' => null,
         'name' => null,
-        'username' => null,
-        'cpf' => null,
-        'cellphone' => null,
-        'password' => null,
+        'background' => null,
+        'active' => null,
+        'event_category_id' => null,
         'created_at' => null,
         'updated_at' => null,
         'deleted_at' => null
@@ -29,25 +28,17 @@ class UserEntity extends Entity
     protected $casts   = [
         'id' => 'integer',
         'name' => 'string',
-        'username' => 'string',
-        'cpf' => 'string',
-        'cellphone' => 'string',
-        'password' => 'string',
+        'background' => 'string',
+        'active' => 'string',
+        'event_category_id' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => '?datetime',
         'deleted_at' => '?datetime'
     ];
 
-    public function setName(string $name): UserEntity
+    public function setName(string $name): EventEntity
     {
         $this->attributes['name'] = removeSpaces(mb_convert_case($name, MB_CASE_LOWER));
-
-        return $this;
-    }
-
-    public function setUsername(string $username): UserEntity
-    {
-        $this->attributes['username'] = mb_convert_case($username, MB_CASE_LOWER);
 
         return $this;
     }

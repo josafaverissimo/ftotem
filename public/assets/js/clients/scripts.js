@@ -1,13 +1,16 @@
-import {ManagerPage} from "../managerPage.js";
+import {ClientPage} from "./main.js";
 import {ManagerService} from "../services/manager.js";
 
-const clientsPage = new ManagerPage()
-const clientsCrudRequester = new ManagerService()
+const clientsPage = new ClientPage()
+const clientsManagerRequester = new ManagerService()
 
-clientsCrudRequester.setPrefix('/clients')
+clientsManagerRequester.setPrefix('/clients')
 
-clientsPage.setRequester(clientsCrudRequester)
+clientsPage.setRequester(clientsManagerRequester)
 clientsPage.setMainTable('clientsTable', 'Cadastrar Cliente', 'Editar Cliente')
+clientsPage.listenCepButtonClick()
+clientsPage.setMyStatesSelect()
+clientsPage.fillStatesSelect()
 clientsPage.setFormValidation([
     {
         name: 'name',

@@ -2,11 +2,11 @@ import {UserPage} from "./main.js";
 import {ManagerService} from "../services/manager.js";
 
 const usersPage = new UserPage()
-const usersCrudRequester = new ManagerService()
+const usersManagerRequester = new ManagerService()
 
-usersCrudRequester.setPrefix('/users')
+usersManagerRequester.setPrefix('/users')
 
-usersPage.setRequester(usersCrudRequester)
+usersPage.setRequester(usersManagerRequester)
 usersPage.setMainTable('usersTable', 'Cadastrar Usuário', 'Editar Usuário')
 usersPage.togglePasswordInput()
 usersPage.setFormValidation([

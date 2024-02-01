@@ -27,6 +27,8 @@
         </main>
     </div>
 
+    <?= $this->renderSection('modal') ?>
+
     <script>
         const baseUrl = "<?= base_url() ?>"
     </script>

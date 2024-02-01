@@ -29,3 +29,13 @@ function applyCepMask(string $cep): string
 {
     return preg_replace('/(\d{5})(\d{3})/', '$1-$2', $cep);
 }
+
+function removeSpaces(string $string): string
+{
+    return trim(preg_replace('/ +/', ' ', $string));
+}
+
+function capitalize(string $string): string
+{
+    return mb_convert_case($string, MB_CASE_TITLE);
+}

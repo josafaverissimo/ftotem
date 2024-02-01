@@ -10,20 +10,22 @@
 <?= $this->extend('master') ?>
 
 <?= $this->section('css') ?>
-<link rel="stylesheet" href="<?= base_url('assets/css/myTable/styles.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/myTable/styles.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/mySelect/styles.css') ?>">
 <?= $this->endSection() ?>
 
 <?= $this->section('js') ?>
-<script src="<?= base_url('assets/js/myTable/main.js') ?>" type="module"></script>
-<script src="<?= base_url('assets/js/clients/scripts.js') ?>" type="module"></script>
+    <script src="<?= base_url('assets/js/myTable/main.js') ?>" type="module"></script>
+    <script src="<?= base_url('assets/js/mySelect/main.js') ?>" type="module"></script>
+    <script src="<?= base_url('assets/js/clients/scripts.js') ?>" type="module"></script>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-<h1 class="display-6 fw-bold border-bottom animate__animated animate__fadeInLeft"><?= $tableTitle ?></h1>
+    <h1 class="h2 fw-bold border-bottom animate__animated animate__fadeInLeft"><?= $tableTitle ?></h1>
 
-<?= newView('Components/myTable', [
-    'id' => 'clientsTable',
-    'formViewPath' => 'Pages/Clients/Partials/form',
-    'columns' => $tableColumns
-]) ?>
+    <?= newView('Components/myTable', [
+        'id' => 'clientsTable',
+        'formViewPath' => 'Pages/Clients/Partials/form',
+        'columns' => $tableColumns
+    ]) ?>
 <?= $this->endSection() ?>
