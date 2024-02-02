@@ -122,7 +122,6 @@ export class ManagerPage {
 
             toastify(successMessage, 'success')
 
-            this.__mainTable.clearFormValues()
             this.__mainTable.closeModal()
 
             this.__loadTableData()

@@ -30,7 +30,7 @@ class EventModel extends Model
     protected $validationRules      = [
         'name' => 'required|custom_alpha_spaces|max_length[255]',
         'background' => 'required|max_length[255]',
-        'active' => 'required|in_list[T,F]',
+        'active' => 'permit_empty|in_list[T]',
         'event_category_id' => 'required|numeric'
     ];
     protected $validationMessages   = [];
@@ -39,7 +39,7 @@ class EventModel extends Model
 
     // Callbacks
     protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
+    protected $beforeInsert   = ['setActive'];
     protected $afterInsert    = [];
     protected $beforeUpdate   = [];
     protected $afterUpdate    = [];
@@ -47,4 +47,11 @@ class EventModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function setActive(array $data): array
+    {
+        $data['data']['active'] = empty($data['data']['active']) ? 'F' : 'T';
+
+        return $data;
+    }
 }

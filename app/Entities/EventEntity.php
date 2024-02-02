@@ -42,4 +42,16 @@ class EventEntity extends Entity
 
         return $this;
     }
+
+    public function setActive(string $active): EventEntity
+    {
+        $this->attributes['active'] = $active === 'on' || $active === 'T' ? 'T' : 'F';
+
+        return $this;
+    }
+
+    public function getActive(): string
+    {
+        return empty($this->attributes['active']) ? 'F' : 'T';
+    }
 }

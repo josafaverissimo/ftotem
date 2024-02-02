@@ -20,10 +20,19 @@ export class ManagerService {
     save(data, callback = () => {}) {
         this.__requester.onResponse = callback
 
+        let headers = {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+
+        for(const value of data.values()) {
+            if(value instanceof File) {
+                headers['Content-Type'] = 'multipart/form-data'
+                break
+            }
+        }
+
         return this.__requester.post(`${this.__prefix}/save`, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
+            headers,
             data: data,
             ...this.__config
         })

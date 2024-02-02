@@ -3,8 +3,9 @@
 namespace App\Controllers;
 
 use App\Entities\EventEntity;
-use App\Models\EventCategoryModel;
 use App\Models\EventModel;
+use CodeIgniter\HTTP\ResponseInterface;
+use App\Libraries\ComponentsRender\Render;
 
 class EventsController extends ManagerController
 {
@@ -12,9 +13,9 @@ class EventsController extends ManagerController
     protected array $tableColumns = [
         'id',
         'name',
-        'background',
         'active',
         'event_category_id',
+        'background',
         'created_at'
     ];
     protected array $tableBodyFormatters = [
@@ -27,6 +28,8 @@ class EventsController extends ManagerController
         helper('masks');
 
         parent::__construct(new EventModel());
+
+        $this->tableBodyFormatters['background'] = fn($backgroundPath) => "events/{$backgroundPath}";
     }
 
     public function index(): string
@@ -53,5 +56,49 @@ class EventsController extends ManagerController
         ];
 
         return view('Pages/Manager/index', $data);
+    }
+
+    public function save(): ResponseInterface
+    {
+        $postData = $this->request->getPost();
+
+        if(!isset($postData['id'])) {
+            $validationBackgroundFileRule = [
+                'background' => [
+                    'label' => '',
+                    'rules' => [
+                        'uploaded[background]',
+                        'is_image[background]',
+                        'mime_in[background,image/jpeg,image/jpg,image/png]',
+                        'max_size[background,5120]'
+                    ]
+                ]
+            ];
+            if (!$this->validate($validationBackgroundFileRule)) {
+                return $this->response->setJSON([
+                    'succes' => false,
+                    'errors' => $this->validator->getErrors()
+                ]);
+            }
+        }
+
+        $img = $this->request->getFile('background');
+        $backgroundInfo = [];
+
+        if(!empty($img)) {
+            $newName = $img->getRandomName();
+            $img->move(ROOTPATH . 'public/uploads/events', $newName);
+            $backgroundInfo = ['background' => $newName];
+        }
+
+        $success = $this->saveByData([
+            ...$backgroundInfo,
+            ...$this->request->getPost()
+        ]);
+
+        return $this->response->setJSON([
+            'success' => $success,
+            'errors' => $this->model->errors()
+        ]);
     }
 }

@@ -1,3 +1,6 @@
+import {ImageInput} from "../myImageInput/main.js";
+import {MySelect} from "../mySelect/main.js";
+
 export class MyTable {
     __table
     __tableColumnsName = []
@@ -167,6 +170,20 @@ export class MyTable {
 
     clearFormValues() {
         [].forEach.call(this.__formAction.elements, input => {
+            if(input.type === 'checkbox') {
+                input.checked = false
+                return
+            }
+
+            if(input.type === 'file') {
+                if(input.dataset.fileType === 'image') {
+                    const imageInputContainerId = input.closest('.file-input').id
+                    const imageInputInstance = ImageInput.getInstance(imageInputContainerId)
+
+                    imageInputInstance.clear()
+                }
+            }
+
             updateFieldValue(input, '')
         })
     }
@@ -178,6 +195,9 @@ export class MyTable {
             if(inputId) {
                 inputId.remove()
             }
+
+
+            this.clearFormValues()
         })
     }
 
@@ -198,7 +218,33 @@ export class MyTable {
 
         Object.keys(valuesByInputName).forEach(inputName => {
             if(this.__formAction[inputName]) {
-                updateFieldValue(this.__formAction[inputName], valuesByInputName[inputName])
+                const input = this.__formAction[inputName]
+                const value = valuesByInputName[inputName]
+
+                if(input.type === 'checkbox') {
+                    input.checked = value === 'T'
+                    return
+                }
+
+                if(input.type === 'file') {
+                    if(input.dataset.fileType === 'image') {
+                        const imageInputContainerId = input.closest('.file-input').id
+                        const imageInputInstance = ImageInput.getInstance(imageInputContainerId)
+
+                        imageInputInstance.changeImgSrc(`${baseUrl}uploads/${value}`)
+                        return
+                    }
+                }
+
+                if(input instanceof HTMLSelectElement) {
+                    const mySelectContainerId = input.closest('.myselect').id
+                    const mySelectInstance = MySelect.getInstance(mySelectContainerId)
+
+                    mySelectInstance.changeTo(value)
+                    return
+                }
+
+                updateFieldValue(input, value)
             }
         })
     }

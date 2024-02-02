@@ -10,8 +10,6 @@ export class FormValidation {
 
     constructor() {
         this.__setValidations(new Validations())
-
-
     }
 
     get formErrorMessages() {

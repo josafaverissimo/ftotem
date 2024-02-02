@@ -24,17 +24,6 @@ class EventsClients extends Migration
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => true
-            ],
-            'created_at' => [
-                'type' => 'DATETIME'
-            ],
-            'updated_at' => [
-                'type' => 'DATETIME',
-                'null' => true
-            ],
-            'deleted_at' => [
-                'type' => 'DATETIME',
-                'null' => true
             ]
         ]);
         $this->forge->addPrimaryKey('id');

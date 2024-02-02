@@ -9,7 +9,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 abstract class ManagerController extends BaseController
 {
-    private Model $model;
+    protected Model $model;
     protected string $entityClass;
     protected array $tableColumns;
     protected array $tableBodyFormatters;
@@ -60,15 +60,21 @@ abstract class ManagerController extends BaseController
     public function save(): ResponseInterface
     {
         $postData = $this->request->getPost();
-        /** @var Entity $entity */
-        $entity = new $this->entityClass;
-        $entity->fill($postData);
-        $success = $this->model->save($entity);
+        $success = $this->saveByData($postData);
 
         return $this->response->setJSON([
             'success' => $success,
             'errors' => $this->model->errors()
         ]);
+    }
+
+    protected function saveByData(array $data): bool
+    {
+        /** @var Entity $entity */
+        $entity = new $this->entityClass;
+        $entity->fill($data);
+
+        return $this->model->save($entity);
     }
 
     public function delete(): ResponseInterface

@@ -5,6 +5,10 @@ export class MySelect {
     __options = []
     __onChange = () => {}
 
+    static getInstance(containerId) {
+        return MySelect.instances[containerId]
+    }
+
     setOnChange(callback) {
         this.__onChange = callback
     }
@@ -19,6 +23,12 @@ export class MySelect {
         this.__input = this.__container.querySelector('input')
         this.__selectElement = this.__container.querySelector('select')
         this.__listenInputEvents()
+
+        if(!MySelect.instances) {
+            MySelect.instances = {}
+        }
+
+        MySelect.instances[this.__container.id] = this
     }
 
     __getFilteredOptions() {
@@ -54,8 +64,11 @@ export class MySelect {
 
             const options = this.__getFilteredOptions()
 
-            if(options.length === 0) {
+            if(options.length !== 1) {
                 this.__resetInputValues()
+            } else if(options.length === 1) {
+                const [option] = options
+                this.changeTo(option.value)
             }
         })
     }
@@ -104,3 +117,5 @@ export class MySelect {
         this.__mySelectList.appendChild(ul)
     }
 }
+
+MySelect.instances = {}

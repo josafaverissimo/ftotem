@@ -8,7 +8,6 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class EventsCategoriesController extends ManagerController
 {
-    private EventCategoryModel $model;
     protected string $entityClass = EventCategoryEntity::class;
     protected array $tableColumns = [
         'id',
@@ -24,9 +23,7 @@ class EventsCategoriesController extends ManagerController
     {
         helper('masks');
 
-        $this->model = new EventCategoryModel;
-
-        parent::__construct($this->model);
+        parent::__construct(new EventCategoryModel);
     }
     public function index()
     {

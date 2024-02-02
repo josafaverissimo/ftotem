@@ -1,4 +1,4 @@
-<form class="container mytable__form-action" method="post" novalidate>
+<form class="container mytable__form-action" method="post" novalidate autocomplete="off">
     <div class="row row-cols-xs-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 gy-1 gx-3">
         <div class="col">
             <div class="row row-cols-1">
@@ -20,8 +20,7 @@
                     <div class="d-flex flex-column justify-content-between h-100">
                         <label for="mytable__form-input-active" class="fs-5 m-0">Deseja ativar?</label>
                         <label class="switch">
-                            <input id="mytable__form-input-active" name="active" type="checkbox" class="switch-input"
-                                   checked value="T">
+                            <input id="mytable__form-input-active" name="active" type="checkbox" class="switch-input">
                             <span class="switch-slider"></span>
                         </label>
                         <p class="form-text mytable__form-action-error-message opacity-0">O campo é obrigatório</p>
@@ -49,15 +48,15 @@
             </div>
         </div>
         <div class="col">
-            <div id="file-input__background-image" class="file-input">
+            <div id="file-input__background" class="file-input">
                 <div class="loading__spinner">
                     <div class="spinner-border" role="status"></div>
                 </div>
 
                 <label>
                     <span class="fs-5">Selecione uma imagem</span>
-                    <input id="mytable__form-input-background-image" type="file" name="background"
-                           accept="image/png, image/jpeg">
+                    <input id="mytable__form-input-background" type="file" name="background"
+                           accept="image/png, image/jpeg" data-file-type="image">
                 </label>
 
                 <div class="file-input__selected-image p-3">
