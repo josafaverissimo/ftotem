@@ -54,6 +54,10 @@ export class MySelect {
         this.__selectElement.value = ''
     }
 
+    __optionByTextContent(textContent) {
+        return [].find.call(this.__mySelectList.querySelectorAll('li'), li => li.textContent === textContent)
+    }
+
     __listenInputEvents() {
         this.__input.addEventListener('input', this.__filterListByInputValue.bind(this))
         this.__input.addEventListener('focus', () => {
@@ -64,11 +68,17 @@ export class MySelect {
 
             const options = this.__getFilteredOptions()
 
-            if(options.length !== 1) {
+            if(options.length === 0) {
                 this.__resetInputValues()
             } else if(options.length === 1) {
                 const [option] = options
                 this.changeTo(option.value)
+            } else {
+                const optionByTextContent = this.__optionByTextContent(this.__input.value)
+
+                if(!optionByTextContent) {
+                    this.__resetInputValues()
+                }
             }
         })
     }
@@ -115,6 +125,63 @@ export class MySelect {
         })
 
         this.__mySelectList.appendChild(ul)
+    }
+}
+
+export class MyMultipleSelect extends MySelect {
+    __clearList() {
+        this.__selectElement.value = ''
+        this.__selectElement.innerHTML = ''
+        this.__mySelectList.querySelector('ul').innerHTML = ''
+    }
+
+    __listenInputEvents() {
+        this.__input.addEventListener('input[type="search"]', this.__filterListByInputValue.bind(this))
+        this.__input.addEventListener('click', () => {
+            this.__mySelectList.focus = true
+        })
+        // this.__input.addEventListener('blur', () => {
+        //     this.__mySelectList.classList.remove('d-block')
+        //
+        //     const options = this.__getFilteredOptions()
+        //
+        //     if(options.length === 0) {
+        //         this.__resetInputValues()
+        //     } else if(options.length === 1) {
+        //         const [option] = options
+        //         this.changeTo(option.value)
+        //     } else {
+        //         const optionByTextContent = this.__optionByTextContent(this.__input.value)
+        //
+        //         if(!optionByTextContent) {
+        //             this.__resetInputValues()
+        //         }
+        //     }
+        // })
+    }
+
+    fill(options = this.__options) {
+        this.__clearList()
+        const ul = document.createElement('ul')
+
+        options.forEach(option => {
+            this.__appendOptionInSelect(option)
+
+            const li = document.createElement('li')
+
+            li.dataset.value = option.value
+            li.textContent = option.textContent
+
+            li.addEventListener('mousedown', () => {
+                this.changeTo(option.value)
+            })
+
+            this.__selectElement.value = ''
+
+            ul.appendChild(li)
+        })
+
+        this.__mySelectList.querySelector('ul').replaceWith(ul)
     }
 }
 

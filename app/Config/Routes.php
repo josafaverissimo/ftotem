@@ -17,6 +17,7 @@ $routes->group('users', static function($routes) {
 $routes->group('clients', static function($routes) {
     $routes->get('/', [\App\Controllers\ClientsController::class, 'index'], ['as' => 'clients']);
     $routes->get('get', [\App\Controllers\ClientsController::class, 'get'], ['as' => 'clients.get']);
+    $routes->get('getAll', [\App\Controllers\ClientsController::class, 'getAll'], ['as' => 'clients.getAll']);
     $routes->post('save', [\App\Controllers\ClientsController::class, 'save'], ['as' => 'clients.save']);
     $routes->delete('/', [\App\Controllers\ClientsController::class, 'delete'], ['as' => 'clients.delete']);
 });

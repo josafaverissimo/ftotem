@@ -1,7 +1,8 @@
 import {ManagerPage} from "../managerPage.js";
-import {MySelect} from "../mySelect/main.js";
+import {MyMultipleSelect, MySelect} from "../mySelect/main.js";
 import {EventsCategoriesService} from "../services/eventsCategories.js";
 import {ImageInput} from "../myImageInput/main.js";
+import {ClientsService} from "../services/clients.js";
 
 export class EventPage extends ManagerPage
 {
@@ -16,6 +17,7 @@ export class EventPage extends ManagerPage
         super();
 
         this.__eventsCategoriesService = new EventsCategoriesService()
+        this.__clientsService = new ClientsService()
     }
 
     setBackgroundImageInput() {
@@ -50,5 +52,21 @@ export class EventPage extends ManagerPage
         }))
         this.__eventsCategoriesSelect.setOptions(options)
         this.__eventsCategoriesSelect.fill()
+    }
+
+    setClients() {
+        this.__clientsMultipleSelect = new MyMultipleSelect()
+        this.__clientsMultipleSelect.loadSelect('mytable__form-myselect-event-clients-ids')
+    }
+
+    async fillClients() {
+        const clients = await this.__clientsService.getAll()
+        const options = clients.map(client => ({
+            value: client.id,
+            textContent: client.name
+        }))
+
+        this.__clientsMultipleSelect.setOptions(options)
+        this.__clientsMultipleSelect.fill()
     }
 }

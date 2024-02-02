@@ -29,7 +29,7 @@
 
                 <div class="col">
                     <label for="mytable__form-input-event-category-id" class="fs-5 w-100">
-                        Selecione a categoria
+                        Escolha a categoria
                     </label>
                     <div id="mytable__form-myselect-event-category-id" class="myselect">
                         <select class="visually-hidden" name="event_category_id"></select>
@@ -45,6 +45,31 @@
                     </div>
                     <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
                 </div>
+
+                <div class="col">
+                    <label for="mytable__form-input-event-clients-ids" class="fs-5 w-100">
+                        Selecione os clientes
+                    </label>
+                    <div id="mytable__form-myselect-event-clients-ids" class="myselect">
+                        <select class="visually-hidden" name="clients_ids" multiple></select>
+
+                        <div class="input-group input-group-lg">
+                            <input id="mytable__form-input-event-clients-ids" type="text" class="form-control"
+                                   placeholder="0 clientes selecionados" required data-mask="alphaspaces" readonly>
+                            <span class="input-group-text">
+                            <i class="bi bi-globe-americas"></i>
+                        </div>
+
+                        <div class="myselect__list">
+                            <label>
+                                <input type="search">
+                            </label>
+
+                            <ul></ul>
+                        </div>
+                    </div>
+                    <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
+                </div>
             </div>
         </div>
         <div class="col">
@@ -54,7 +79,7 @@
                 </div>
 
                 <label>
-                    <span class="fs-5">Selecione uma imagem</span>
+                    <span class="fs-5">Imagem de fundo</span>
                     <input id="mytable__form-input-background" type="file" name="background"
                            accept="image/png, image/jpeg" data-file-type="image">
                 </label>

@@ -2,6 +2,10 @@
     position: relative;
 }
 
+.myselect__list:focus {
+    display: block;
+}
+
 .myselect__list {
     display: none;
     position: absolute;

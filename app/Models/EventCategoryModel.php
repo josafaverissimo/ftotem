@@ -25,7 +25,7 @@ class EventCategoryModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'name' => 'required|custom_alpha_spaces|max_length[255]'
+        'name' => 'required|custom_alpha_spaces|max_length[255]|is_unique[ft_events_categories.name]'
     ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;

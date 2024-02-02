@@ -10,6 +10,8 @@ clientsPage.setRequester(clientsManagerRequester)
 clientsPage.setMainTable('eventsTable', 'Cadastrar Evento', 'Editar Evento')
 clientsPage.setEventsCategories()
 clientsPage.fillEventsCategories()
+clientsPage.setClients()
+clientsPage.fillClients()
 clientsPage.setBackgroundImageInput()
 clientsPage.listenBackgroundFileInput()
 clientsPage.setFormValidation([

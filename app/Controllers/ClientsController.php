@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Entities\ClientEntity;
 use App\Models\ClientModel;
+use CodeIgniter\HTTP\ResponseInterface;
 
 class ClientsController extends ManagerController
 {
@@ -60,5 +61,13 @@ class ClientsController extends ManagerController
         ];
 
         return view('Pages/Manager/index', $data);
+    }
+
+
+
+    public function getAll(): ResponseInterface
+    {
+        $clients = $this->model->select('id, name')->asArray()->findAll();
+        return $this->response->setJSON($clients);
     }
 }

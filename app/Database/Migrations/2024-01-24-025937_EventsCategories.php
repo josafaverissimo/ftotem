@@ -17,7 +17,8 @@ class EventsCategories extends Migration
             ],
             'name' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255
+                'constraint' => 255,
+                'unique' => true
             ],
             'created_at' => [
                 'type' => 'DATETIME'

@@ -1,4 +1,4 @@
-<form class="container mytable__form-action" method="post" novalidate>
+<form class="container mytable__form-action" method="post" novalidate autocomplete="off">
     <div class="row row-cols-3 gy-1 gx-3">
         <div class="col-12">
             <label for="mytable__form-input-name" class="fs-5 w-100">
