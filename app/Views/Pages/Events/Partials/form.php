@@ -60,7 +60,8 @@
                 </label>
 
                 <div class="file-input__selected-image p-3">
-                    <img src="<?= base_url('assets/imgs/no-image.jpeg') ?>" alt="selected image">
+                    <img src="<?= base_url('assets/imgs/no-image.jpeg') ?>" loading="lazy"
+                         alt="selected image">
                     <span class="mt-3 filename">Nenhuma imagem foi selecionada</span>
                     <span class="filesize d-block"></span>
                 </div>
