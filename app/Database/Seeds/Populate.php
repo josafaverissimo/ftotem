@@ -17,5 +17,6 @@ class Populate extends BaseSeeder
     {
         $this->call('Users');
         $this->call('Clients');
+        $this->call('EventsCategories');
     }
 }
