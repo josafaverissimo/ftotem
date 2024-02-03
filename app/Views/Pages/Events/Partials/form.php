@@ -32,16 +32,24 @@
                         Escolha a categoria
                     </label>
                     <div id="mytable__form-myselect-event-category-id" class="myselect">
-                        <select class="visually-hidden" name="event_category_id"></select>
+                        <select name="event_category_id"></select>
 
                         <div class="input-group input-group-lg">
                             <input id="mytable__form-input-event-category-id" type="text" class="form-control"
-                                   placeholder="e.g.: Casamento" required data-mask="alphaspaces">
+                                   placeholder="e.g.: Casamento" required readonly>
                             <span class="input-group-text">
                             <i class="bi bi-globe-americas"></i>
                         </div>
 
-                        <div class="myselect__list"></div>
+                        <div class="myselect__list">
+                            <label>
+                                <i class="bi bi-search icon"></i>
+                                <input type="search">
+                                <i class="bi bi-arrow-down-up icon order"></i>
+                            </label>
+
+                            <ul></ul>
+                        </div>
                     </div>
                     <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
                 </div>
@@ -51,18 +59,21 @@
                         Selecione os clientes
                     </label>
                     <div id="mytable__form-myselect-event-clients-ids" class="myselect">
-                        <select class="visually-hidden" name="clients_ids" multiple></select>
+                        <select name="clients_ids[]" multiple></select>
 
                         <div class="input-group input-group-lg">
                             <input id="mytable__form-input-event-clients-ids" type="text" class="form-control"
-                                   placeholder="0 clientes selecionados" required data-mask="alphaspaces" readonly>
+                                   placeholder="0 clientes selecionados" required readonly
+                                   data-custom-placeholder="clientes selecionados" >
                             <span class="input-group-text">
                             <i class="bi bi-globe-americas"></i>
                         </div>
 
                         <div class="myselect__list">
                             <label>
+                                <i class="bi bi-search icon"></i>
                                 <input type="search">
+                                <i class="bi bi-arrow-down-up icon order"></i>
                             </label>
 
                             <ul></ul>

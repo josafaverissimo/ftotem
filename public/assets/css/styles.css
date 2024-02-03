@@ -44,6 +44,11 @@ main {
     height: 2rem;
 }
 
+.switch:focus-within {
+    box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+    border-radius: 2rem;
+}
+
 .switch-input {
     opacity: 0;
     width: 0;
@@ -80,39 +85,6 @@ main {
 
 .switch-input:checked + .switch-slider::before {
     transform: translateX(1.6rem);
-}
-
-.file-input {
-    display: flex;
-    flex-direction: column;
-}
-
-.file-input input {
-    display: none;
-}
-
-.file-input__selected-image {
-    box-shadow: 1px 1px 16px #0001;
-    cursor: pointer;
-}
-
-.file-input__selected-image img {
-    width: 100%;
-    height: 25rem;
-    max-height: 25rem;
-    object-fit: contain;
-}
-
-.file-input__selected-image .filename {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    width: 100%;
-    display: block;
-    overflow: hidden
-}
-
-.file-input label {
-    padding: 0 1rem;
 }
 
 .loading {
@@ -152,3 +124,4 @@ main {
     animation: fadeIn;
     animation-duration: 1s;
 }
+

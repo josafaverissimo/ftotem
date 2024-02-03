@@ -1,20 +1,20 @@
 import {EventPage} from "./main.js";
 import {ManagerService} from "../services/manager.js";
 
-const clientsPage = new EventPage()
-const clientsManagerRequester = new ManagerService()
+const eventPage = new EventPage()
+const eventsManagerRequester = new ManagerService()
 
-clientsManagerRequester.setPrefix('/events')
+eventsManagerRequester.setPrefix('/events')
 
-clientsPage.setRequester(clientsManagerRequester)
-clientsPage.setMainTable('eventsTable', 'Cadastrar Evento', 'Editar Evento')
-clientsPage.setEventsCategories()
-clientsPage.fillEventsCategories()
-clientsPage.setClients()
-clientsPage.fillClients()
-clientsPage.setBackgroundImageInput()
-clientsPage.listenBackgroundFileInput()
-clientsPage.setFormValidation([
+eventPage.setRequester(eventsManagerRequester)
+eventPage.setMainTable('eventsTable', 'Cadastrar Evento', 'Editar Evento')
+eventPage.setEventsCategories()
+eventPage.fillEventsCategories()
+eventPage.setClients()
+eventPage.fillClients()
+eventPage.setBackgroundImageInput()
+eventPage.listenBackgroundFileInput()
+eventPage.setFormValidation([
     {
         name: 'name',
         nativeValidations: ['isRequired']
@@ -26,7 +26,11 @@ clientsPage.setFormValidation([
     {
         name: 'background',
         nativeValidations: ['isRequired']
+    },
+    {
+        name: 'clients_ids[]',
+        nativeValidations: ['isRequired']
     }
 ])
 
-clientsPage.getData()
+eventPage.getData()

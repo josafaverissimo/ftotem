@@ -1,8 +1,8 @@
 export class MySelect {
     __container
     __mySelectList
-    __input
     __options = []
+    __selectedOptions = {}
     __onChange = () => {}
 
     static getInstance(containerId) {
@@ -20,9 +20,11 @@ export class MySelect {
     loadSelect(selectId) {
         this.__container = document.getElementById(selectId)
         this.__mySelectList = this.__container.querySelector('.myselect__list')
-        this.__input = this.__container.querySelector('input')
+        this.__inputReadonly = this.__container.querySelector('input[readonly]')
+        this.__inputSearch = this.__container.querySelector('input[type="search"]')
         this.__selectElement = this.__container.querySelector('select')
         this.__listenInputEvents()
+        this.__listenOrderButton()
 
         if(!MySelect.instances) {
             MySelect.instances = {}
@@ -31,9 +33,15 @@ export class MySelect {
         MySelect.instances[this.__container.id] = this
     }
 
+    __listenOrderButton() {
+        this.__mySelectList.querySelector('.order').addEventListener('click', () => {
+            this.fill()
+        })
+    }
+
     __getFilteredOptions() {
         return this.__options.filter(option => {
-            const inputValue = this.__input.value.toLocaleLowerCase().removeAccents()
+            const inputValue = this.__inputSearch.value.toLocaleLowerCase().removeAccents()
             const optionTextContent = option.textContent.toLowerCase().removeAccents()
 
             return optionTextContent.indexOf(inputValue) !== -1
@@ -44,13 +52,14 @@ export class MySelect {
         this.fill(this.__getFilteredOptions())
     }
 
-    __getOptionByValue(value) {
+    __getLiOptionByValue(value) {
         return this.__mySelectList.querySelector(`li[data-value="${value}"]`)
     }
 
     __resetInputValues() {
         this.fill(this.__options)
-        updateFieldValue(this.__input, '')
+        updateFieldValue(this.__inputReadonly, '')
+        updateFieldValue(this.__inputSearch, '')
         this.__selectElement.value = ''
     }
 
@@ -59,34 +68,35 @@ export class MySelect {
     }
 
     __listenInputEvents() {
-        this.__input.addEventListener('input', this.__filterListByInputValue.bind(this))
-        this.__input.addEventListener('focus', () => {
+        this.__inputSearch.addEventListener('input', this.__filterListByInputValue.bind(this))
+        this.__inputReadonly.addEventListener('focus', () => {
             this.__mySelectList.classList.add('d-block')
+            this.__inputSearch.focus()
         })
-        this.__input.addEventListener('blur', () => {
-            this.__mySelectList.classList.remove('d-block')
-
-            const options = this.__getFilteredOptions()
-
-            if(options.length === 0) {
-                this.__resetInputValues()
-            } else if(options.length === 1) {
-                const [option] = options
-                this.changeTo(option.value)
-            } else {
-                const optionByTextContent = this.__optionByTextContent(this.__input.value)
-
-                if(!optionByTextContent) {
-                    this.__resetInputValues()
-                }
+        window.addEventListener('click', ({target}) => {
+            if(target.closest(`#${this.__container.id}`)) {
+                return
             }
+
+            this.__mySelectList.classList.remove('d-block')
         })
     }
 
-    __clearList() {
-        this.__selectElement.value = ''
+    unselectItems() {
+        this.__selectElement.querySelectorAll('option[selected]').forEach(option => {
+            option.selected = false
+            option.removeAttribute('selected')
+            this.__selectElement.value = ''
+        })
+
+        this.__mySelectList.querySelectorAll('li.selected').forEach(li => li.classList.remove('selected'))
+
+        this.__selectedOptions = {}
+    }
+
+    __doEmptySelectAndList() {
         this.__selectElement.innerHTML = ''
-        this.__mySelectList.innerHTML = ''
+        this.__mySelectList.querySelector('ul').innerHTML = ''
     }
 
     __appendOptionInSelect(optionData) {
@@ -96,15 +106,38 @@ export class MySelect {
         this.__selectElement.appendChild(option)
     }
 
+    __selectLiOption(li) {
+        this.unselectItems()
+
+        if(!li.classList.contains('selected')) {
+            const option = this.__selectElement.querySelector(`option[value="${li.dataset.value}"]`)
+            option.selected = true
+            option.setAttribute('selected', '')
+            console.log(option)
+            this.__selectedOptions[li.dataset.value] = li.textContent
+        }
+
+        console.log(this.__selectedOptions)
+
+        li.classList.toggle('selected')
+    }
+
+    __isLiOptionSelected(li) {
+        return !!this.__selectedOptions[li.dataset.value]
+    }
+
     changeTo(value) {
-        const optionTextContent = this.__getOptionByValue(value).textContent
-        this.__selectElement.value = value
-        updateFieldValue(this.__input, optionTextContent)
+        const li = this.__getLiOptionByValue(value)
+        const optionTextContent = li.textContent
+
+        this.__selectLiOption(li)
+        updateFieldValue(this.__inputReadonly, optionTextContent)
+
         this.__onChange()
     }
 
     fill(options = this.__options) {
-        this.__clearList()
+        this.__doEmptySelectAndList()
         const ul = document.createElement('ul')
 
         options.forEach(option => {
@@ -115,73 +148,62 @@ export class MySelect {
             li.dataset.value = option.value
             li.textContent = option.textContent
 
-            li.addEventListener('mousedown', () => {
+            li.addEventListener('click', () => {
                 this.changeTo(option.value)
             })
 
             this.__selectElement.value = ''
 
-            ul.appendChild(li)
-        })
 
-        this.__mySelectList.appendChild(ul)
-    }
-}
 
-export class MyMultipleSelect extends MySelect {
-    __clearList() {
-        this.__selectElement.value = ''
-        this.__selectElement.innerHTML = ''
-        this.__mySelectList.querySelector('ul').innerHTML = ''
-    }
+            if(this.__isLiOptionSelected(li)) {
+                li.classList.add('selected')
+                ul.prepend(li)
 
-    __listenInputEvents() {
-        this.__input.addEventListener('input[type="search"]', this.__filterListByInputValue.bind(this))
-        this.__input.addEventListener('click', () => {
-            this.__mySelectList.focus = true
-        })
-        // this.__input.addEventListener('blur', () => {
-        //     this.__mySelectList.classList.remove('d-block')
-        //
-        //     const options = this.__getFilteredOptions()
-        //
-        //     if(options.length === 0) {
-        //         this.__resetInputValues()
-        //     } else if(options.length === 1) {
-        //         const [option] = options
-        //         this.changeTo(option.value)
-        //     } else {
-        //         const optionByTextContent = this.__optionByTextContent(this.__input.value)
-        //
-        //         if(!optionByTextContent) {
-        //             this.__resetInputValues()
-        //         }
-        //     }
-        // })
-    }
-
-    fill(options = this.__options) {
-        this.__clearList()
-        const ul = document.createElement('ul')
-
-        options.forEach(option => {
-            this.__appendOptionInSelect(option)
-
-            const li = document.createElement('li')
-
-            li.dataset.value = option.value
-            li.textContent = option.textContent
-
-            li.addEventListener('mousedown', () => {
-                this.changeTo(option.value)
-            })
-
-            this.__selectElement.value = ''
+                return
+            }
 
             ul.appendChild(li)
         })
 
         this.__mySelectList.querySelector('ul').replaceWith(ul)
+    }
+}
+
+export class MyMultipleSelect extends MySelect {
+    __itemsSelectedCount = 0
+
+    __selectLiOption(li) {
+        const option = this.__selectElement.querySelector(`option[value="${li.dataset.value}"]`)
+
+        if(li.classList.contains('selected')) {
+            this.__itemsSelectedCount -= 1;
+            option.selected = false
+            delete this.__selectedOptions[option.value]
+        } else {
+            this.__itemsSelectedCount += 1;
+            option.selected = true
+            option.setAttribute('selected', '')
+            this.__selectedOptions[option.value] = li.textContent
+        }
+
+        li.classList.toggle('selected')
+    }
+
+    __getPlaceholder() {
+        const customPlaceHolder = this.__inputReadonly.dataset.customPlaceholder || 'items selecionados'
+        const itemsSelectedCountText = this.__itemsSelectedCount > 99 ? '99+' : this.__itemsSelectedCount
+
+        return`${itemsSelectedCountText} ${customPlaceHolder}`
+    }
+
+    changeTo(value) {
+        const li = this.__getLiOptionByValue(value)
+
+        this.__selectLiOption(li)
+        updateFieldValue(this.__inputReadonly, this.__getPlaceholder())
+
+        this.__onChange()
     }
 }
 

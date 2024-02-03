@@ -62,17 +62,27 @@
                 Informe o estado
             </label>
             <div id="mytable__form-myselect-state" class="myselect">
-                <select class="visually-hidden" name="state"></select>
+                <select name="state"></select>
 
                 <div class="input-group input-group-lg">
                     <input id="mytable__form-input-state" type="text" class="form-control"
-                           placeholder="e.g.: Alagoas" required data-mask="alphaspaces">
+                           placeholder="e.g.: Alagoas" required readonly>
                     <span class="input-group-text">
                         <i class="bi bi-globe-americas"></i>
                     </span>
                 </div>
 
-                <div class="myselect__list"></div>
+                <div class="myselect__list">
+                    <div class="myselect__list">
+                        <label>
+                            <i class="bi bi-search icon"></i>
+                            <input type="search">
+                            <i class="bi bi-arrow-down-up icon order"></i>
+                        </label>
+
+                        <ul></ul>
+                    </div>
+                </div>
             </div>
             <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
         </div>

@@ -184,6 +184,14 @@ export class MyTable {
                 }
             }
 
+            if(input instanceof HTMLSelectElement) {
+                const mySelectContainerId = input.closest('.myselect').id
+                const mySelectInstance = MySelect.getInstance(mySelectContainerId)
+
+                mySelectInstance.unselectItems()
+                return
+            }
+
             updateFieldValue(input, '')
         })
     }

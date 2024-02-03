@@ -38,7 +38,11 @@ class EventsController extends ManagerController
             'title' => 'Eventos',
             'pageHeader' => 'Eventos',
             'tableTitle' => 'Tabela de Eventos',
-            'styles' => ['assets/css/myTable/styles.css', 'assets/css/mySelect/styles.css'],
+            'styles' => [
+                'assets/css/myTable/styles.css',
+                'assets/css/mySelect/styles.css',
+                'assets/css/myFileInput/styles.css'
+            ],
             'scripts' => [
                 ['src' => 'assets/js/myTable/main.js', 'type' => 'module'],
                 ['src' => 'assets/js/mySelect/main.js', 'type' => 'module'],
@@ -58,30 +62,46 @@ class EventsController extends ManagerController
         return view('Pages/Manager/index', $data);
     }
 
+    private function getBackgroundFileValidation(): array
+    {
+        return [
+            'label' => '',
+            'rules' => [
+                'required',
+                'uploaded[background]',
+                'is_image[background]',
+                'mime_in[background,image/jpeg,image/jpg,image/png]',
+                'max_size[background,5120]'
+            ]
+        ];
+    }
+
     public function save(): ResponseInterface
     {
         $postData = $this->request->getPost();
 
         if(!isset($postData['id'])) {
-            $validationBackgroundFileRule = [
-                'background' => [
-                    'label' => '',
-                    'rules' => [
-                        'uploaded[background]',
-                        'is_image[background]',
-                        'mime_in[background,image/jpeg,image/jpg,image/png]',
-                        'max_size[background,5120]'
-                    ]
-                ]
+            $validations = [
+                'background' => $this->getBackgroundFileValidation(),
+                'clients_ids' => "required|numeric"
             ];
-            if (!$this->validate($validationBackgroundFileRule)) {
+            $isValid = $this->validate($validations);
+            $errors = $this->validator->getErrors();
+
+            if(isset($errors['clients_ids'])) {
+                $errors['clients_ids[]'] = $errors['clients_ids'];
+                unset($errors['clients_ids']);
+            }
+
+            if (!$isValid) {
                 return $this->response->setJSON([
-                    'succes' => false,
-                    'errors' => $this->validator->getErrors()
+                    'success' => false,
+                    'errors' => $errors
                 ]);
             }
         }
 
+        $postData = $this->request->getPost();
         $img = $this->request->getFile('background');
         $backgroundInfo = [];
 
@@ -93,8 +113,10 @@ class EventsController extends ManagerController
 
         $success = $this->saveByData([
             ...$backgroundInfo,
-            ...$this->request->getPost()
+            ...$postData
         ]);
+
+
 
         return $this->response->setJSON([
             'success' => $success,

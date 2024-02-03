@@ -2,8 +2,8 @@
     position: relative;
 }
 
-.myselect__list:focus {
-    display: block;
+.myselect select {
+    display: none;
 }
 
 .myselect__list {
@@ -11,8 +11,6 @@
     position: absolute;
     z-index: 2000;
     width: 100%;
-    max-height: 10rem;
-    overflow-y: auto;
     background-color: #fff;
     box-shadow: 1px 1px 16px #0003;
     margin-top: .3rem;
@@ -28,4 +26,41 @@
 .myselect__list li:hover {
     background-color: #6c757d;
     color: #fff;
+}
+
+.myselect__list li.selected {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.myselect__list label {
+    display: flex;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 2rem;
+    border-radius: 2rem;
+    box-shadow: 1px 1px 16px #0002;
+}
+
+.myselect__list label .icon {
+    font-size: 1.5rem;
+    padding-right: .3rem;
+}
+
+.myselect__list .order {
+    cursor: pointer;
+}
+
+.myselect__list input[type="search"] {
+    background: transparent;
+    border: none;
+    outline: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-bottom: 1px solid #8e8e8e;
+    flex-grow: 1;
+}
+
+.myselect__list ul {
+    max-height: 10rem;
+    overflow-y: auto;
 }
