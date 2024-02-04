@@ -20,7 +20,7 @@
                     <div class="d-flex flex-column justify-content-between h-100">
                         <label for="mytable__form-input-active" class="fs-5 m-0">Deseja ativar?</label>
                         <label class="switch">
-                            <input id="mytable__form-input-active" name="active" type="checkbox" class="switch-input">
+                            <input id="mytable__form-input-active" name="active" type="checkbox" class="switch-input" value="T">
                             <span class="switch-slider"></span>
                         </label>
                         <p class="form-text mytable__form-action-error-message opacity-0">O campo é obrigatório</p>

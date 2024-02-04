@@ -27,6 +27,80 @@ export class EventPage extends ManagerPage
         }
     }
 
+    setTableCellsRenders() {
+        this.__mainTable.cellRenderByColumn = {
+            active: cellValue => {
+                const td = document.createElement('td')
+                const colorClass = cellValue === 'T' ? 'mytable__badge-success' : 'mytable__badge-error'
+
+                td.innerHTML = `<span class="mytable__badge ${colorClass}"></span>`
+
+                return td
+            },
+            background: cellValue => {
+                const td = document.createElement('td')
+                const modalTitle = document.querySelector('#generic-modal h1')
+                const modalBody = document.querySelector('#generic-modal .modal-body')
+                const img = document.createElement('img')
+
+                img.src = `${baseUrl}/uploads/${cellValue}`
+                img.classList.add('mytable__cell-img-view')
+
+                td.innerHTML = `
+                    <span class="mytable__cell-btn-view" data-bs-toggle="modal" data-bs-target="#generic-modal"></span>
+                `
+                td.querySelector('span').addEventListener('click', event => {
+                    event.stopPropagation()
+
+                    modalTitle.textContent = 'Background'
+                    modalBody.innerHTML = ''
+                    modalBody.appendChild(img)
+                })
+
+                return td
+            },
+            clients: cellValue => {
+                const td = document.createElement('td')
+
+                if(!cellValue) {
+                    td.textContent = cellValue
+
+                    return td
+                }
+                const modalTitle = document.querySelector('#generic-modal h1')
+                const modalBody = document.querySelector('#generic-modal .modal-body')
+                const table = document.createElement('table')
+
+                table.classList.add('table')
+                table.innerHTML = `<thead><th>Nome</th></thead><tbody></tbody>`
+
+                const tableBody = table.querySelector('tbody')
+
+                cellValue.split(', ').forEach(clientName => {
+                    tableBody.innerHTML += `
+                        <tr>
+                            <td>${clientName}</td>
+                        </tr>
+                    `
+                })
+
+                td.innerHTML = `
+                    <span class="mytable__cell-btn-view" data-bs-toggle="modal" data-bs-target="#generic-modal"></span>
+                `
+
+                td.querySelector('span').addEventListener('click', event => {
+                    event.stopPropagation()
+
+                    modalTitle.textContent = 'Clientes'
+                    modalBody.innerHTML = ''
+                    modalBody.appendChild(table)
+                })
+
+                return td
+            }
+        }
+    }
+
     setBackgroundImageInput() {
         this.__backgroundImageInput = new ImageInput()
         this.__backgroundImageInput.loadFileInput('file-input__background')

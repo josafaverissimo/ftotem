@@ -2,6 +2,7 @@ import {ImageInput} from "../myImageInput/main.js";
 import {MySelect} from "../mySelect/main.js";
 
 export class MyTable {
+    __cellRenderByColumn = {}
     __inputNameByColumnName = {}
     __table
     __tableColumnsName = []
@@ -68,6 +69,10 @@ export class MyTable {
 
     set currentPage(pageNumber) {
         this.__currentPage = pageNumber
+    }
+
+    set cellRenderByColumn(cellRenderByColumn) {
+        this.__cellRenderByColumn = cellRenderByColumn
     }
 
     setCreateFormTitle(title) {
@@ -376,16 +381,29 @@ export class MyTable {
         })
     }
 
-    __getRowElementByRowValues(rowValues, rowIndex) {
+    __getRowElementByRowValues(row, rowIndex) {
         const tr = document.createElement('tr')
-
+        const rowValues = Object.values(row)
         const firstCellName = rowValues.shift()
         const td = this.__getFirstCellRowWithCheckBox(firstCellName, rowIndex)
         tr.appendChild(td)
 
-        rowValues.forEach(cell => {
+        Object.keys(row).forEach(columnName => {
+            if(row[columnName] === firstCellName) {
+                return
+            }
+
+            const cellValue = row[columnName]
+
+            if(this.__cellRenderByColumn[columnName]) {
+                const td = this.__cellRenderByColumn[columnName](cellValue)
+                td.dataset.originalValue = cellValue
+                tr.appendChild(td)
+                return
+            }
+
             const td = document.createElement('td')
-            td.textContent = cell
+            td.textContent = cellValue
 
             tr.appendChild(td)
         })
@@ -529,7 +547,7 @@ export class MyTable {
         const tbody = this.__table.querySelector('tbody')
 
         tableData.data.forEach((row, rowIndex) => {
-            const rowElement = this.__getRowElementByRowValues(Object.values(row), rowIndex)
+            const rowElement = this.__getRowElementByRowValues(row, rowIndex)
 
             tbody.appendChild(rowElement)
         })
@@ -570,7 +588,7 @@ class CheckedRows {
     append(checkboxId) {
         const rowChildren = document.getElementById(checkboxId).parentNode.parentNode.children
         this.__rows[checkboxId] = [].reduce.call(rowChildren, (row, cell, cellIndex) => {
-            row[this.__columnsName[cellIndex]] = cell.textContent
+            row[this.__columnsName[cellIndex]] = cell.dataset.originalValue ?? cell.textContent
 
             return row
         }, {})

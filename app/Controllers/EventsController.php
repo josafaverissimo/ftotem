@@ -16,10 +16,10 @@ class EventsController extends ManagerController
     protected array $tableColumns = [
         'id',
         'name',
-        'active',
         'category',
         'background',
         'clients',
+        'active',
         'created_at'
     ];
     protected array $tableBodyFormatters = [
@@ -82,7 +82,6 @@ class EventsController extends ManagerController
     public function save(): ResponseInterface
     {
         $postData = $this->request->getPost();
-        $eventClientModel = new EventClientModel();
 
         if(!isset($postData['id'])) {
             $validations = [
@@ -103,13 +102,15 @@ class EventsController extends ManagerController
                     'errors' => $errors
                 ]);
             }
-        } else {
-            $eventClientModel->where('event_id', $postData['id'])->delete();
         }
 
         $postData = $this->request->getPost();
         $img = $this->request->getFile('background');
         $backgroundInfo = [];
+
+        $postData['active'] ??= 'F';
+
+
 
         if(!empty($img)) {
             $newName = $img->getRandomName();
@@ -130,7 +131,14 @@ class EventsController extends ManagerController
         }
 
         if(!empty($postData['clients_ids'])) {
-            $id = $postData['id'] ?? db_connect()->insertID();
+            $eventClientModel = new EventClientModel();
+
+            if(!empty($postData['id'])) {
+                $eventClientModel->where('event_id', $postData['id'])->delete();
+                $id = $postData['id'];
+            }
+
+            $id ??= db_connect()->insertID();
 
             $eventsClientsIdsWithEventId = array_map(function($clientId) use ($id) {
                 return [
@@ -164,10 +172,10 @@ class EventsController extends ManagerController
         $columns = [
             'ft_events.id',
             'ft_events.name',
-            'ft_events.active',
             'ft_events_categories.name',
             'ft_events.background',
             'GROUP_CONCAT(ft_clients.name SEPARATOR \',\')',
+            'ft_events.active',
             'ft_events.created_at'
         ];
         $aliases = [
