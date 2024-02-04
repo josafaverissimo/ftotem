@@ -61,28 +61,12 @@
             <label for="mytable__form-input-state" class="fs-5 w-100">
                 Informe o estado
             </label>
-            <div id="mytable__form-myselect-state" class="myselect">
-                <select name="state"></select>
-
-                <div class="input-group input-group-lg">
-                    <input id="mytable__form-input-state" type="text" class="form-control"
-                           placeholder="e.g.: Alagoas" required readonly>
-                    <span class="input-group-text">
-                        <i class="bi bi-globe-americas"></i>
-                    </span>
-                </div>
-
-                <div class="myselect__list">
-                    <div class="myselect__list">
-                        <label>
-                            <i class="bi bi-search icon"></i>
-                            <input type="search">
-                            <i class="bi bi-arrow-down-up icon order"></i>
-                        </label>
-
-                        <ul></ul>
-                    </div>
-                </div>
+            <div class="input-group input-group-lg">
+                <input id="mytable__form-input-state" type="text" class="form-control" name="state"
+                       placeholder="e.g.: Alagoas" requiredz>
+                <span class="input-group-text">
+                    <i class="bi bi-globe-americas"></i>
+                </span>
             </div>
             <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
         </div>

@@ -1,12 +1,10 @@
 import {ManagerPage} from "../managerPage.js"
 import {ViaCepService} from "../services/viacep.js"
 import {getStates} from "../utils/getStates.js";
-import {MySelect} from "../mySelect/main.js";
 
 export class ClientPage extends ManagerPage {
     /** @type ViaCepService */
     __viaCepService
-    __stateSelect
 
     constructor() {
         super()
@@ -15,10 +13,6 @@ export class ClientPage extends ManagerPage {
     }
 
     updateAddressFields(valuesByFields) {
-        this.__stateSelect.changeTo(valuesByFields.state)
-
-        delete valuesByFields.state
-
         Object.keys(valuesByFields).forEach(field => {
             updateFieldValue(this.__formAction[field], valuesByFields[field])
         })
@@ -33,33 +27,15 @@ export class ClientPage extends ManagerPage {
 
             const data = await this.__viaCepService.getCepData(cepInput.value.replace('-', ''))
 
-            setTimeout(function() {
-                cepSearchButton.classList.remove('disabled')
-            })
+            cepSearchButton.classList.remove('disabled')
 
             if(data.error) {
-                toastify('Informe um cep válido', 'warning')
+                toastify('Não foi possível localizar o cep', 'warning')
                 return
             }
 
             toastify('Dados do cep localizados!', 'success')
             this.updateAddressFields(data)
         })
-    }
-
-    setMyStatesSelect() {
-        this.__stateSelect = new MySelect()
-        this.__stateSelect.loadSelect('mytable__form-myselect-state')
-    }
-
-    async fillStatesSelect() {
-        const states = await getStates()
-        const options = states.map(state => ({
-            value: state.state,
-            textContent: state.name
-        }))
-
-        this.__stateSelect.setOptions(options)
-        this.__stateSelect.fill()
     }
 }

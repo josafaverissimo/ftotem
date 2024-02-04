@@ -9,8 +9,6 @@ clientsManagerRequester.setPrefix('/clients')
 clientsPage.setRequester(clientsManagerRequester)
 clientsPage.setMainTable('clientsTable', 'Cadastrar Cliente', 'Editar Cliente')
 clientsPage.listenCepButtonClick()
-clientsPage.setMyStatesSelect()
-clientsPage.fillStatesSelect()
 clientsPage.setFormValidation([
     {
         name: 'name',
