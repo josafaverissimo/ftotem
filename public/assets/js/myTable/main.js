@@ -250,10 +250,11 @@ export class MyTable {
                 }
 
                 if(input instanceof HTMLSelectElement) {
+                    const textContentToChange = input.hasAttribute('multiple') ? value.split(', ') : value
                     const mySelectContainerId = input.closest('.myselect').id
                     const mySelectInstance = MySelect.getInstance(mySelectContainerId)
 
-                    mySelectInstance.changeToByTextContent(value)
+                    mySelectInstance.changeToByTextContent(textContentToChange)
                     return
                 }
 

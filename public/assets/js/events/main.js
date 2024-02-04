@@ -22,7 +22,8 @@ export class EventPage extends ManagerPage
 
     setTableInputNamesByColumnName() {
         this.__mainTable.inputNameByColumnName = {
-            category: 'event_category_id'
+            category: 'event_category_id',
+            clients: 'clients_ids[]'
         }
     }
 

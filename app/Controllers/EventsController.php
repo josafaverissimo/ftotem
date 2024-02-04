@@ -19,6 +19,7 @@ class EventsController extends ManagerController
         'active',
         'category',
         'background',
+        'clients',
         'created_at'
     ];
     protected array $tableBodyFormatters = [
@@ -164,9 +165,14 @@ class EventsController extends ManagerController
             'ft_events.active',
             'ft_events_categories.name',
             'ft_events.background',
+            'GROUP_CONCAT(ft_clients.name SEPARATOR \',\')',
             'ft_events.created_at'
         ];
-        $aliases = ['ft_events_categories.name' => 'category'];
+        $aliases = [
+            'ft_events_categories.name' => 'category',
+            'GROUP_CONCAT(ft_clients.name SEPARATOR \',\')' => 'clients'
+        ];
+
         $selectColumnsString = rtrim(array_reduce($columns, function($columnsString, $column) use ($aliases) {
             $columnsString .= "$column";
 
@@ -179,6 +185,10 @@ class EventsController extends ManagerController
 
         $this->model->select($selectColumnsString);
         $this->model->join('ft_events_categories', 'ft_events_categories.id = ft_events.event_category_id');
+        $this->model->join('ft_events_clients', 'ft_events_clients.event_id = ft_events.id', 'left');
+        $this->model->join('ft_clients', 'ft_clients.id = ft_events_clients.client_id', 'left');
+
+        $this->model->groupBy('ft_events.id');
 
         $this->filterByTerm($columns);
         $this->orderBy();

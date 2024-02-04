@@ -192,11 +192,27 @@ export class MyMultipleSelect extends MySelect {
         li.classList.toggle('selected')
     }
 
-    __getPlaceholder() {
-        const customPlaceHolder = this.__inputReadonly.dataset.customPlaceholder || 'items selecionados'
-        const itemsSelectedCountText = this.__itemsSelectedCount > 99 ? '99+' : this.__itemsSelectedCount
 
-        return`${itemsSelectedCountText} ${customPlaceHolder}`
+
+    changeToByTextContent(textContent) {
+        if(textContent instanceof Array) {
+            textContent.forEach(textToAppend => {
+                if(textToAppend) {
+                    this.__changeByLi(this.__optionByTextContent(textToAppend))
+                }
+            })
+
+            return
+        }
+
+        this.__changeByLi(this.__optionByTextContent(textContent))
+    }
+
+    __changeByLi(li) {
+        this.__selectLiOption(li)
+        updateFieldValue(this.__inputReadonly, this.__getPlaceholder())
+
+        this.__onChange()
     }
 
     changeTo(value) {
@@ -206,6 +222,13 @@ export class MyMultipleSelect extends MySelect {
         updateFieldValue(this.__inputReadonly, this.__getPlaceholder())
 
         this.__onChange()
+    }
+
+    __getPlaceholder() {
+        const customPlaceHolder = this.__inputReadonly.dataset.customPlaceholder || 'items selecionados'
+        const itemsSelectedCountText = this.__itemsSelectedCount > 99 ? '99+' : this.__itemsSelectedCount
+
+        return`${itemsSelectedCountText} ${customPlaceHolder}`
     }
 }
 
