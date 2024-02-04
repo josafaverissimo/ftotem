@@ -230,6 +230,12 @@ export class MyMultipleSelect extends MySelect {
 
         return`${itemsSelectedCountText} ${customPlaceHolder}`
     }
+
+    unselectItems() {
+        super.unselectItems();
+
+        this.__itemsSelectedCount = 0
+    }
 }
 
 MySelect.instances = {}
