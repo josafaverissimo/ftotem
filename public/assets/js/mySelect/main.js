@@ -138,6 +138,16 @@ export class MySelect {
         this.__changeByLi(this.__optionByTextContent(textContent))
     }
 
+    changeByTextContentOrValue(textContentOrValue) {
+        const li = this.__optionByTextContent(textContentOrValue) ?? this.__getLiOptionByValue(textContentOrValue)
+
+        if(!li) {
+            return
+        }
+
+        this.__changeByLi(li)
+    }
+
     fill(options = this.__options) {
         this.__doEmptySelectAndList()
         const ul = document.createElement('ul')

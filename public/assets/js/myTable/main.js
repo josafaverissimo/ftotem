@@ -259,7 +259,7 @@ export class MyTable {
                     const mySelectContainerId = input.closest('.myselect').id
                     const mySelectInstance = MySelect.getInstance(mySelectContainerId)
 
-                    mySelectInstance.changeToByTextContent(textContentToChange)
+                    mySelectInstance.changeByTextContentOrValue(textContentToChange)
                     return
                 }
 
@@ -407,7 +407,6 @@ export class MyTable {
 
             tr.appendChild(td)
         })
-
 
         tr.addEventListener('click', () => {
             const rowCheckboxId = `${this.__table.id}__row-${rowIndex}`

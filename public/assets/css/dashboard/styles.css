@@ -1,0 +1,31 @@
+.card-body {
+    display: flex;
+    justify-content: center;
+    font-size: 5rem;
+}
+
+.col:hover {
+    flex: 2;
+}
+
+.col {
+    position: relative;
+    transition: all .7s;
+}
+
+.row {
+    margin-top: 5rem;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    background: rgb(207,210,205);
+    background: linear-gradient(145deg, rgba(207,210,205,1) 0%, rgba(1,83,121,1) 42%, rgba(0,212,255,1) 100%);
+    width: 105%;
+    height: 106%;
+    top: -3%;
+    left: -2.5%;
+    z-index: -1;
+    border-radius: 12px;
+}

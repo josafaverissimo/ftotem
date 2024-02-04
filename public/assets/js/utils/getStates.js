@@ -112,22 +112,24 @@ export function getStates() {
         }
     ]
 
-    const ibgeService = new IbgeService()
+    //const ibgeService = new IbgeService()
 
-    return ibgeService.getStates()
-        .then(states => {
-            if(!states) {
-                return offlineStates
-            }
+    // return ibgeService.getStates()
+    //     .then(states => {
+    //         if(!states) {
+    //             return offlineStates
+    //         }
+    //
+    //         return states.map(state => {
+    //             return {
+    //                 state: state.sigla,
+    //                 name: state.nome
+    //             }
+    //         })
+    //     })
+    //     .catch(() => {
+    //         return offlineStates
+    //     })
 
-            return states.map(state => {
-                return {
-                    state: state.sigla,
-                    name: state.nome
-                }
-            })
-        })
-        .catch(() => {
-            return offlineStates
-        })
+    return offlineStates
 }

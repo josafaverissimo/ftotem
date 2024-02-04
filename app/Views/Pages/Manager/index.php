@@ -12,12 +12,6 @@
 
 <?= $this->extend('master') ?>
 
-<?= $this->section('css') ?>
-    <?php foreach($styles as $styleHref): ?>
-        <link rel="stylesheet" href="<?= base_url($styleHref) ?>">
-    <?php endforeach; ?>
-<?= $this->endSection() ?>
-
 <?= $this->section('js') ?>
     <?php foreach($scripts as $script): ?>
         <script

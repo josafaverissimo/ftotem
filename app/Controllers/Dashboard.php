@@ -8,8 +8,9 @@ class Dashboard extends BaseController
     {
         $data = [
             'title' => 'Dashboard',
-            'pageHeader' => 'Dashboard'
+            'pageHeader' => 'Dashboard',
+            'styles' => ['assets/css/dashboard/styles.css']
         ];
-        return view('Dashboard/index', $data);
+        return view('Pages/Dashboard/index', $data);
     }
 }

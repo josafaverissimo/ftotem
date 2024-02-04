@@ -1,3 +1,7 @@
+<?php
+    /** @var ?array $styles */
+?>
+
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -8,7 +12,11 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/styles.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/sidebar.css') ?>">
 
-    <?= $this->renderSection('css') ?>
+    <?php if(!empty($styles)): ?>
+        <?php foreach($styles as $styleHref): ?>
+            <link rel="stylesheet" href="<?= base_url($styleHref) ?>">
+        <?php endforeach; ?>
+    <?php endif; ?>
 
     <title><?= $title ?? VIEW_DEFAULT_TITLE ?></title>
 </head>
