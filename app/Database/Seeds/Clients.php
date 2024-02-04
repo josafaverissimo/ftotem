@@ -13,7 +13,7 @@ class Clients extends BaseSeeder
         $clientModel = new ClientModel();
         $faker = Factory::create('pt_BR');
 
-        for($i = 0; $i <= 10; $i++) {
+        for($i = 0; $i <= 30; $i++) {
             $client = new ClientEntity();
             $data = [
                 'name' => "{$faker->firstName()} {$faker->lastName()}",

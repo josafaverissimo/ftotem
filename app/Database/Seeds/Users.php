@@ -13,7 +13,7 @@ class Users extends BaseSeeder
         $userModel = new UserModel();
         $faker = Factory::create('pt_BR');
 
-        for($i = 0; $i <= 10; $i++) {
+        for($i = 0; $i <= 30; $i++) {
             $user = new UserEntity();
             $data = [
                 'name' => "{$faker->firstName()} {$faker->lastName()}",
