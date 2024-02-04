@@ -4,6 +4,10 @@
     flex-direction: column;
 }
 
+.mytable table {
+    margin: 0;
+}
+
 .mytable th,
 .mytable td {
     padding: 1rem 2rem;

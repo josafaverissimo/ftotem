@@ -20,6 +20,12 @@ export class EventPage extends ManagerPage
         this.__clientsService = new ClientsService()
     }
 
+    setTableInputNamesByColumnName() {
+        this.__mainTable.inputNameByColumnName = {
+            category: 'event_category_id'
+        }
+    }
+
     setBackgroundImageInput() {
         this.__backgroundImageInput = new ImageInput()
         this.__backgroundImageInput.loadFileInput('file-input__background')

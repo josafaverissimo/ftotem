@@ -113,11 +113,8 @@ export class MySelect {
             const option = this.__selectElement.querySelector(`option[value="${li.dataset.value}"]`)
             option.selected = true
             option.setAttribute('selected', '')
-            console.log(option)
             this.__selectedOptions[li.dataset.value] = li.textContent
         }
-
-        console.log(this.__selectedOptions)
 
         li.classList.toggle('selected')
     }
@@ -126,14 +123,19 @@ export class MySelect {
         return !!this.__selectedOptions[li.dataset.value]
     }
 
-    changeTo(value) {
-        const li = this.__getLiOptionByValue(value)
-        const optionTextContent = li.textContent
-
+    __changeByLi(li) {
         this.__selectLiOption(li)
-        updateFieldValue(this.__inputReadonly, optionTextContent)
+        updateFieldValue(this.__inputReadonly, li.textContent)
 
         this.__onChange()
+    }
+
+    changeTo(value) {
+        this.__changeByLi(this.__getLiOptionByValue(value))
+    }
+
+    changeToByTextContent(textContent) {
+        this.__changeByLi(this.__optionByTextContent(textContent))
     }
 
     fill(options = this.__options) {

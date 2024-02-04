@@ -18,7 +18,7 @@ abstract class ManagerController extends BaseController
         $this->model = $model;
     }
 
-    private function getTableDataBody(array $rows): array
+    protected function getTableDataBody(array $rows): array
     {
         $tableData = new TableData();
         $tableData->setHead($this->tableColumns);
@@ -28,26 +28,38 @@ abstract class ManagerController extends BaseController
         return $tableData->getBody();
     }
 
-    public function get(): ResponseInterface
+    protected function filterByTerm(array $columns = null): void
     {
         $term = $this->request->getGet('term');
-        $order = $this->request->getGet('order');
-        $orderBy = $this->request->getGet('orderBy');
-
-        $this->model->select(implode(',', $this->tableColumns));
 
         if(!empty($term)) {
+            $columns ??= $this->tableColumns;
+
             $this->model->groupStart();
 
-            foreach($this->tableColumns as $column) {
+            foreach ($columns as $column) {
                 $this->model->orLike($column, $term);
             }
             $this->model->groupEnd();
         }
+    }
+
+    protected function orderBy(): void
+    {
+        $order = $this->request->getGet('order');
+        $orderBy = $this->request->getGet('orderBy');
 
         if(!empty($order) && !empty($orderBy)) {
             $this->model->orderBy($orderBy, $order);
         }
+    }
+
+    public function get(): ResponseInterface
+    {
+        $this->model->select(implode(',', $this->tableColumns));
+
+        $this->filterByTerm();
+        $this->orderBy();
 
         $rows = $this->model->asArray()->paginate(15);
 

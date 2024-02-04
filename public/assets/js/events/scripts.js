@@ -8,6 +8,7 @@ eventsManagerRequester.setPrefix('/events')
 
 eventPage.setRequester(eventsManagerRequester)
 eventPage.setMainTable('eventsTable', 'Cadastrar Evento', 'Editar Evento')
+eventPage.setTableInputNamesByColumnName()
 eventPage.setEventsCategories()
 eventPage.fillEventsCategories()
 eventPage.setClients()

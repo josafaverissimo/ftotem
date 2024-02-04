@@ -2,8 +2,11 @@
 
 namespace App\Controllers;
 
+use App\Entities\EventClientEntity;
 use App\Entities\EventEntity;
+use App\Models\EventClientModel;
 use App\Models\EventModel;
+use CodeIgniter\Database\Exceptions\DatabaseException;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Libraries\ComponentsRender\Render;
 
@@ -14,7 +17,7 @@ class EventsController extends ManagerController
         'id',
         'name',
         'active',
-        'event_category_id',
+        'category',
         'background',
         'created_at'
     ];
@@ -67,7 +70,6 @@ class EventsController extends ManagerController
         return [
             'label' => '',
             'rules' => [
-                'required',
                 'uploaded[background]',
                 'is_image[background]',
                 'mime_in[background,image/jpeg,image/jpg,image/png]',
@@ -83,7 +85,7 @@ class EventsController extends ManagerController
         if(!isset($postData['id'])) {
             $validations = [
                 'background' => $this->getBackgroundFileValidation(),
-                'clients_ids' => "required|numeric"
+                'clients_ids.*' => "required|numeric"
             ];
             $isValid = $this->validate($validations);
             $errors = $this->validator->getErrors();
@@ -116,11 +118,76 @@ class EventsController extends ManagerController
             ...$postData
         ]);
 
+        if(!$success) {
+            return $this->response->setJSON([
+                'success' => false,
+                'errors' => $this->model->errors()
+            ]);
+        }
 
+        if(!empty($postData['clients_ids'])) {
+            $eventClientModel = new EventClientModel();
+            $id = $postData['id'] ?? db_connect()->insertID();
+
+            $eventsClientsIdsWithEventId = array_map(function($clientId) use ($id) {
+                return [
+                    'event_id' => $id,
+                    'client_id' => $clientId
+                ];
+            }, $postData['clients_ids']);
+
+            try {
+                $eventClientModel->insertBatch($eventsClientsIdsWithEventId);
+            } catch(DatabaseException $exception) {
+                log_message('error', "{$exception->getMessage()} - data: clients_ids[](" . implode(",", $postData['clients_ids']) . ") event_id({$id})");
+
+                return $this->response->setJSON([
+                    'success' => false,
+                    'errors' => [
+                        'clients_ids[]' => 'Não foi possível relacionar os clientes ao evento'
+                    ]
+                ]);
+            }
+        }
 
         return $this->response->setJSON([
-            'success' => $success,
+            'success' => true,
             'errors' => $this->model->errors()
+        ]);
+    }
+
+    public function get(): ResponseInterface
+    {
+        $columns = [
+            'ft_events.id',
+            'ft_events.name',
+            'ft_events.active',
+            'ft_events_categories.name',
+            'ft_events.background',
+            'ft_events.created_at'
+        ];
+        $aliases = ['ft_events_categories.name' => 'category'];
+        $selectColumnsString = rtrim(array_reduce($columns, function($columnsString, $column) use ($aliases) {
+            $columnsString .= "$column";
+
+            if(isset($aliases[$column])) {
+                $columnsString .= " as {$aliases[$column]}";
+            }
+
+            return "$columnsString,";
+        }, ''), ',');
+
+        $this->model->select($selectColumnsString);
+        $this->model->join('ft_events_categories', 'ft_events_categories.id = ft_events.event_category_id');
+
+        $this->filterByTerm($columns);
+        $this->orderBy();
+
+        $rows = $this->model->asArray()->paginate(15);
+
+        return $this->response->setJSON([
+            'pageCount' => $this->model->pager->getPageCount(),
+            'data' => $this->getTableDataBody($rows)
         ]);
     }
 }

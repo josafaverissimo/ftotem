@@ -2,6 +2,7 @@ import {ImageInput} from "../myImageInput/main.js";
 import {MySelect} from "../mySelect/main.js";
 
 export class MyTable {
+    __inputNameByColumnName = {}
     __table
     __tableColumnsName = []
     __formAction
@@ -43,6 +44,10 @@ export class MyTable {
 
             callback(this.__getTableEvent())
         }
+    }
+
+    set inputNameByColumnName(inputNameByColumnName) {
+        this.__inputNameByColumnName = inputNameByColumnName
     }
 
     set onOrderBy(callback) {
@@ -248,7 +253,7 @@ export class MyTable {
                     const mySelectContainerId = input.closest('.myselect').id
                     const mySelectInstance = MySelect.getInstance(mySelectContainerId)
 
-                    mySelectInstance.changeTo(value)
+                    mySelectInstance.changeToByTextContent(value)
                     return
                 }
 
@@ -286,8 +291,15 @@ export class MyTable {
 
             const bsModal = new bootstrap.Modal(this.__tableFormModal)
             const [ row ] = Object.values(this.__checkedRows.rows)
+            const inputNames = Object.keys(row).reduce((inputNames, columnName) => {
+                const inputName = this.__inputNameByColumnName[columnName] || columnName
 
-            this.__fillFormAction(row)
+                inputNames[inputName] = row[columnName]
+
+                return inputNames
+            }, {})
+
+            this.__fillFormAction(inputNames)
             bsModal.show()
         })
 

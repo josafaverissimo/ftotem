@@ -16,8 +16,8 @@
     <div class="d-flex">
         <?= $this->include('Partials/sidebar') ?>
 
-        <main class="d-flex flex-column flex-grow-1 align-items-center min-vh-100">
-            <div class="main-content px-5 pt-3 h-100 animate__animated animate__fadeIn">
+        <main class="d-flex flex-column flex-grow-1 align-items-center">
+            <div class="main-content px-5 pt-3 animate__animated animate__fadeIn">
                 <?= $this->renderSection('content') ?>
             </div>
         </main>
