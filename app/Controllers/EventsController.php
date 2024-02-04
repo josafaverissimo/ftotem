@@ -82,6 +82,7 @@ class EventsController extends ManagerController
     public function save(): ResponseInterface
     {
         $postData = $this->request->getPost();
+        $eventClientModel = new EventClientModel();
 
         if(!isset($postData['id'])) {
             $validations = [
@@ -102,6 +103,8 @@ class EventsController extends ManagerController
                     'errors' => $errors
                 ]);
             }
+        } else {
+            $eventClientModel->where('event_id', $postData['id'])->delete();
         }
 
         $postData = $this->request->getPost();
@@ -127,7 +130,6 @@ class EventsController extends ManagerController
         }
 
         if(!empty($postData['clients_ids'])) {
-            $eventClientModel = new EventClientModel();
             $id = $postData['id'] ?? db_connect()->insertID();
 
             $eventsClientsIdsWithEventId = array_map(function($clientId) use ($id) {
