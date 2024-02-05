@@ -6,6 +6,7 @@ import {MySelect} from "../mySelect/main.js";
 export class ClientPage extends ManagerPage {
     /** @type ViaCepService */
     __viaCepService
+    /** @type MySelect */
     __stateSelect
 
     constructor() {
@@ -15,6 +16,11 @@ export class ClientPage extends ManagerPage {
     }
 
     updateAddressFields(valuesByFields) {
+        const {state} = valuesByFields
+        this.__stateSelect.changeTo(state)
+
+        delete valuesByFields.state
+
         Object.keys(valuesByFields).forEach(field => {
             updateFieldValue(this.__formAction[field], valuesByFields[field])
         })
