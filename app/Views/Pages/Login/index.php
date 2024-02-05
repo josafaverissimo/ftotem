@@ -15,7 +15,7 @@
 <body>
     <main>
         <div class="container">
-            <div class="d-flex justify-content-center align-items-center" style="margin-top: 10rem">
+            <div class="d-flex justify-content-center align-items-center mt-5">
                 <div class="card-wrapper">
                     <h1 class="h3 text-center fw-light">Bem-vindo</h1>
 

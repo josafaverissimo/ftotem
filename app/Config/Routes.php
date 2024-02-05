@@ -9,6 +9,7 @@ $routes->get('/', [\App\Controllers\Dashboard::class, 'index'], ['as' => 'dashbo
 
 $routes->group('login', static function($routes) {
     $routes->get('/', [\App\Controllers\Login::class, 'index'], ['as' => 'login']);
+    $routes->get('doLogout', [\App\Controllers\Login::class, 'doLogout'], ['as' => 'login.doLogout']);
     $routes->post('doLogin', [\App\Controllers\Login::class, 'doLogin'], ['as' => 'login.doLogin']);
 });
 

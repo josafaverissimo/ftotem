@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class Login extends BaseController
@@ -42,5 +43,12 @@ class Login extends BaseController
         return $this->response->setJSON([
             'success' => true
         ]);
+    }
+
+    public function doLogout(): RedirectResponse
+    {
+        session()->remove('user');
+
+        return redirect('login');
     }
 }

@@ -44,7 +44,7 @@
         </li>
     </ul>
     <div class="sidebar__footer">
-        <a href="#" class="sidebar__nav-link">
+        <a href="<?= url_to('login.doLogout') ?>" class="sidebar__nav-link">
             <i class="bi bi-box-arrow-left"></i>
             <span>Logout</span>
         </a>
