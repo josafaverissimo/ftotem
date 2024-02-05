@@ -1,6 +1,6 @@
 <form class="container mytable__form-action" method="post" novalidate autocomplete="off">
-    <div class="row row-cols-3 gy-1 gx-3">
-        <div class="col-12">
+    <div class="row row-cols-1 row-cols-lg-3 gy-1 gx-3">
+        <div class="col-12 col-lg-12">
             <label for="mytable__form-input-name" class="fs-5 w-100">
                 Informe o nome e sobrenome
             </label>
@@ -14,7 +14,7 @@
             <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
         </div>
 
-        <div class="col-6">
+        <div class="col col-lg-6">
             <label for="mytable__form-input-cpf" class="fs-5 w-100">
                 Digite o CPF
             </label>
@@ -28,7 +28,7 @@
             <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
         </div>
 
-        <div class="col-6">
+        <div class="col col-lg-6">
             <label for="mytable__form-input-cellphone" class="fs-5 w-100">
                 Informe o número de celular
             </label>
@@ -99,7 +99,7 @@
             <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
         </div>
 
-        <div class="col-12">
+        <div class="col col-lg-12">
             <label for="mytable__form-input-address" class="fs-5 w-100">
                 Digite o logradouro
             </label>
@@ -113,7 +113,7 @@
             <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
         </div>
 
-        <div class="col-6">
+        <div class="col col-lg-6">
             <label for="mytable__form-input-neighborhood" class="fs-5 w-100">
                 Informe o bairro
             </label>
@@ -127,7 +127,7 @@
             <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
         </div>
 
-        <div class="col-6">
+        <div class="col col-lg-6">
             <label for="mytable__form-input-house_number" class="fs-5 w-100">
                 Digite o número da casa
             </label>
@@ -141,7 +141,7 @@
             <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
         </div>
 
-        <div class="col-12">
+        <div class="col col-lg-12">
             <button type="submit" class="btn btn-light w-100">Enviar dados</button>
         </div>
     </div>

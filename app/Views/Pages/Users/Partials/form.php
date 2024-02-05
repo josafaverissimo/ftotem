@@ -1,6 +1,6 @@
 <form class="container mytable__form-action" method="post" novalidate autocomplete="off">
-    <div class="row row-cols-2 gy-1 gx-3">
-        <div class="col-12">
+    <div class="row row-cols-1 row-cols-lg-2 gy-1 gx-3">
+        <div class="col col-lg-12">
             <label for="mytable__form-input-name" class="fs-5 w-100">
                 Informe o nome e sobrenome
             </label>

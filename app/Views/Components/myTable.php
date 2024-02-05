@@ -12,7 +12,7 @@
     </div>
 
     <div class="mytable__actions container-fluid">
-        <div class="btn-group btn-group-sm align-self-end" role="group">
+        <div class="btn-group btn-group-sm" role="group">
             <button id="mytable__actions-create" type="button" class="btn btn-light" data-bs-toggle="modal"
                     data-bs-target="#mytable__form-modal">
                 Adicionar

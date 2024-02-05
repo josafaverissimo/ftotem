@@ -123,3 +123,9 @@ input[type="text"], input[type="password"] {
     animation-duration: 1s;
 }
 
+
+@media (max-width: 991px) {
+    .page-title {
+        text-align: center;
+    }
+}
