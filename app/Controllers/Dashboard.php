@@ -2,9 +2,11 @@
 
 namespace App\Controllers;
 
+use CodeIgniter\HTTP\ResponseInterface;
+
 class Dashboard extends BaseController
 {
-    public function index(): string
+    public function index(): ResponseInterface|string
     {
         $data = [
             'title' => 'Dashboard',

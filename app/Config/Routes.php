@@ -7,6 +7,11 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', [\App\Controllers\Dashboard::class, 'index'], ['as' => 'dashboard']);
 
+$routes->group('login', static function($routes) {
+    $routes->get('/', [\App\Controllers\Login::class, 'index'], ['as' => 'login']);
+    $routes->post('doLogin', [\App\Controllers\Login::class, 'doLogin'], ['as' => 'login.doLogin']);
+});
+
 $routes->group('users', static function($routes) {
     $routes->get('/', [\App\Controllers\UsersController::class, 'index'], ['as' => 'users']);
     $routes->get('get', [\App\Controllers\UsersController::class, 'get'], ['as' => 'users.get']);

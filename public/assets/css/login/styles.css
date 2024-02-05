@@ -1,0 +1,36 @@
+body {
+    background-color: #202125;
+    color: #fff;
+}
+
+.card-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-wrapper img {
+    width: 12rem;
+    height: 12rem;
+    object-fit: contain;
+}
+
+.card-wrapper input {
+    background-color: #202125!important;
+    color: #fff!important;
+    border: 1px solid #fff6!important;
+}
+
+.card-wrapper input::placeholder {
+    color: #fff6!important;
+}
+
+.card-wrapper form {
+    display: flex;
+    flex-direction: column;
+    gap: .625rem;
+}
+
+.card-wrapper p {
+    color: #fff2;
+}

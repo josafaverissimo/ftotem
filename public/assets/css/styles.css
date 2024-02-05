@@ -29,6 +29,7 @@ main {
 .main-content {
     width: 100%;
     transition: all .55s ease-in-out;
+    background-color: #f8f8f8;
 }
 
 input[type="text"], input[type="password"] {

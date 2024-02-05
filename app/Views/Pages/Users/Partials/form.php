@@ -70,7 +70,7 @@
             <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
         </div>
 
-        <div class="col-12">
+        <div class="col col-lg-12">
             <button type="submit" class="btn btn-light w-100">Enviar dados</button>
         </div>
     </div>
