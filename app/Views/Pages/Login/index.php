@@ -19,7 +19,7 @@
                 <div class="card-wrapper">
                     <h1 class="h3 text-center fw-light">Bem-vindo</h1>
 
-                    <img src="<?= base_url('assets/imgs/logo2.png') ?>">
+                    <img src="<?= base_url('assets/imgs/logo2.png') ?>" loading="lazy" alt="relive logo">
 
                     <form action="<?= route_to('login.doLogin') ?>" autocomplete="off">
                         <div class="col">

@@ -7,6 +7,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    animation: fadeInDown;
+    animation-duration: 1s;
 }
 
 .card-wrapper img {
@@ -47,6 +49,6 @@ button[type="submit"] {
             #e44040 75%,
             #f34c4c 100%
     );
-    padding: .5rem 0rem;
+    padding: .5rem 0;
     border-radius: .325rem;
 }
