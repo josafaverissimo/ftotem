@@ -94,8 +94,7 @@ export class MySelect {
         this.__selectedOptions = {}
     }
 
-    __doEmptySelectAndList() {
-        this.__selectElement.innerHTML = ''
+    __doEmptyList() {
         this.__mySelectList.querySelector('ul').innerHTML = ''
     }
 
@@ -149,11 +148,13 @@ export class MySelect {
     }
 
     fill(options = this.__options) {
-        this.__doEmptySelectAndList()
+        this.__doEmptyList()
         const ul = document.createElement('ul')
 
         options.forEach(option => {
-            this.__appendOptionInSelect(option)
+            if(!this.__getLiOptionByValue(option.value)) {
+                this.__appendOptionInSelect(option)
+            }
 
             const li = document.createElement('li')
 
@@ -164,12 +165,9 @@ export class MySelect {
                 this.changeTo(option.value)
             })
 
-            this.__selectElement.value = ''
-
-
-
             if(this.__isLiOptionSelected(li)) {
-                li.classList.add('selected')
+                this.__changeByLi(li)
+
                 ul.prepend(li)
 
                 return
