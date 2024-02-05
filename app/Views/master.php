@@ -27,6 +27,8 @@
         <?= $this->include('Partials/sidebar') ?>
 
         <main class="d-flex flex-column flex-grow-1 align-items-center">
+            <?= $this->include('Partials/header') ?>
+
             <div class="main-content px-sm-5 pt-3 h-100 animate__animated animate__fadeIn">
                 <?= $this->renderSection('content') ?>
             </div>

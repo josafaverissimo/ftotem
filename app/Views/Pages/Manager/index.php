@@ -22,7 +22,6 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-    <h1 class="h2 fw-bold border-bottom animate__animated animate__fadeInLeft page-title"><?= $tableTitle ?></h1>
 
 <?= $myTableComponent ?>
 

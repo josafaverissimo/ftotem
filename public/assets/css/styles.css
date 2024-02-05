@@ -15,12 +15,12 @@ li {
 }
 
 body {
-    background-color: #f8f8f8;
-    overflow-x: hidden;
+    background-color: #fff;
 }
 
 main {
     height: 100vh;
+    overflow-x: hidden;
     overflow-y: scroll;
     width: 100vw;
     max-width: 100vw;
@@ -29,7 +29,6 @@ main {
 .main-content {
     width: 100%;
     transition: all .55s ease-in-out;
-    background-color: #fff;
 }
 
 input[type="text"], input[type="password"] {
@@ -123,9 +122,40 @@ input[type="text"], input[type="password"] {
     animation-duration: 1s;
 }
 
-
 @media (max-width: 991px) {
     .page-title {
         text-align: center;
+    }
+}
+
+header {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+header h1 {
+    flex: 1;
+    align-self: center;
+}
+
+header img {
+    align-self: center;
+    width: 30rem;
+    height: 10rem;
+    object-fit: contain;
+    margin-bottom: 2rem;
+}
+
+
+
+@media (min-width: 992px) {
+    header {
+        flex-direction: row;
+    }
+
+    header img {
+        width: 5rem;
+        height: 5rem;
+        margin-bottom: 0;
     }
 }

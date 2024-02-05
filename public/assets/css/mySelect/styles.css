@@ -58,6 +58,7 @@
     white-space: nowrap;
     border-bottom: 1px solid #8e8e8e;
     flex-grow: 1;
+    width: 100%;
 }
 
 .myselect__list ul {

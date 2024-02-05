@@ -43,7 +43,6 @@ class ClientsController extends ManagerController
         $data = [
             'title' => 'Clientes',
             'pageHeader' => 'Clientes',
-            'tableTitle' => 'Tabela de Clientes',
             'styles' => ['assets/css/myTable/styles.css', 'assets/css/mySelect/styles.css'],
             'scripts' => [
                 ['src' => 'assets/js/myTable/main.js', 'type' => 'module'],
