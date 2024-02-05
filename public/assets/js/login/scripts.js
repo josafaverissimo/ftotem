@@ -29,7 +29,7 @@ form.addEventListener('submit', event => {
         data: formData
     }).then(response => {
         if(!response.data.success) {
-            toastify('Credenciais incorreta', 'danger')
+            toastify('Credencial incorreta', 'danger')
 
             return
         }
