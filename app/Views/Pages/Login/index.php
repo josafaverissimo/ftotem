@@ -36,7 +36,7 @@
                             <p class="form-text mytable__form-action-error-message">O campo é obrigatório</p>
                         </div>
 
-                        <button type="submit" class="btn btn-outline-light rounded-bottom-5">Login</button>
+                        <button type="submit">Login</button>
                     </form>
                 </div>
             </div>
