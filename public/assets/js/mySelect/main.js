@@ -244,6 +244,25 @@ export class MyMultipleSelect extends MySelect {
 
         this.__itemsSelectedCount = 0
     }
+
+    changeByTextContentOrValue(textContentOrValue) {
+        const getLi = (textContentOrValue) =>
+            this.__optionByTextContent(textContentOrValue) ?? this.__getLiOptionByValue(textContentOrValue)
+
+        const changeIfLiIsNotNull = (li) => {
+            if(!li) {
+                return
+            }
+
+            this.__changeByLi(li)
+        }
+
+        if(textContentOrValue instanceof Array) {
+            textContentOrValue.forEach(textContentOrValue => changeIfLiIsNotNull(getLi(textContentOrValue)))
+        }
+
+        changeIfLiIsNotNull(getLi(textContentOrValue))
+    }
 }
 
 MySelect.instances = {}

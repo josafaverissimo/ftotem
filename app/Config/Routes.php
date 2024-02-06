@@ -2,43 +2,17 @@
 
 use CodeIgniter\Router\RouteCollection;
 
-/**
- * @var RouteCollection $routes
- */
-$routes->get('/', [\App\Controllers\Dashboard::class, 'index'], ['as' => 'dashboard']);
+$modulesPath = ROOTPATH . 'modules/';
+$modules = scandir($modulesPath);
 
-$routes->group('login', static function($routes) {
-    $routes->get('/', [\App\Controllers\Login::class, 'index'], ['as' => 'login']);
-    $routes->get('doLogout', [\App\Controllers\Login::class, 'doLogout'], ['as' => 'login.doLogout']);
-    $routes->post('doLogin', [\App\Controllers\Login::class, 'doLogin'], ['as' => 'login.doLogin']);
-});
+foreach($modules as $module) {
+    if($module === '.' || $module === '..') {
+        continue;
+    }
 
-$routes->group('users', static function($routes) {
-    $routes->get('/', [\App\Controllers\UsersController::class, 'index'], ['as' => 'users']);
-    $routes->get('get', [\App\Controllers\UsersController::class, 'get'], ['as' => 'users.get']);
-    $routes->post('save', [\App\Controllers\UsersController::class, 'save'], ['as' => 'users.save']);
-    $routes->delete('/', [\App\Controllers\UsersController::class, 'delete'], ['as' => 'users.delete']);
-});
+    $moduleRoutesFile = $modulesPath . "{$module}/Config/Routes.php";
 
-$routes->group('clients', static function($routes) {
-    $routes->get('/', [\App\Controllers\ClientsController::class, 'index'], ['as' => 'clients']);
-    $routes->get('get', [\App\Controllers\ClientsController::class, 'get'], ['as' => 'clients.get']);
-    $routes->get('getAll', [\App\Controllers\ClientsController::class, 'getAll'], ['as' => 'clients.getAll']);
-    $routes->post('save', [\App\Controllers\ClientsController::class, 'save'], ['as' => 'clients.save']);
-    $routes->delete('/', [\App\Controllers\ClientsController::class, 'delete'], ['as' => 'clients.delete']);
-});
-
-$routes->group('events', static function($routes) {
-    $routes->get('/', [\App\Controllers\EventsController::class, 'index'], ['as' => 'events']);
-    $routes->get('get', [\App\Controllers\EventsController::class, 'get'], ['as' => 'events.get']);
-    $routes->post('save', [\App\Controllers\EventsController::class, 'save'], ['as' => 'events.save']);
-    $routes->delete('/', [\App\Controllers\EventsController::class, 'delete'], ['as' => 'events.delete']);
-
-    $routes->group('categories', static function($routes) {
-        $routes->get('/', [\App\Controllers\EventsCategoriesController::class, 'index'], ['as' => 'events.categories']);
-        $routes->get('get', [\App\Controllers\EventsCategoriesController::class, 'get'], ['as' => 'events.categories.get']);
-        $routes->get('getAll', [\App\Controllers\EventsCategoriesController::class, 'getAll'], ['as' => 'events.categories.getAll']);
-        $routes->post('save', [\App\Controllers\EventsCategoriesController::class, 'save'], ['as' => 'events.categories.save']);
-        $routes->delete('/', [\App\Controllers\EventsCategoriesController::class, 'delete'], ['as' => 'events.categories.delete']);
-    });
-});
+    if(file_exists($moduleRoutesFile)) {
+        require $moduleRoutesFile;
+    }
+}

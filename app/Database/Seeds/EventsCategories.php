@@ -2,8 +2,8 @@
 
 namespace App\Database\Seeds;
 
-use App\Entities\EventCategoryEntity;
-use App\Models\EventCategoryModel;
+use Modules\Manager\Entities\EventCategoryEntity;
+use Modules\Manager\Models\EventCategoryModel;
 use Faker\Factory;
 
 class EventsCategories extends BaseSeeder

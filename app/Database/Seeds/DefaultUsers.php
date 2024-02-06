@@ -2,8 +2,8 @@
 
 namespace App\Database\Seeds;
 
-use App\Entities\UserEntity;
-use App\Models\UserModel;
+use Modules\Manager\Entities\UserEntity;
+use Modules\Manager\Models\UserModel;
 use Faker\Factory;
 
 class DefaultUsers extends BaseSeeder

@@ -2,8 +2,8 @@
 
 namespace App\Database\Seeds;
 
-use App\Entities\ClientEntity;
-use App\Models\ClientModel;
+use Modules\Manager\Entities\ClientEntity;
+use Modules\Manager\Models\ClientModel;
 use Faker\Factory;
 
 class Clients extends BaseSeeder
