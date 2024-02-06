@@ -38,7 +38,7 @@
                             <input id="mytable__form-input-event-category-id" type="text" class="form-control"
                                    placeholder="e.g.: Casamento" required readonly>
                             <span class="input-group-text">
-                            <i class="bi bi-globe-americas"></i>
+                            <i class="bi bi-list-task"></i>
                         </div>
 
                         <div class="myselect__list">
@@ -66,7 +66,7 @@
                                    placeholder="0 clientes selecionados" required readonly
                                    data-custom-placeholder="clientes selecionados" >
                             <span class="input-group-text">
-                            <i class="bi bi-globe-americas"></i>
+                            <i class="bi bi-people-fill"></i>
                         </div>
 
                         <div class="myselect__list">
