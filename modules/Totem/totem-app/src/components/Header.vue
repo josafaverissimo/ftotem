@@ -1,7 +1,6 @@
 <script setup>
 import { useConfig } from "@/config/index.js";
 import { useJwtStore } from "@/stores/jwt.js";
-import router from '@/router';
 import {computed} from "vue";
 
 const config = useConfig()
@@ -12,11 +11,6 @@ const firstName = computed(() => {
   }
   return jwtStore.data.name.split(' ')[0]
 })
-
-function logout() {
-  jwtStore.$reset()
-  router.push({name: 'login'})
-}
 
 </script>
 
@@ -29,17 +23,18 @@ function logout() {
 
       <slot></slot>
 
-      <div class="logout-wrapper">
-        <span class="text-capitalize" v-if="firstName">Olá, {{firstName}}</span>
-        <button class="btn btn-light" @click="logout">
-          <i class="bi bi-escape fs-5"></i>
-        </button>
-      </div>
+      <span class="text-capitalize" v-if="firstName">Olá, {{firstName}}</span>
     </nav>
   </header>
 </template>
 
 <style scoped>
+  @media (max-width: 991px) {
+    nav span {
+      display: none;
+    }
+  }
+
   header {
     padding: 0 1rem;
     width: 100vw;
@@ -58,12 +53,6 @@ function logout() {
           object-fit: contain;
         }
       }
-    }
-
-    .logout-wrapper {
-      display: flex;
-      flex-direction: column;
-      font-weight: bold;
     }
   }
 </style>
