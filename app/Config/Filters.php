@@ -39,7 +39,7 @@ class Filters extends BaseConfig
     public array $globals = [
         'before' => [
             'auth' => [
-                'except' => ['login', 'login/*', 'totem-app', 'totem-app/*'],
+                'except' => ['login', 'login/*', 'totem-api', 'totem-api/*'],
             ]
         ],
         'after' => [

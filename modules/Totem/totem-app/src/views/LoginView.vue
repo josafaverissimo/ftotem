@@ -27,9 +27,9 @@ async function formLoginHandler() {
   if(form.isSubmitting) {
     return
   }
+  form.isSubmitting = true
 
   const data = await doLogin(form.username, form.password)
-  form.isSubmitting = true
 
   if(data.success) {
     jwtStore.setToken(data.token)

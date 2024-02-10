@@ -3,13 +3,13 @@ import { useJwtStore } from "@/stores/jwt.js";
 
 export function doLogin(username, password) {
 
-    return http.post('totem-app/auth/doLogin', {username, password}).then(response => response.data)
+    return http.post('totem-api/auth/doLogin', {username, password}).then(response => response.data)
 }
 
 export function validateToken() {
     const jwtStore = useJwtStore()
 
-    return http.get('totem-app/auth/validateToken', {
+    return http.get('totem-api/auth/validateToken', {
         headers: {
             Authorization: `Bearer ${jwtStore.token}`
         }
