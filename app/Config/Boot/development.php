@@ -32,3 +32,7 @@ defined('SHOW_DEBUG_BACKTRACE') || define('SHOW_DEBUG_BACKTRACE', true);
  | items. It can always be used within your own application too.
  */
 defined('CI_DEBUG') || define('CI_DEBUG', true);
+
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: *');
+header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS');

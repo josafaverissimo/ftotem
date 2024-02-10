@@ -62,8 +62,6 @@ class ClientsController extends ManagerController
         return view('\Modules\Manager\Views\Pages\Manager\index', $data);
     }
 
-
-
     public function getAll(): ResponseInterface
     {
         $clients = $this->model->select('id, name')->asArray()->findAll();

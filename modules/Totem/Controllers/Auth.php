@@ -7,20 +7,20 @@ use App\Libraries\Jwt\Token;
 use CodeIgniter\HTTP\ResponseInterface;
 use Modules\Manager\Models\UserModel;
 
-class Login extends BaseController
+class Auth extends BaseController
 {
     public function doLogin(): ResponseInterface
     {
-        $post = $this->request->getPost();
+        $jsonBody = json_decode($this->request->getBody());
 
-        if(empty($post['username']) || empty($post['password'])) {
+        if(empty($jsonBody->username) || empty($jsonBody->password)) {
             return $this->response->setJSON([
                 'success' => false
             ]);
         }
 
         $userModel = new UserModel;
-        $user = $userModel->where('username', $post['username'])->first();
+        $user = $userModel->where('username', $jsonBody->username)->first();
 
         if(empty($user)) {
             return $this->response->setJSON([
@@ -28,7 +28,7 @@ class Login extends BaseController
             ]);
         }
 
-        if(!password_verify($post['password'], $user->password)) {
+        if(!password_verify($jsonBody->password, $user->password)) {
             return $this->response->setJSON([
                 'success' => false
             ]);
@@ -39,6 +39,15 @@ class Login extends BaseController
             'token' => Token::encode([
                 'name' => $user->name
             ])
+        ]);
+    }
+
+    public function validateToken(): ResponseInterface
+    {
+        $decoded = Token::decode();
+
+        return $this->response->setJSON([
+            'success' => $decoded !== false
         ]);
     }
 }

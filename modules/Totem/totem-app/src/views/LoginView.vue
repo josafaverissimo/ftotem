@@ -3,7 +3,7 @@ import {doLogin} from "@/services/auth.js";
 import {useJwtStore} from '@/stores/jwt.js'
 import {useConfig} from "@/config/index.js";
 import {useMask} from "@/utils/mask.js";
-import {computed, reactive} from "vue";
+import {computed, reactive, ref} from "vue";
 import router from "@/router/index.js";
 import Spinner from "@/components/Spinner.vue";
 import ToastContainer from '@/components/ToastContainer.vue';
@@ -13,12 +13,20 @@ const {vMask} = useMask()
 const logoSrc = computed(() => {
   return `${config.baseURL}assets/imgs/logo3.png`
 })
+const toastContainer = ref(null)
+const toasts = reactive({
+  messages: []
+})
 const form = reactive({
   username: '',
   password: '',
   isSubmitting: false
 })
 const jwtStore = useJwtStore()
+
+function setToatsMessages(value) {
+  toasts.messages = value
+}
 
 async function formLoginHandler() {
   if(form.isSubmitting) {
@@ -33,6 +41,8 @@ async function formLoginHandler() {
 
     return router.push('/')
   }
+
+  toastContainer.value.pushToast('Credenciais incorretas.')
 
   setTimeout(function() {
     form.isSubmitting = false
@@ -50,7 +60,7 @@ function changeUsername({value}) {
       <div class="card-wrapper animate__animated animate__fadeInDown">
         <div class="card-header">
           <h1 class="h3 fw-light">Bem-vindo(a)</h1>
-          <img :src="logoSrc">
+          <img :src="logoSrc" alt="relive logo">
         </div>
 
         <div class="card-body">
@@ -80,7 +90,7 @@ function changeUsername({value}) {
     </div>
   </div>
 
-  <ToastContainer></ToastContainer>
+  <ToastContainer ref="toastContainer" color="warning"></ToastContainer>
 </template>
 
 <style scoped>
