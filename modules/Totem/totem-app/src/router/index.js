@@ -1,14 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { validateToken } from "@/services/auth.js";
-import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
+      name: 'events',
+      component: () => import('../views/EventsView.vue'),
       meta: {
         auth: true
       }

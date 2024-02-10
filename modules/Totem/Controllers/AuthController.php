@@ -7,7 +7,7 @@ use App\Libraries\Jwt\Token;
 use CodeIgniter\HTTP\ResponseInterface;
 use Modules\Manager\Models\UserModel;
 
-class Auth extends BaseController
+class AuthController extends BaseController
 {
     public function doLogin(): ResponseInterface
     {

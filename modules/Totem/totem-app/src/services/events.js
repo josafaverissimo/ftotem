@@ -1,5 +1,6 @@
 import {http} from '@/utils/http.js'
 
-export function getEvents() {
-    return http.get(`totem-app/events/getAll`).then(response => console.log(response))
+export function getEvents(page) {
+    return http.get(`totem-app/events/get?page=${page}`)
+        .then(response => response.data)
 }

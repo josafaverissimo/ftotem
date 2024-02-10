@@ -3,16 +3,13 @@ import {doLogin} from "@/services/auth.js";
 import {useJwtStore} from '@/stores/jwt.js'
 import {useConfig} from "@/config/index.js";
 import {useMask} from "@/utils/mask.js";
-import {computed, reactive, ref} from "vue";
+import {reactive, ref} from "vue";
 import router from "@/router/index.js";
 import Spinner from "@/components/Spinner.vue";
 import ToastContainer from '@/components/ToastContainer.vue';
 
 const config = useConfig()
 const {vMask} = useMask()
-const logoSrc = computed(() => {
-  return `${config.baseURL}assets/imgs/logo3.png`
-})
 const toastContainer = ref(null)
 const toasts = reactive({
   messages: []
@@ -60,7 +57,7 @@ function changeUsername({value}) {
       <div class="card-wrapper animate__animated animate__fadeInDown">
         <div class="card-header">
           <h1 class="h3 fw-light">Bem-vindo(a)</h1>
-          <img :src="logoSrc" alt="relive logo">
+          <img src="/logo3.png" alt="relive logo">
         </div>
 
         <div class="card-body">
