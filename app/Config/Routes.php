@@ -2,6 +2,12 @@
 
 use CodeIgniter\Router\RouteCollection;
 
+
+/**
+ * @var RouteCollection $routes
+ */
+$routes->options('(:any)', 'Preflight::options');
+
 $modulesPath = ROOTPATH . 'modules/';
 $modules = scandir($modulesPath);
 

@@ -6,6 +6,7 @@ use Modules\Manager\Libraries\MyTable\TableData;
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\Model;
 use CodeIgniter\HTTP\ResponseInterface;
+use App\Controllers\BaseController;
 
 abstract class ManagerController extends BaseController
 {

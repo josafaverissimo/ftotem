@@ -2,6 +2,7 @@
 
 namespace Modules\Manager\Controllers;
 
+use App\Controllers\BaseController;
 use Modules\Manager\Models\UserModel;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\ResponseInterface;

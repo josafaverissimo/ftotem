@@ -109,8 +109,6 @@ class EventsController extends ManagerController
 
         $postData['active'] ??= 'F';
 
-
-
         if(!empty($img)) {
             $newName = $img->getRandomName();
             $img->move(ROOTPATH . 'public/uploads/events', $newName);
@@ -203,6 +201,7 @@ class EventsController extends ManagerController
         $this->orderBy();
 
         $rows = $this->model->asArray()->paginate(15);
+
 
         return $this->response->setJSON([
             'pageCount' => $this->model->pager->getPageCount(),

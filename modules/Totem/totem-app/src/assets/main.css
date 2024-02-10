@@ -1,0 +1,9 @@
+@import './bootstrap/css/bootstrap.min.css';
+@import './bootstrap/font/bootstrap-icons.min.css';
+@import './css/animate.min.css';
+
+body {
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
