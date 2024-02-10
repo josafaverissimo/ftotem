@@ -1,9 +1,7 @@
 <script setup>
-import { useConfig } from "@/config/index.js";
 import { useJwtStore } from "@/stores/jwt.js";
 import {computed} from "vue";
 
-const config = useConfig()
 const jwtStore = useJwtStore()
 const firstName = computed(() => {
   if(!jwtStore.data) {

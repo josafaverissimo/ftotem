@@ -1,14 +1,12 @@
 <script setup>
 import {doLogin} from "@/services/auth.js";
 import {useJwtStore} from '@/stores/jwt.js'
-import {useConfig} from "@/config/index.js";
 import {useMask} from "@/utils/mask.js";
 import {reactive, ref} from "vue";
 import router from "@/router/index.js";
 import Spinner from "@/components/Spinner.vue";
 import ToastContainer from '@/components/ToastContainer.vue';
 
-const config = useConfig()
 const {vMask} = useMask()
 const toastContainer = ref(null)
 const toasts = reactive({
@@ -49,6 +47,7 @@ async function formLoginHandler() {
 function changeUsername({value}) {
   form.username = value
 }
+
 </script>
 
 <template>

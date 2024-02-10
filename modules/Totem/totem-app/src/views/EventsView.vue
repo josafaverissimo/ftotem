@@ -2,17 +2,19 @@
 import Header from '@/components/Header.vue'
 import EventCard from '@/components/EventCard.vue'
 import { useEventsStore } from '@/stores/events.js'
-import { useConfig } from '@/config'
 import { computed } from "vue";
 import router from "@/router/index.js";
 
 const eventsStore = useEventsStore()
 const eventsByCategoriesKeys = computed(() => Object.keys(eventsStore.eventsByCategories))
-const config = useConfig()
 
 function logout() {
   eventsStore.$reset()
   router.push({name: 'login'})
+}
+
+function getEventImgPath(event) {
+  return `${import.meta.env.VITE_BASE_URL}/uploads/events/${event.background}`
 }
 
 eventsStore.loadEvents()
@@ -49,7 +51,7 @@ eventsStore.loadEvents()
 
           <div class="row row-cols-1 row-cols-lg-3 g-3">
             <template v-for="(event, index) in eventsStore.eventsByCategories[category]" :key="index">
-              <EventCard :imgSrc="`${config.baseURL}uploads/events/${event.background}`" :title="event.name"/>
+              <EventCard :imgSrc="getEventImgPath(event)" :title="event.name"/>
             </template>
           </div>
         </template>

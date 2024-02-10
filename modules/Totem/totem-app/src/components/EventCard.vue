@@ -7,7 +7,7 @@ const props = defineProps(['imgSrc', 'title'])
     <span class="title text-capitalize">{{props.title}}</span>
 
     <div class="img-wrapper shadow-lg">
-      <img :src="props.imgSrc" alt="event image"/>
+      <img :src="props.imgSrc" alt="event image" loading="lazy"/>
     </div>
   </div>
 </template>
