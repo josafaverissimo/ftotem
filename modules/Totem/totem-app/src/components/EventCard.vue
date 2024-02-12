@@ -29,7 +29,6 @@ onMounted(() => {
 .event-card-wrapper {
   .img-title-wrapper {
     object-fit: contain;
-    cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
