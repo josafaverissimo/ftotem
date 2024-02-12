@@ -142,6 +142,10 @@ export class MyTable {
         delete row.id
 
         Array.prototype.forEach.call(this.__formAction.elements, input => {
+            if(input.type === 'checkbox') {
+                return
+            }
+
             if(input.value === row[input.name] || input.value === '') {
                 editFormData.delete(input.name)
             }
@@ -167,6 +171,8 @@ export class MyTable {
                     return
                 }
             }
+
+            for(let entry of formData.entries()) console.log(entry)
 
             this.__editForm ? this.__onEdit(formData, event) : this.__onCreate(formData, event)
         })
