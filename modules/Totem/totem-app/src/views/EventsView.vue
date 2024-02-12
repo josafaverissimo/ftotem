@@ -82,6 +82,7 @@ eventsStore.loadEvents()
 
   .actions-buttons-wrapper {
     position: absolute;
+    z-index: 1000;
     bottom: 10px;
     right: 25px;
     display: flex;
