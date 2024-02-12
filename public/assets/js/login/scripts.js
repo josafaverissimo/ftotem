@@ -13,9 +13,16 @@ formValidation.setValidationsByFields([
 
 form.addEventListener('submit', event => {
     event.preventDefault()
+    event.submitter.classList.add('pe-none')
+    event.submitter.firstChild.classList.add('d-none')
+    event.submitter.lastChild.classList.remove('d-none')
 
     if(!formValidation.run()) {
         formValidation.showErrorsInForm()
+
+        event.submitter.classList.remove('pe-none')
+        event.submitter.firstChild.classList.remove('d-none')
+        event.submitter.lastChild.classList.add('d-none')
 
         return
     }
@@ -35,5 +42,9 @@ form.addEventListener('submit', event => {
         }
 
         window.location.href = '/'
+    }).finally(() => {
+        event.submitter.classList.remove('pe-none')
+        event.submitter.firstChild.classList.remove('d-none')
+        event.submitter.lastChild.classList.add('d-none')
     })
 })
