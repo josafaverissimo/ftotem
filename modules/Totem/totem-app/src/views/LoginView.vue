@@ -90,6 +90,7 @@ function changeUsername({value}) {
 </template>
 
 <style scoped>
+
   .s-1rem {
     width: 1rem;
     height: 1rem;
@@ -98,6 +99,9 @@ function changeUsername({value}) {
   .card-wrapper {
     display: flex;
     flex-direction: column;
+    background-color: #fff;
+    padding: 3rem;
+    border-radius: 5rem;
 
     .card-header {
       display: flex;
