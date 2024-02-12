@@ -15,8 +15,16 @@ const eventsOptions = computed(() => eventsStore.data.map((event, index) => ({
   textContent: event.name,
   category: event.category
 })))
-const currentEventImg = computed(() =>
-    `${import.meta.env.VITE_BASE_URL}/uploads/events/${currentEvent.data.background}`)
+const currentEventImg = computed(() => {
+  const eventBackground = currentEvent.data?.background
+
+  return eventBackground ? `${import.meta.env.VITE_BASE_URL}/uploads/events/${eventBackground}` : ''
+})
+const eventsClientsRows = computed(() => {
+  const clients = currentEvent.data?.clients?.split(', ')
+
+  return clients || []
+})
 
 function logout() {
   eventsStore.$reset()
@@ -56,7 +64,8 @@ eventsStore.loadEvents()
         </div>
 
         <template v-if="currentEvent.data">
-          <EventCard :imgSrc="currentEventImg" :title="currentEvent.data.name" class="animate__animated animate__fadeInUp"/>
+          <EventCard :imgSrc="currentEventImg" :title="currentEvent.data.name" :clients="eventsClientsRows"
+            class="animate__animated animate__fadeInUp"/>
         </template>
       </div>
     </div>
