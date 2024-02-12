@@ -3,7 +3,7 @@ import Header from '@/components/Header.vue'
 import EventCard from '@/components/EventCard.vue'
 import EventsClientsTable from '@/components/EventClientsTable.vue'
 import MySelect from '@/components/MySelect.vue'
-import router from "@/router/index.js";
+import { logout } from "@/services/auth.js";
 import { useEventsStore } from '@/stores/events.js'
 import { computed, reactive } from "vue";
 
@@ -23,11 +23,6 @@ const eventsClientsRows = computed(() => {
 
   return clients || ['Nenhum cliente na lista.']
 })
-
-function logout() {
-  eventsStore.$reset()
-  router.push({name: 'login'})
-}
 
 function setCurrentEventByOptionValue(option) {
   eventsStore.setCurrentEvent(eventsStore.data[option.value])
@@ -64,8 +59,10 @@ eventsStore.loadEvents()
 
         <template v-if="eventsStore.currentEvent">
           <div class="event-data-wrapper">
-            <EventCard :imgSrc="currentEventImg" :title="eventsStore.currentEvent.name"
-              class="animate__animated animate__fadeInUp"/>
+            <router-link to="/event" class="text-decoration-none">
+              <EventCard :imgSrc="currentEventImg" :title="eventsStore.currentEvent.name"
+                class="animate__animated animate__fadeInUp"/>
+            </router-link>
             <EventsClientsTable :clients="eventsClientsRows"/>
           </div>
         </template>
