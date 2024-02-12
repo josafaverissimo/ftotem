@@ -42,6 +42,7 @@ const props = defineProps(['imgSrc', 'title'])
 
     img {
       width: 100%;
+      max-height: 40rem;
       object-fit: contain;
       border-radius: 1rem;
       padding: .5rem;

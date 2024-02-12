@@ -12,7 +12,8 @@ const currentEvent = reactive({
 })
 const eventsOptions = computed(() => eventsStore.data.map((event, index) => ({
   value: index,
-  textContent: event.name
+  textContent: event.name,
+  category: event.category
 })))
 const currentEventImg = computed(() =>
     `${import.meta.env.VITE_BASE_URL}/uploads/events/${currentEvent.data.background}`)
@@ -32,11 +33,11 @@ eventsStore.loadEvents()
 
 <template>
   <div class="wrapper">
-    <Header>
+    <Header class="animate__animated animate__fadeInDown">
       <h1 class="display-2 fw-bolder">Eventos</h1>
     </Header>
 
-    <div class="events-wrapper">
+    <div class="events-wrapper animate__animated animate__fadeInRight">
       <div class="actions-buttons-wrapper">
         <button class="btn btn-dark rounded-5" @click="logout">
           <i class="bi bi-escape fs-5"></i>
@@ -46,14 +47,16 @@ eventsStore.loadEvents()
       <div class="container">
         <div class="event-metadata-wrapper">
           <div class="event-category">
-            <span class="text-capitalize fs-4" v-if="currentEvent.data">{{currentEvent.data.category}}</span>
+            <span class="text-capitalize fs-4 animate__animated animate__fadeIn" v-if="currentEvent.data">
+              {{currentEvent.data.category}}
+            </span>
           </div>
 
           <MySelect :options="eventsOptions" @change="setCurrentEventByOptionValue"/>
         </div>
 
         <template v-if="currentEvent.data">
-          <EventCard :imgSrc="currentEventImg" :title="currentEvent.data.name"/>
+          <EventCard :imgSrc="currentEventImg" :title="currentEvent.data.name" class="animate__animated animate__fadeInUp"/>
         </template>
       </div>
     </div>
