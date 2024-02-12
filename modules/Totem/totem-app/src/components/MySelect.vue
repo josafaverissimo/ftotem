@@ -23,7 +23,20 @@ const searchedOptions = computed(() => {
     return optionTextContent.indexOf(search) !== -1
   })
 })
+const optionsByCategory = computed(() => searchedOptions.value.reduce((optionsByCategory, option) => {
+  if(!optionsByCategory[option.category]) {
+    optionsByCategory[option.category] = [option]
 
+    return optionsByCategory
+  }
+
+  optionsByCategory[option.category].push(option)
+
+  return optionsByCategory
+}, {}))
+const optionsByCategoryKeys = computed(() => Object.keys(optionsByCategory.value))
+
+const mySelectPlaceholderElement = ref(null)
 const selectElement = ref(null)
 const optionsElements = ref([])
 const readonlySelectedOptionInputElement = ref(null)
@@ -50,6 +63,7 @@ function unselectAll() {
 
 function change(event, option) {
   unselectAll()
+  mySelectPlaceholderElement.value.classList.add('filled')
 
   currentOption.option = option
 
@@ -90,10 +104,12 @@ function removeAccents(string) {
       </option>
     </select>
 
-    <div class="input-group input-group-lg">
-      <input type="text" class="form-control" placeholder="e.g: Casamento" readonly @focus="showOptions"
+    <label class="readonly-input">
+      <span class="my-select-placeholder" ref="mySelectPlaceholderElement">Selecione um Evento</span>
+
+      <input type="text" class="form-control form-control-lg" readonly @focus="showOptions"
         ref="readonlySelectedOptionInputElement">
-    </div>
+    </label>
 
     <div class="list" ref="listElement">
       <label>
@@ -101,11 +117,18 @@ function removeAccents(string) {
         <input type="search" ref="searchInputElement" @blur="hideOptions" v-model="searchInputValue">
       </label>
 
-      <ul>
-        <template v-for="(option, key) in searchedOptions" :key="key">
-          <li :value="option.value" @mousedown="change($event, option)"
-            :class="currentOption.option.value === option.value ? 'selected' : ''">
-            {{option.textContent}}
+      <ul class="container">
+        <template v-for="(category, key) in optionsByCategoryKeys" :key="key">
+          <li class="category">
+            <span class="fw-bold">{{category}}</span>
+            <ul>
+              <template v-for="(option, key) in optionsByCategory[category]">
+                <li :value="option.value" @mousedown="change($event, option)" class="item"
+                  :class="currentOption.option.value === option.value ? 'selected' : ''">
+                  {{option.textContent}}
+                </li>
+              </template>
+            </ul>
           </li>
         </template>
       </ul>
@@ -121,6 +144,21 @@ function removeAccents(string) {
     display: none;
   }
 
+  .readonly-input {
+    cursor: text;
+  }
+
+  .my-select-placeholder {
+    position: relative;
+    top: 2rem;
+    left: 0.625rem;
+    transition: all .25s ease-in-out;
+  }
+  .my-select-placeholder.filled {
+    top: 0;
+    left: 0;
+  }
+
   .list {
     display: none;
     position: absolute;
@@ -131,18 +169,36 @@ function removeAccents(string) {
     margin-top: .3rem;
     border-radius: .5rem;
 
-    li {
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul.container {
+      max-height: 10rem;
+      overflow-y: auto;
+    }
+
+
+    li.category span {
+      pointer-events: none;
+      display: block;
+      text-indent: .625rem;
+    }
+
+    li.item {
+      width: 100%;
       padding: .5rem 2rem;
       cursor: pointer;
       transition: all .1s;
     }
 
-    li:hover {
+    li.item:hover {
       background-color: #6c757d;
       color: #fff;
     }
 
-    li.selected {
+    li.item.selected {
       background-color: #6c757d;
       color: #fff;
     }
@@ -153,11 +209,11 @@ function removeAccents(string) {
       margin: 0.5rem 2rem;
       border-radius: 2rem;
       box-shadow: 1px 1px 16px #0002;
-    }
 
-    label .icon {
-      font-size: 1.5rem;
-      padding-right: .3rem;
+      .icon {
+        font-size: 1.5rem;
+        padding-right: .3rem;
+      }
     }
 
     input[type="search"] {
@@ -169,13 +225,6 @@ function removeAccents(string) {
       border-bottom: 1px solid #8e8e8e;
       flex-grow: 1;
       width: 100%;
-    }
-
-    ul {
-      padding: 0;
-      list-style: none;
-      max-height: 10rem;
-      overflow-y: auto;
     }
   }
 }

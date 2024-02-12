@@ -411,6 +411,16 @@ export class MyTable {
             const td = document.createElement('td')
             td.textContent = cellValue
 
+            if(cellValue.length > 30) {
+                td.setAttribute('data-bs-title', cellValue)
+                td.setAttribute('data-bs-toggle', 'tooltip')
+                td.setAttribute('data-bs-placement', 'bottom')
+
+                new bootstrap.Tooltip(td)
+
+                td.classList.add('truncate')
+            }
+
             tr.appendChild(td)
         })
 

@@ -1,29 +1,31 @@
 <script setup>
 import Header from '@/components/Header.vue'
 import EventCard from '@/components/EventCard.vue'
+import EventsClientsTable from '@/components/EventClientsTable.vue'
 import MySelect from '@/components/MySelect.vue'
-import router from "@/router/index.js";
+import { logout } from "@/services/auth.js";
 import { useEventsStore } from '@/stores/events.js'
 import { computed, reactive } from "vue";
 
 const eventsStore = useEventsStore()
-const currentEvent = reactive({
-  data: null
-})
 const eventsOptions = computed(() => eventsStore.data.map((event, index) => ({
   value: index,
-  textContent: event.name
+  textContent: event.name,
+  category: event.category
 })))
-const currentEventImg = computed(() =>
-    `${import.meta.env.VITE_BASE_URL}/uploads/events/${currentEvent.data.background}`)
+const currentEventImg = computed(() => {
+  const eventBackground = eventsStore.currentEvent.background
 
-function logout() {
-  eventsStore.$reset()
-  router.push({name: 'login'})
-}
+  return eventBackground ? `${import.meta.env.VITE_BASE_URL}/uploads/events/${eventBackground}` : ''
+})
+const eventsClientsRows = computed(() => {
+  const clients = eventsStore.currentEvent.clients?.split(', ')
+
+  return clients || ['Nenhum cliente na lista.']
+})
 
 function setCurrentEventByOptionValue(option) {
-  currentEvent.data = eventsStore.data[option.value]
+  eventsStore.setCurrentEvent(eventsStore.data[option.value])
 }
 
 eventsStore.loadEvents()
@@ -32,28 +34,37 @@ eventsStore.loadEvents()
 
 <template>
   <div class="wrapper">
-    <Header>
+    <div class="actions-buttons-wrapper">
+      <button class="btn btn-dark rounded-5" @click="logout">
+        <i class="bi bi-escape fs-5"></i>
+      </button>
+    </div>
+
+    <Header class="animate__animated animate__fadeInDown">
       <h1 class="display-2 fw-bolder">Eventos</h1>
     </Header>
 
-    <div class="events-wrapper">
-      <div class="actions-buttons-wrapper">
-        <button class="btn btn-dark rounded-5" @click="logout">
-          <i class="bi bi-escape fs-5"></i>
-        </button>
-      </div>
+    <div class="event-wrapper animate__animated animate__fadeInRight">
 
       <div class="container">
         <div class="event-metadata-wrapper">
           <div class="event-category">
-            <span class="text-capitalize fs-4" v-if="currentEvent.data">{{currentEvent.data.category}}</span>
+            <span class="text-capitalize h2 animate__animated animate__fadeIn" v-if="eventsStore.currentEvent">
+              {{eventsStore.currentEvent.category}}
+            </span>
           </div>
 
           <MySelect :options="eventsOptions" @change="setCurrentEventByOptionValue"/>
         </div>
 
-        <template v-if="currentEvent.data">
-          <EventCard :imgSrc="currentEventImg" :title="currentEvent.data.name"/>
+        <template v-if="eventsStore.currentEvent">
+          <div class="event-data-wrapper">
+            <router-link to="/event" class="text-decoration-none">
+              <EventCard :imgSrc="currentEventImg" :title="eventsStore.currentEvent.name"
+                class="animate__animated animate__fadeInUp"/>
+            </router-link>
+            <EventsClientsTable :clients="eventsClientsRows"/>
+          </div>
         </template>
       </div>
     </div>
@@ -66,7 +77,17 @@ eventsStore.loadEvents()
   flex-direction: column;
   height: 100vh;
 
-  .events-wrapper {
+  .actions-buttons-wrapper {
+    position: absolute;
+    z-index: 1000;
+    bottom: 10px;
+    right: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .event-wrapper {
     height: 100%;
     overflow-y: scroll;
 
@@ -78,13 +99,15 @@ eventsStore.loadEvents()
       margin: .5rem 0;
     }
 
-    .actions-buttons-wrapper {
-      position: absolute;
-      bottom: 10px;
-      right: 25px;
+    .event-data-wrapper {
       display: flex;
-      flex-direction: column;
-      gap: 20px;
+
+      :first-child {
+        flex-basis: 70%;
+      }
+      :last-child {
+        flex-basis: 30%;
+      }
     }
   }
 }
