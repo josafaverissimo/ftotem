@@ -78,7 +78,7 @@ function changeUsername({value}) {
 
             <button type="submit">
               <span v-if="!form.isSubmitting">Entrar</span>
-              <Spinner v-else class="s-1rem"/>
+              <Spinner v-else class="s-1rem text-light"/>
             </button>
           </form>
         </div>
