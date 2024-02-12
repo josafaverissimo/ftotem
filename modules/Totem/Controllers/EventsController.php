@@ -15,7 +15,7 @@ class EventsController extends BaseController
         $this->managerEventModel = new EventModel;
     }
 
-    public function get(): ResponseInterface
+    public function getAll(): ResponseInterface
     {
         $this->managerEventModel->select('ft_events.name, ft_events.background, ft_events.active,
             ft_events_categories.name as category, GROUP_CONCAT(ft_clients.name SEPARATOR \',\') as clients'
@@ -38,11 +38,8 @@ class EventsController extends BaseController
         $this->managerEventModel->orderBy('ft_events.name', 'asc');
         $this->managerEventModel->having('ft_events.active', 'T');
 
-        $rows = $this->managerEventModel->paginate(15);
-
         return $this->response->setJSON([
-            'pageCount' => $this->managerEventModel->pager->getPageCount(),
-            'data' => $rows
+            'data' => $this->managerEventModel->findAll()
         ]);
     }
 }
