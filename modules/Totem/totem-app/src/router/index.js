@@ -19,7 +19,8 @@ const router = createRouter({
     },
     {
       path: '/:pathMatch(.*)',
-      redirect: to => ({name: 'events'}),
+      name: 'notFound',
+      component: () => import('../views/NotFound.vue'),
     }
   ]
 })

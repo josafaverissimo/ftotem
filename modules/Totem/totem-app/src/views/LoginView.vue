@@ -78,7 +78,7 @@ function changeUsername({value}) {
 
             <button type="submit">
               <span v-if="!form.isSubmitting">Entrar</span>
-              <Spinner v-else class="s-1rem"/>
+              <Spinner v-else class="s-1rem text-light"/>
             </button>
           </form>
         </div>
@@ -90,6 +90,7 @@ function changeUsername({value}) {
 </template>
 
 <style scoped>
+
   .s-1rem {
     width: 1rem;
     height: 1rem;
@@ -98,6 +99,9 @@ function changeUsername({value}) {
   .card-wrapper {
     display: flex;
     flex-direction: column;
+    background-color: #fff;
+    padding: 3rem;
+    border-radius: 5rem;
 
     .card-header {
       display: flex;

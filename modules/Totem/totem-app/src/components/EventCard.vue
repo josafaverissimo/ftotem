@@ -38,10 +38,10 @@ const props = defineProps(['imgSrc', 'title'])
     object-fit: contain;
     border-radius: 1rem;
     cursor: pointer;
+    width: 80%;
 
     img {
-      width: 25rem;
-      max-height: 17rem;
+      width: 100%;
       object-fit: contain;
       border-radius: 1rem;
       padding: .5rem;
