@@ -104,7 +104,7 @@ function removeAccents(string) {
       </option>
     </select>
 
-    <label>
+    <label class="readonly-input">
       <span class="my-select-placeholder" ref="mySelectPlaceholderElement">Selecione um Evento</span>
 
       <input type="text" class="form-control form-control-lg" readonly @focus="showOptions"
@@ -142,6 +142,10 @@ function removeAccents(string) {
 
   select {
     display: none;
+  }
+
+  .readonly-input {
+    cursor: text;
   }
 
   .my-select-placeholder {
@@ -205,11 +209,11 @@ function removeAccents(string) {
       margin: 0.5rem 2rem;
       border-radius: 2rem;
       box-shadow: 1px 1px 16px #0002;
-    }
 
-    label .icon {
-      font-size: 1.5rem;
-      padding-right: .3rem;
+      .icon {
+        font-size: 1.5rem;
+        padding-right: .3rem;
+      }
     }
 
     input[type="search"] {
