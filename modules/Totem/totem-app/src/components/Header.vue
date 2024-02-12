@@ -37,6 +37,8 @@ const firstName = computed(() => {
     padding: 0 1rem;
     width: 100vw;
     max-width: 100vw;
+    background-color: #fff;
+    box-shadow: 1px 1px 1rem #ccc;
 
     nav {
       display: flex;
