@@ -1,14 +1,25 @@
 <script setup>
 import Toast from './Toast.vue'
-import {computed, reactive} from "vue";
+import {computed, nextTick, reactive, ref} from "vue";
 
 const props = defineProps(['color'])
 const toasts = reactive({})
 let toastsCount = 0
 const messagesKeys = computed(() => Object.keys(toasts))
+const color = ref(props.color)
 
-function pushToast(message) {
+function pushToast(message, colorMessage = null) {
+  const propsColor = props.color
+
+  if(colorMessage) {
+    color.value = colorMessage
+  }
+
   toasts[toastsCount++] = message
+
+  nextTick(() => {
+    color.value = propsColor
+  })
 }
 
 function removeToast(index) {
@@ -23,7 +34,7 @@ defineExpose({
 <template>
   <div class="toast-container toast-container position-fixed top-0 start-50 p-3 translate-middle-x">
     <template v-for="key in messagesKeys" :key="key">
-      <Toast :color="props.color" @hidden="removeToast(key)">{{toasts[key]}}</Toast>
+      <Toast :color="color" @hidden="removeToast(key)">{{toasts[key]}}</Toast>
     </template>
   </div>
 </template>
