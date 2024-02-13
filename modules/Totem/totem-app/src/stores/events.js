@@ -10,7 +10,7 @@ export const useEventsStore = defineStore('events', {
         async loadEvents() {
             const data = await getEvents()
 
-            this.data = [...this.data, ...data.data]
+            this.data = data.data
         },
         setCurrentEvent(event) {
             const eventJson = JSON.stringify(event)
