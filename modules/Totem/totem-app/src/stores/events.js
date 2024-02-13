@@ -26,6 +26,9 @@ export const useEventsStore = defineStore('events', {
             }
 
             return JSON.parse(this.currentEventJson)
+        },
+        backgroundBaseUrl() {
+            return `${import.meta.env.VITE_BASE_URL}/uploads/events`
         }
     }
 })
