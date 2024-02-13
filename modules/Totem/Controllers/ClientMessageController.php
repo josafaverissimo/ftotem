@@ -13,7 +13,7 @@ class ClientMessageController extends BaseController
             'video' => [
                 'uploaded[video]',
                 'mime_in[video,video/mp4,video/webm]',
-                'max_size[video,10240]'
+                'max_size[video,20480]'
             ]
         ];
 
