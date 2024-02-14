@@ -12,7 +12,6 @@ class ClientMessageController extends BaseController
         $validation = [
             'video' => [
                 'uploaded[video]',
-                'mime_in[video,video/*]',
                 'max_size[video,61440]'
             ]
         ];
@@ -30,6 +29,17 @@ class ClientMessageController extends BaseController
         }
 
         $video = $this->request->getFile('video');
+        $type = explode('/', $video->getMimeType())[0];
+
+        if($type !== 'video') {
+            return $this->response->setJSON([
+                'success' => false,
+                'errors' => [
+                    'video' => 'O formato do arquivo não é válido'
+                ]
+            ]);
+        }
+
         $videoRandomName = $video->getRandomName();
         $video->move(ROOTPATH . 'public/uploads/clientsMessages', $videoRandomName);
 
