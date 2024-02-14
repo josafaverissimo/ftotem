@@ -19,7 +19,9 @@ onMounted(() => {
       <span class="title text-capitalize">{{props.title}}</span>
 
       <div class="img-wrapper shadow">
-        <img :src="props.imgSrc" alt="event image" loading="lazy"/>
+        <router-link to="/event" class="text-decoration-none">
+          <img :src="props.imgSrc" alt="event image" loading="lazy"/>
+        </router-link>
       </div>
     </div>
   </div>
@@ -40,7 +42,7 @@ onMounted(() => {
       border-top-left-radius: 1rem;
       padding: .5rem 1rem;
       text-align: center;
-      width: 20rem;
+      width: 80%;
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
