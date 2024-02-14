@@ -20,7 +20,10 @@ const router = createRouter({
     {
       path: '/event',
       name: 'eventShow',
-      component: () => import('../views/EventShowView.vue')
+      component: () => import('../views/EventShowView.vue'),
+      meta: {
+        auth: true
+      }
     },
     {
       path: '/:pathMatch(.*)',
