@@ -183,7 +183,7 @@ function chosenVideoHandler() {
             <button class="btn-stop" :class="!isRecording ? 'disabled': ''" @click="stopRecord">Parar {{stopTimer}}</button>
           </div>
 
-          <div class="not-allowed-record-wrapper" v-else>
+          <div class="not-allowed-record-wrapper w-100" v-else>
             <p class="not-allowed-record-text">Não foi possível acessar a câmera</p>
             <input type="file" name="chosen-video" capture="user" accept="video/*" ref="chosenVideoInput" hidden
               @change="chosenVideoHandler">
@@ -233,12 +233,12 @@ function chosenVideoHandler() {
       background-color: transparent;
       backdrop-filter: blur(12px);
       border: none;
-      width: 50%;
       padding: 1rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       border-radius: 1rem;
+      width: 40rem;
 
       .video-wrapper {
         width: 100%;
@@ -260,6 +260,7 @@ function chosenVideoHandler() {
         color: #fff;
         padding: .5rem 1.5rem;
         border-radius: 1rem;
+        text-align: center;
       }
 
       video {
@@ -269,6 +270,8 @@ function chosenVideoHandler() {
 
       .btn-actions-wrapper {
         display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         margin-top: .3rem;
         gap: 1rem;
 

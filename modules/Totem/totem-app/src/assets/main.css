@@ -2,6 +2,12 @@
 @import './bootstrap/font/bootstrap-icons.min.css';
 @import './css/animate.min.css';
 
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 body {
     width: 100vw;
     max-width: 100vw;

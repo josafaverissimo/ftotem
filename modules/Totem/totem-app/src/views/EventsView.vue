@@ -59,10 +59,8 @@ eventsStore.loadEvents()
 
         <template v-if="eventsStore.currentEvent">
           <div class="event-data-wrapper">
-            <router-link to="/event" class="text-decoration-none">
-              <EventCard :imgSrc="currentEventImg" :title="eventsStore.currentEvent.name"
-                class="animate__animated animate__fadeInUp"/>
-            </router-link>
+            <EventCard :imgSrc="currentEventImg" :title="eventsStore.currentEvent.name"
+              class="animate__animated animate__fadeInUp"/>
             <EventsClientsTable :clients="eventsClientsRows"/>
           </div>
         </template>
@@ -72,6 +70,7 @@ eventsStore.loadEvents()
 </template>
 
 <style scoped>
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -93,6 +92,7 @@ eventsStore.loadEvents()
 
     .event-metadata-wrapper {
       display: flex;
+      flex-direction: row;
       justify-content: space-between;
       align-items: flex-end;
       padding: .5rem;
@@ -107,6 +107,19 @@ eventsStore.loadEvents()
       }
       :last-child {
         flex-basis: 30%;
+      }
+    }
+
+    @media (max-width: 991px) {
+      .event-metadata-wrapper {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .event-data-wrapper {
+        flex-direction: column;
+        gap: 1.5rem;
       }
     }
   }
