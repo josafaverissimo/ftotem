@@ -12,7 +12,7 @@ class ClientMessageController extends BaseController
         $validation = [
             'video' => [
                 'uploaded[video]',
-                'mime_in[video,video/mp4,video/webm]',
+                'mime_in[video,video/*]',
                 'max_size[video,61440]'
             ]
         ];
