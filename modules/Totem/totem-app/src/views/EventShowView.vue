@@ -9,13 +9,16 @@ let videoStream = null
 let mediaRecorder = null
 let videoBlob = null
 
-const videoPlayer = ref(null)
+const allowedRecord = ref(!!navigator.mediaDevices)
+const videoRecording = ref(null)
 const videoRecorded = ref(null)
 const stopTimer = ref('')
 const beforeRecordingTimer = ref('')
 const isRecording = ref(false)
 const isRecorded = ref(false)
 const isSendingVideo = ref(false)
+
+const chosenVideoInput = ref(null)
 
 const toastContainer = ref(null)
 
@@ -26,16 +29,14 @@ const backgroundImgStyle = {
 
 function setStream(stream) {
   videoStream = stream
-  videoPlayer.value.srcObject = stream
-  mediaRecorder = new MediaRecorder(stream, {mimeType: 'video/webm'})
 }
 
 function startBeforeRecordingTimer() {
-  let initialValue = 0
+  let initialValue = 3
 
   return new Promise(resolve => {
     const interval = setInterval(() => {
-      if(initialValue === 3) {
+      if(initialValue === 0) {
         clearInterval(interval)
         beforeRecordingTimer.value = ''
 
@@ -43,7 +44,7 @@ function startBeforeRecordingTimer() {
         return
       }
 
-      beforeRecordingTimer.value = `${++initialValue}`
+      beforeRecordingTimer.value = `${initialValue--}`
     }, 1000)
   })
 }
@@ -66,7 +67,15 @@ function startStopTimer() {
 }
 
 async function startRecord() {
-  if(isRecording.value) {
+  if(isRecording.value || isSendingVideo.value) {
+    return
+  }
+
+  try {
+    await navigator.mediaDevices.getUserMedia({audio: true, video: true}).then(setStream)
+
+  } catch(error) {
+    allowedRecord.value = false
     return
   }
 
@@ -74,18 +83,19 @@ async function startRecord() {
   isRecorded.value = false
   videoRecorded.value.src = ''
   isRecording.value = false
+  videoRecording.value.srcObject = videoStream
 
   await startBeforeRecordingTimer()
 
   isRecording.value = true
 
+  mediaRecorder = new MediaRecorder(videoStream, {mimeType: 'video/webm'})
+
   const timerInterval = startStopTimer()
 
-  await navigator.mediaDevices.getUserMedia({audio: true, video: true}).then(setStream)
-  let chunks = []
 
   mediaRecorder.start()
-
+  let chunks = []
   mediaRecorder.addEventListener('dataavailable', event => {
     chunks.push(event.data)
   })
@@ -115,7 +125,7 @@ async function sendVideo() {
   isSendingVideo.value = true
 
   try {
-    const {success} = await uploadVideo(videoBlob)
+    const {success, errors} = await uploadVideo(videoBlob)
 
     if (success) {
       toastContainer.value.pushToast('Mensagem enviada', 'success')
@@ -126,7 +136,11 @@ async function sendVideo() {
       videoRecorded.value.src = ''
 
     } else {
-      toastContainer.value.pushToast('Houve um erro ao subir o arquivo. Por favor, Contate o administrador.', 'danger')
+      if(errors) {
+        toastContainer.value.pushToast(errors.video, 'danger')
+      } else {
+        throw new Error()
+      }
     }
   } catch(error) {
     toastContainer.value.pushToast('Houve um erro ao subir o arquivo. Por favor, Contate o administrador.', 'danger')
@@ -135,6 +149,18 @@ async function sendVideo() {
   }
 }
 
+function chosenVideoHandler() {
+  videoBlob = chosenVideoInput.value.files[0]
+
+  if(videoBlob.type.split('/')[0] !== 'video') {
+    toastContainer.value.pushToast('O arquivo não é um vídeo válido', 'danger')
+    return
+  }
+
+  videoRecorded.value.src = URL.createObjectURL(videoBlob)
+
+  isRecorded.value = true
+}
 </script>
 
 <template>
@@ -149,13 +175,25 @@ async function sendVideo() {
 
         <div class="video-wrapper">
           <span class="timer" v-if="!isRecording && !isRecorded">{{beforeRecordingTimer}}</span>
-          <video class="recording" ref="videoPlayer" muted autoplay v-if="isRecording"></video>
-          <video class="recorded" ref="videoRecorded" controls v-else></video>
+          <video class="recording" ref="videoRecording" muted autoplay :class="isRecording ? '' : 'd-none'"></video>
+          <video class="recorded" ref="videoRecorded" controls v-if="!isRecording"></video>
         </div>
 
-        <div class="btn-wrapper">
-          <button class="btn-record" @click="startRecord">Gravar</button>
-          <button class="btn-stop" :class="!isRecording ? 'disabled': ''" @click="stopRecord">Parar {{stopTimer}}</button>
+        <div class="btn-actions-wrapper">
+          <div class="allowed-record-wrapper" v-if="allowedRecord">
+            <button class="btn-record" @click="startRecord" :class="isSendingVideo || isRecording ? 'disabled' : ''">Gravar</button>
+            <button class="btn-stop" :class="!isRecording ? 'disabled': ''" @click="stopRecord">Parar {{stopTimer}}</button>
+          </div>
+
+          <div class="not-allowed-record-wrapper" v-else>
+            <p class="not-allowed-record-text">Não foi possível acessar a câmera</p>
+            <input type="file" name="chosen-video" capture="user" accept="video/*" ref="chosenVideoInput" hidden
+              @change="chosenVideoHandler">
+            <button class="choose-video" @click="chosenVideoInput.click" :class="isSendingVideo ? 'disabled' : ''">
+              Selecionar Vídeo do Dispositivo
+            </button>
+          </div>
+
           <button :class="isRecorded ? '': 'disabled'" @click="sendVideo">
             <span v-if="!isSendingVideo">Enviar</span>
             <Spinner class="s-1rem" v-else/>
@@ -222,8 +260,8 @@ async function sendVideo() {
       .title {
         background-color: #000c;
         color: #fff;
-        padding: .5rem 1rem;
-        border-radius: 4rem;
+        padding: .5rem 1.5rem;
+        border-radius: 1rem;
       }
 
       video {
@@ -231,28 +269,50 @@ async function sendVideo() {
         aspect-ratio: 4/3;
       }
 
-      .btn-wrapper {
+      .btn-actions-wrapper {
         display: flex;
-        gap: 1rem;
         margin-top: .3rem;
+        gap: 1rem;
+
+        .allowed-record-wrapper {
+          display: flex;
+          gap: 1rem;
+        }
+
+        .not-allowed-record-wrapper {
+          display: flex;
+          flex-direction: column;
+          gap: .2rem;
+          align-items: center;
+
+          .not-allowed-record-text {
+            background-color: #DC143C88;
+            box-shadow: 1px 1px 16px #0005;
+            color: #fff;
+            font-weight: bold;
+            padding: .5rem;
+            border-radius: .5rem;
+          }
+        }
 
         button {
-          border: none;
           outline: none;
           padding: .5rem 1rem;
           border-radius: 5rem;
           background-color: #000b;
           color: #fff;
           font-weight: bold;
-          box-shadow: 1px 1px 16px #000;
+          border: .225rem solid #363434;
         }
 
         .btn-record {
           background-color: #1034A6;
+          border-color: #5e80ff;
         }
 
         .btn-stop {
           background-color: #DC143C;
+          border-color: #f55273;
         }
 
         .disabled {
