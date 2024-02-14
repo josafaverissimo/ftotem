@@ -13,11 +13,16 @@ class ClientMessageController extends BaseController
             'video' => [
                 'uploaded[video]',
                 'mime_in[video,video/mp4,video/webm]',
-                'max_size[video,20480]'
+                'max_size[video,61440]'
             ]
         ];
+        $customMessages = [
+          'video' => [
+              'max_size' => 'O arquivo é muito grande. Tente Gravar com um tempo menor.'
+          ]
+        ];
 
-        if(!$this->validate($validation)) {
+        if(!$this->validate($validation, $customMessages)) {
             return $this->response->setJSON([
                 'success' => false,
                 'errors' => $this->validator->getErrors()
