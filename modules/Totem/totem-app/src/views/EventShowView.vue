@@ -168,8 +168,6 @@ function chosenVideoHandler() {
 
   <div class="background-image wrapper" :style="backgroundImgStyle">
     <div class="container">
-      <div class="video"></div>
-
       <div class="card border">
         <span class="h2 title">Deixe uma Mensagem</span>
 
@@ -224,7 +222,7 @@ function chosenVideoHandler() {
 
     .container {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
       height: 100vh;
     }
