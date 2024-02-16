@@ -1,9 +1,14 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useRouter } from "vue-router";
 import { useEventsStore } from "@/stores/events.js";
 import { uploadVideo } from "@/services/clientMessage.js";
+import { getByHash } from '@/services/events.js'
 import Spinner from "@/components/Spinner.vue";
 import ToastContainer from "@/components/ToastContainer.vue";
+
+const router = useRouter()
+const { hash: eventHash } = router.currentRoute.value.params
 
 let videoStream = null
 let mediaRecorder = null
@@ -23,9 +28,9 @@ const chosenVideoInput = ref(null)
 const toastContainer = ref(null)
 
 const eventsStore = useEventsStore()
-const backgroundImgStyle = {
-  backgroundImage: `url(${eventsStore.backgroundBaseUrl}/${eventsStore.currentEvent.background})`
-}
+const backgroundImgStyle = computed(() => ({
+  backgroundImage: `url(${eventsStore.backgroundBaseUrl}/${eventsStore.currentEvent?.background})`
+}))
 
 function setStream(stream) {
   videoStream = stream
@@ -161,6 +166,24 @@ function chosenVideoHandler() {
 
   isRecorded.value = true
 }
+
+async function setEventIfNotInStore() {
+  if(eventsStore.currentEvent) {
+    return
+  }
+
+  const {data} = await getByHash(eventHash)
+
+  if(!data) {
+    router.push('/')
+    return
+  }
+
+  eventsStore.setCurrentEvent(data)
+}
+
+setEventIfNotInStore()
+
 </script>
 
 <template>
