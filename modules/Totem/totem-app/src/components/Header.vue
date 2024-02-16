@@ -1,6 +1,7 @@
 <script setup>
 import { useJwtStore } from "@/stores/jwt.js";
 import {computed} from "vue";
+import { logout } from "@/services/auth.js";
 
 const jwtStore = useJwtStore()
 const firstName = computed(() => {
@@ -21,7 +22,13 @@ const firstName = computed(() => {
 
       <slot></slot>
 
-      <span class="text-capitalize" v-if="firstName">Olá, {{firstName}}</span>
+      <div class="d-flex flex-column">
+        <span class="text-capitalize" v-if="firstName">Olá, {{firstName}}</span>
+
+        <button class="btn btn-sm btn-outline-dark rounded-5 align-self-center px-3" @click="logout">
+          <i class="bi bi-escape h5"></i>
+        </button>
+      </div>
     </nav>
   </header>
 </template>
