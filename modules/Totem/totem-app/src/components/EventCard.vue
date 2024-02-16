@@ -1,14 +1,17 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed } from "vue";
+import { useEventsStore } from "@/stores/events.js";
 
-const props = defineProps(['imgSrc', 'title', 'clients'])
+const props = defineProps(['event'])
 
-const tooltips = ref([])
+const eventsStore = useEventsStore()
 
-onMounted(() => {
-  tooltips.value.forEach(tooltipElement => {
-    new bootstrap.Tooltip(tooltipElement)
-  })
+const eventImg = computed(() => {
+  return `${eventsStore.backgroundBaseUrl}/${props.event.background}`
+})
+
+const eventLink = computed(() => {
+  return `/event/${props.event.hash}`
 })
 
 </script>
@@ -16,11 +19,11 @@ onMounted(() => {
 <template>
   <div class="event-card-wrapper">
     <div class="img-title-wrapper">
-      <span class="title text-capitalize">{{props.title}}</span>
+      <span class="title text-capitalize">{{props.event.name}}</span>
 
       <div class="img-wrapper shadow">
-        <router-link to="/event" class="text-decoration-none">
-          <img :src="props.imgSrc" alt="event image" loading="lazy"/>
+        <router-link :to="eventLink" class="text-decoration-none">
+          <img :src="eventImg" alt="event image" loading="lazy"/>
         </router-link>
       </div>
     </div>
