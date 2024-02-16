@@ -41,4 +41,8 @@ $routes->group('events', static function($routes) {
         $routes->post('save', [\Modules\Manager\Controllers\EventsCategoriesController::class, 'save'], ['as' => 'events.categories.save']);
         $routes->delete('/', [\Modules\Manager\Controllers\EventsCategoriesController::class, 'delete'], ['as' => 'events.categories.delete']);
     });
+
+    $routes->group('videos', static function($routes) {
+        $routes->get('/', [\Modules\Manager\Controllers\EventsVideos::class, 'index'], ['as' => 'events.videos']);
+    });
 });

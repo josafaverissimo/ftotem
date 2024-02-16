@@ -40,6 +40,9 @@
                 <li class="sidebar__nav-item">
                     <a href="<?= url_to('events.categories') ?>" class="sidebar__nav-link">Categorias</a>
                 </li>
+                <li class="sidebar__nav-item">
+                    <a href="<?= url_to('events.videos') ?>" class="sidebar__nav-link">Vídeos</a>
+                </li>
             </ul>
         </li>
     </ul>
