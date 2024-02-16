@@ -39,7 +39,7 @@ class EventModel extends Model
 
     // Callbacks
     protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
+    protected $beforeInsert   = ['setHash'];
     protected $afterInsert    = [];
     protected $beforeUpdate   = [];
     protected $afterUpdate    = [];
@@ -47,4 +47,11 @@ class EventModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function setHash(array $data): array
+    {
+        $data['data']['hash'] = md5(uniqid() . time());
+
+        return $data;
+    }
 }
