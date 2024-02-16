@@ -3,9 +3,8 @@ import Header from '@/components/Header.vue'
 import EventCard from '@/components/EventCard.vue'
 import EventsClientsTable from '@/components/EventClientsTable.vue'
 import MySelect from '@/components/MySelect.vue'
-import { logout } from "@/services/auth.js";
 import { useEventsStore } from '@/stores/events.js'
-import { computed, reactive } from "vue";
+import { computed, reactive } from "vue"
 
 const eventsStore = useEventsStore()
 const eventsOptions = computed(() => eventsStore.data.map((event, index) => ({
@@ -29,27 +28,23 @@ eventsStore.loadEvents()
 
 <template>
   <div class="wrapper">
-    <div class="actions-buttons-wrapper">
-      <button class="btn btn-dark rounded-5" @click="logout">
-        <i class="bi bi-escape fs-5"></i>
-      </button>
-    </div>
-
     <Header class="animate__animated animate__fadeInDown">
       <h1 class="display-2 fw-bolder">Eventos</h1>
     </Header>
 
     <div class="event-wrapper animate__animated animate__fadeInRight">
-
       <div class="container">
-        <div class="event-metadata-wrapper">
-          <div class="event-category">
+        <div class="event-metadata-wrapper" :class="eventsStore.currentEvent ? 'splitThem' : ''">
+          <div class="event-category"
+            :class="eventsStore.currentEvent ? '' : 'd-none'">
             <span class="text-capitalize h2 animate__animated animate__fadeIn" v-if="eventsStore.currentEvent">
               {{eventsStore.currentEvent.category}}
             </span>
           </div>
 
-          <MySelect :options="eventsOptions" @change="setCurrentEventByOptionValue"/>
+          <div>
+            <MySelect :style="{minWidth: '100%'}" :options="eventsOptions" @change="setCurrentEventByOptionValue"/>
+          </div>
         </div>
 
         <template v-if="eventsStore.currentEvent">
@@ -71,16 +66,6 @@ eventsStore.loadEvents()
   flex-direction: column;
   height: 100vh;
 
-  .actions-buttons-wrapper {
-    position: absolute;
-    z-index: 1000;
-    bottom: 10px;
-    right: 25px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
   .event-wrapper {
     height: 100%;
     overflow-y: scroll;
@@ -92,6 +77,10 @@ eventsStore.loadEvents()
       align-items: flex-end;
       padding: .5rem;
       margin: .5rem 0;
+    }
+
+    .event-metadata-wrapper:has(.event-category.d-none) {
+      justify-content: center;
     }
 
     .event-data-wrapper {
