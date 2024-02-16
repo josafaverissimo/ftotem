@@ -22,6 +22,9 @@ const beforeRecordingTimer = ref('')
 const isRecording = ref(false)
 const isRecorded = ref(false)
 const isSendingVideo = ref(false)
+const recordOrRestartText = computed(() => {
+  return isRecorded.value ? 'Recomeçar' : 'Gravar'
+})
 
 const chosenVideoInput = ref(null)
 
@@ -56,6 +59,7 @@ function startBeforeRecordingTimer() {
 
 function startStopTimer() {
   let initialValue = 30
+  stopTimer.value = `(${initialValue})`
 
   const interval = setInterval( () => {
     if(initialValue === 0) {
@@ -65,22 +69,28 @@ function startStopTimer() {
       return
     }
 
-    stopTimer.value = `(${initialValue--})`
+    stopTimer.value = `(${--initialValue})`
   }, 1000)
 
   return interval
 }
 
-async function startRecord() {
+async function startRecord(event) {
   if(isRecording.value || isSendingVideo.value) {
     return
   }
+
+  const buttonStart = event.target
+  buttonStart.classList.add('disabled', 'pe-none')
 
   try {
     await navigator.mediaDevices.getUserMedia({audio: true, video: true}).then(setStream)
 
   } catch(error) {
     allowedRecord.value = false
+
+    buttonStart.classList.remove('disabled', 'pe-none')
+
     return
   }
 
@@ -115,6 +125,7 @@ async function startRecord() {
     chunks = []
     videoRecorded.value.src = URL.createObjectURL(blob)
     isRecorded.value = true
+    buttonStart.classList.remove('disabled', 'pe-none')
   })
 }
 
@@ -189,6 +200,12 @@ setEventIfNotInStore()
 <template>
   <ToastContainer ref="toastContainer" />
 
+  <div class="actions-buttons-wrapper border p-2 rounded-5">
+    <router-link to="/" class="btn btn-dark rounded-5">
+      <i class="bi bi-arrow-left-circle fs-5"></i>
+    </router-link>
+  </div>
+
   <div class="background-image wrapper" :style="backgroundImgStyle">
     <div class="container">
       <div class="card border">
@@ -202,8 +219,12 @@ setEventIfNotInStore()
 
         <div class="btn-actions-wrapper">
           <div class="allowed-record-wrapper" v-if="allowedRecord">
-            <button class="btn-record" @click="startRecord" :class="isSendingVideo || isRecording ? 'disabled' : ''">Gravar</button>
-            <button class="btn-stop" :class="!isRecording ? 'disabled': ''" @click="stopRecord">Parar {{stopTimer}}</button>
+            <button class="btn-record" @click="startRecord" :class="isSendingVideo || isRecording ? 'disabled' : ''">
+              {{recordOrRestartText}}
+            </button>
+            <button class="btn-stop" :class="!isRecording ? 'disabled': ''" @click="stopRecord">
+              Parar {{stopTimer}}
+            </button>
           </div>
 
           <div class="not-allowed-record-wrapper w-100" v-else>
@@ -229,6 +250,18 @@ setEventIfNotInStore()
   .s-1rem {
     width: 1rem;
     height: 1rem;
+  }
+
+  .actions-buttons-wrapper {
+    position: absolute;
+    z-index: 1000;
+    bottom: 10px;
+    right: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    backdrop-filter: blur(12px);
   }
 
   .background-image {
