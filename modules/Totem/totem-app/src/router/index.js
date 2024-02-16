@@ -18,7 +18,7 @@ const router = createRouter({
       component: () => import('../views/LoginView.vue')
     },
     {
-      path: '/event',
+      path: '/event/:hash',
       name: 'eventShow',
       component: () => import('../views/EventShowView.vue'),
       meta: {
