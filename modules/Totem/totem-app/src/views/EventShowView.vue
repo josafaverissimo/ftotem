@@ -141,7 +141,7 @@ async function sendVideo() {
   isSendingVideo.value = true
 
   try {
-    const {success, errors} = await uploadVideo(videoBlob)
+    const {success, errors} = await uploadVideo(eventHash, videoBlob)
 
     if (success) {
       toastContainer.value.pushToast('Mensagem enviada', 'success')
