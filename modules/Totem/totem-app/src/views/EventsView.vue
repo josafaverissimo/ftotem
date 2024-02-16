@@ -13,13 +13,8 @@ const eventsOptions = computed(() => eventsStore.data.map((event, index) => ({
   textContent: event.name,
   category: event.category
 })))
-const currentEventImg = computed(() => {
-  const eventBackground = eventsStore.currentEvent.background
-
-  return eventBackground ? `${import.meta.env.VITE_BASE_URL}/uploads/events/${eventBackground}` : ''
-})
 const eventsClientsRows = computed(() => {
-  const clients = eventsStore.currentEvent.clients?.split(', ')
+  const clients = eventsStore.currentEvent?.clients?.split(', ')
 
   return clients || ['Nenhum cliente na lista.']
 })
@@ -59,7 +54,7 @@ eventsStore.loadEvents()
 
         <template v-if="eventsStore.currentEvent">
           <div class="event-data-wrapper">
-            <EventCard :imgSrc="currentEventImg" :title="eventsStore.currentEvent.name"
+            <EventCard :event="eventsStore.currentEvent"
               class="animate__animated animate__fadeInUp"/>
             <EventsClientsTable :clients="eventsClientsRows"/>
           </div>
