@@ -47,7 +47,7 @@ class EventsCategoriesController extends ManagerController
             ])
         ];
 
-        return view('\Modules\Manager\Views\Pages\Manager/index', $data);
+        return view('\Modules\Manager\Views\Pages\Manager\index', $data);
     }
 
     public function getAll(): ResponseInterface
