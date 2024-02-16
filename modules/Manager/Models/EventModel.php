@@ -29,7 +29,7 @@ class EventModel extends Model
     // Validation
     protected $validationRules      = [
         'name' => 'required|custom_alpha_spaces|max_length[255]|is_unique[ft_events.name]',
-        'background' => 'required|max_length[255]',
+        'background' => 'required|max_length[300]',
         'active' => 'permit_empty|in_list[T,F]',
         'event_category_id' => 'required|numeric'
     ];
