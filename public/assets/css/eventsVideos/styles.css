@@ -1,0 +1,35 @@
+.events-videos-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+
+    .events-videos-wrapper__select-event {
+        display: flex;
+        justify-content: center;
+    }
+
+    .events-videos-wrapper__videos {
+        width: 100%;
+
+        .videos-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+
+            p {
+                text-transform: capitalize;
+            }
+        }
+
+        video {
+            width: 100%;
+            object-fit: contain;
+        }
+    }
+}
+
+video {
+    border-radius: .5rem;
+}
