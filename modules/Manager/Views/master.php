@@ -1,5 +1,6 @@
 <?php
     /** @var ?array $styles */
+    /** @var ?array $scripts */
 ?>
 
 <!doctype html>
@@ -62,6 +63,13 @@
     <script src="<?= base_url('assets/js/utils/toastify.js') ?>"></script>
     <script src="<?= base_url('assets/js/sidebar.js') ?>" type="module"></script>
 
-    <?= $this->renderSection('js') ?>
+    <?php if(!empty($scripts)): ?>
+        <?php foreach($scripts as $script): ?>
+            <script
+                    src="<?= base_url($script['src']) ?>"
+                <?= isset($script['type']) ? "type='{$script['type']}'" : '' ?>
+            ></script>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </body>
 </html>
