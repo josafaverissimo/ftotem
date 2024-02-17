@@ -60,7 +60,7 @@ class ClientMessageController extends BaseController
         }
 
         $videoRandomName = $video->getRandomName();
-        $moved = $video->move(ROOTPATH . "/writable/uploads/events-videos/{$event->id}", $videoRandomName);
+        $moved = $video->move(ROOTPATH . "/public/uploads/events-videos/{$event->id}", $videoRandomName);
 
         if(!$moved) {
             return $this->response->setJSON([
