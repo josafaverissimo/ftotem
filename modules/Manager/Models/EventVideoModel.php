@@ -40,4 +40,15 @@ class EventVideoModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getVideosWithEventByEventId(int $eventId): array
+    {
+        return $this->select('ft_events_videos.id, ft_events_videos.video, ft_events_videos.created_at,
+            ft_events.id event_id, ft_events.name event, ft_events_categories.name category')
+            ->join('ft_events', 'ft_events.id = ft_events_videos.event_id')
+            ->join('ft_events_categories', 'ft_events_categories.id = ft_events.event_category_id')
+            ->where('ft_events.id', $eventId)
+            ->orderBy('id', 'desc')
+            ->findAll();
+    }
 }
