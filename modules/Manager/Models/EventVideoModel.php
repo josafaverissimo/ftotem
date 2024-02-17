@@ -4,20 +4,15 @@ namespace Modules\Manager\Models;
 
 use CodeIgniter\Model;
 
-class EventModel extends Model
+class EventVideoModel extends Model
 {
-    protected $table            = 'ft_events';
+    protected $table            = 'ft_events_videos';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
-    protected $returnType       = '\Modules\Manager\Entities\EventEntity';
+    protected $returnType       = '\Modules\Manager\Entities\EventVideoEntity';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = [
-        'name',
-        'background',
-        'active',
-        'event_category_id'
-    ];
+    protected $allowedFields    = ['video', 'event_id'];
 
     // Dates
     protected $useTimestamps = true;
@@ -28,10 +23,8 @@ class EventModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'name' => 'required|custom_alpha_spaces|max_length[255]|is_unique[ft_events.name]',
-        'background' => 'required|max_length[300]',
-        'active' => 'permit_empty|in_list[T,F]',
-        'event_category_id' => 'required|numeric'
+        'video' => 'required|max_length[300]',
+        'event_id' => 'required|numeric'
     ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
@@ -39,7 +32,7 @@ class EventModel extends Model
 
     // Callbacks
     protected $allowCallbacks = true;
-    protected $beforeInsert   = ['setHash'];
+    protected $beforeInsert   = [];
     protected $afterInsert    = [];
     protected $beforeUpdate   = [];
     protected $afterUpdate    = [];
@@ -48,10 +41,14 @@ class EventModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function setHash(array $data): array
+    public function getVideosWithEventByEventId(int $eventId): array
     {
-        $data['data']['hash'] = md5(uniqid() . time());
-
-        return $data;
+        return $this->select('ft_events_videos.id, ft_events_videos.video, ft_events_videos.created_at,
+            ft_events.id event_id, ft_events.name event, ft_events_categories.name category')
+            ->join('ft_events', 'ft_events.id = ft_events_videos.event_id')
+            ->join('ft_events_categories', 'ft_events_categories.id = ft_events.event_category_id')
+            ->where('ft_events.id', $eventId)
+            ->orderBy('id', 'desc')
+            ->findAll();
     }
 }

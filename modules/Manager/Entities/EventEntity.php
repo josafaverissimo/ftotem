@@ -15,6 +15,7 @@ class EventEntity extends Entity
 
     protected $attributes = [
         'id' => null,
+        'hash' => null,
         'name' => null,
         'background' => null,
         'active' => null,
@@ -27,6 +28,7 @@ class EventEntity extends Entity
     protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
     protected $casts   = [
         'id' => 'integer',
+        'hash' => 'string',
         'name' => 'string',
         'background' => 'string',
         'active' => 'string',

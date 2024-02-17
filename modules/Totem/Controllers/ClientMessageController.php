@@ -4,6 +4,9 @@ namespace Modules\Totem\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
+use Modules\Manager\Entities\EventVideoEntity;
+use Modules\Manager\Models\EventModel;
+use Modules\Manager\Models\EventVideoModel;
 
 class ClientMessageController extends BaseController
 {
@@ -13,6 +16,9 @@ class ClientMessageController extends BaseController
             'video' => [
                 'uploaded[video]',
                 'max_size[video,61440]'
+            ],
+            'event_hash' => [
+                'required'
             ]
         ];
         $customMessages = [
@@ -40,8 +46,34 @@ class ClientMessageController extends BaseController
             ]);
         }
 
+        $eventHash = $this->request->getPost('event_hash');
+        $managerEventModel = new EventModel;
+        $event = $managerEventModel->select('id')->where('hash', $eventHash)->first();
+
+        if(!$event) {
+            return $this->response->setJSON([
+                'success' => false,
+                'errors' => [
+                    'video' => 'Evento não encontrado. Entre em contato com o administrador.'
+                ]
+            ]);
+        }
+
         $videoRandomName = $video->getRandomName();
-        $video->move(ROOTPATH . 'public/uploads/clientsMessages', $videoRandomName);
+        $moved = $video->move(ROOTPATH . "/public/uploads/events-videos/{$event->id}", $videoRandomName);
+
+        if(!$moved) {
+            return $this->response->setJSON([
+                'success' => false
+            ]);
+        }
+
+        $managerEventVideoEntity = new EventVideoEntity;
+        $managerEventVideoEntity->video = $videoRandomName;
+        $managerEventVideoEntity->event_id = $event->id;
+
+        $managerEventVideoModel = new EventVideoModel;
+        $managerEventVideoModel->insert($managerEventVideoEntity);
 
         return $this->response->setJSON([
             'success' => true

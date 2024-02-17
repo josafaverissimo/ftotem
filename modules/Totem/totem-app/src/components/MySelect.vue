@@ -104,12 +104,14 @@ function removeAccents(string) {
       </option>
     </select>
 
-    <label class="readonly-input">
+    <div class="placeholder-wrapper">
       <span class="my-select-placeholder" ref="mySelectPlaceholderElement">Selecione um Evento</span>
 
-      <input type="text" class="form-control form-control-lg" readonly @focus="showOptions"
-        ref="readonlySelectedOptionInputElement">
-    </label>
+      <label class="readonly-input">
+        <input type="text" class="form-control form-control-lg" readonly @focus="showOptions"
+          ref="readonlySelectedOptionInputElement">
+      </label>
+    </div>
 
     <div class="list" ref="listElement">
       <label>
@@ -138,25 +140,42 @@ function removeAccents(string) {
 
 <style scoped>
 .my-select {
+  margin-top: 1.7rem;
   position: relative;
 
   select {
     display: none;
   }
 
-  .readonly-input {
-    cursor: text;
-  }
-
-  .my-select-placeholder {
+  .placeholder-wrapper {
+    display: flex;
+    flex-direction: column;
     position: relative;
-    top: 2rem;
-    left: 0.625rem;
-    transition: all .25s ease-in-out;
-  }
-  .my-select-placeholder.filled {
-    top: 0;
-    left: 0;
+
+    .readonly-input {
+      cursor: text;
+
+      input {
+        font-size: 1.6rem;
+      }
+    }
+
+    .my-select-placeholder {
+      position: absolute;
+      display: flex;
+      top: 20%;
+      height: 100%;
+      padding: 0 0.625rem;
+      transition: all .25s ease-in-out;
+      pointer-events: none;
+      font-size: 1.3rem;
+    }
+
+    .my-select-placeholder.filled {
+      top: -1.8rem;
+      padding: 0;
+      align-items: flex-start;
+    }
   }
 
   .list {

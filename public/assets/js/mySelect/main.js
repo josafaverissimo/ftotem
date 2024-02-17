@@ -126,11 +126,12 @@ export class MySelect {
         this.__selectLiOption(li)
         updateFieldValue(this.__inputReadonly, li.textContent)
 
-        this.__onChange()
+        this.__onChange(this.__selectedOptions)
     }
 
     changeTo(value) {
         this.__changeByLi(this.__getLiOptionByValue(value))
+        this.__mySelectList.classList.remove('d-block')
     }
 
     changeToByTextContent(textContent) {

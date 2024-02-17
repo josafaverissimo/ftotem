@@ -31,6 +31,7 @@ $routes->group('clients', static function($routes) {
 $routes->group('events', static function($routes) {
     $routes->get('/', [\Modules\Manager\Controllers\EventsController::class, 'index'], ['as' => 'events']);
     $routes->get('get', [\Modules\Manager\Controllers\EventsController::class, 'get'], ['as' => 'events.get']);
+    $routes->get('getAll', [\Modules\Manager\Controllers\EventsController::class, 'getAll'], ['as' => 'events.getAll']);
     $routes->post('save', [\Modules\Manager\Controllers\EventsController::class, 'save'], ['as' => 'events.save']);
     $routes->delete('/', [\Modules\Manager\Controllers\EventsController::class, 'delete'], ['as' => 'events.delete']);
 
@@ -40,5 +41,17 @@ $routes->group('events', static function($routes) {
         $routes->get('getAll', [\Modules\Manager\Controllers\EventsCategoriesController::class, 'getAll'], ['as' => 'events.categories.getAll']);
         $routes->post('save', [\Modules\Manager\Controllers\EventsCategoriesController::class, 'save'], ['as' => 'events.categories.save']);
         $routes->delete('/', [\Modules\Manager\Controllers\EventsCategoriesController::class, 'delete'], ['as' => 'events.categories.delete']);
+    });
+
+    $routes->group('videos', static function($routes) {
+        $routes->get('/', [\Modules\Manager\Controllers\EventsVideos::class, 'index'], ['as' => 'events.videos']);
+        $routes->delete('delete/(:num)',
+            [\Modules\Manager\Controllers\EventsVideos::class, 'delete'],
+            ['as' => 'events.videos.delete']
+        );
+        $routes->get('getVideosDataByEventId/(:num)',
+            [\Modules\Manager\Controllers\EventsVideos::class, 'getVideosDataByEventId'],
+            ['as' => 'events.videos.getVideosDataByEventId']
+        );
     });
 });

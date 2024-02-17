@@ -8,6 +8,8 @@ use Modules\Manager\Models\EventClientModel;
 use Modules\Manager\Models\EventModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 use CodeIgniter\HTTP\ResponseInterface;
+use Modules\Manager\Repositories\EventsRepository;
+use Modules\Manager\Services\EventsService;
 
 class EventsController extends ManagerController
 {
@@ -26,13 +28,19 @@ class EventsController extends ManagerController
         'created_at' => 'applyDateBrFormat'
     ];
 
+    readonly private EventsService $eventsService;
+
     public function __construct()
     {
         helper('masks');
 
-        parent::__construct(new EventModel());
+        $model = new EventModel();
+
+        parent::__construct($model);
 
         $this->tableBodyFormatters['background'] = fn($backgroundPath) => "events/{$backgroundPath}";
+
+        $this->eventsService = new EventsService(new EventsRepository($model));
     }
 
     public function index(): string
@@ -206,6 +214,15 @@ class EventsController extends ManagerController
         return $this->response->setJSON([
             'pageCount' => $this->model->pager->getPageCount(),
             'data' => $this->getTableDataBody($rows)
+        ]);
+    }
+
+    public function getAll(): ResponseInterface
+    {
+        $columnsString = 'id, name';
+
+        return $this->response->setJSON([
+            'data' => $this->eventsService->getAll($columnsString)
         ]);
     }
 }

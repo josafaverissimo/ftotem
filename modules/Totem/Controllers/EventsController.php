@@ -15,14 +15,14 @@ class EventsController extends BaseController
         $this->managerEventModel = new EventModel;
     }
 
-    public function getAll(): ResponseInterface
+    private function prepareGetQuery(): void
     {
-        $this->managerEventModel->select('ft_events.name, ft_events.background, ft_events.active,
+        $this->managerEventModel->select('ft_events.hash, ft_events.name, ft_events.background, ft_events.active,
             ft_events_categories.name as category, GROUP_CONCAT(ft_clients.name SEPARATOR \',\') as clients'
         );
         $this->managerEventModel->join(
             'ft_events_categories',
-            'ft_events_categories.id =ft_events.event_category_id'
+            'ft_events_categories.id = ft_events.event_category_id'
         );
         $this->managerEventModel->join(
             'ft_events_clients',
@@ -37,9 +37,23 @@ class EventsController extends BaseController
         $this->managerEventModel->groupBy('ft_events.id');
         $this->managerEventModel->orderBy('ft_events.name', 'asc');
         $this->managerEventModel->having('ft_events.active', 'T');
+    }
+
+    public function getAll(): ResponseInterface
+    {
+        $this->prepareGetQuery();
 
         return $this->response->setJSON([
             'data' => $this->managerEventModel->findAll()
+        ]);
+    }
+
+    public function getByHash($hash): ResponseInterface
+    {
+        $this->prepareGetQuery();
+
+        return $this->response->setJSON([
+            'data' => $this->managerEventModel->where('hash', $hash)->first()
         ]);
     }
 }
