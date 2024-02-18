@@ -138,6 +138,10 @@ function stopRecord() {
 }
 
 async function sendVideo() {
+  if(isSendingVideo.value) {
+    return
+  }
+
   isSendingVideo.value = true
 
   try {
