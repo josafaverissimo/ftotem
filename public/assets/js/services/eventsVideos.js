@@ -9,7 +9,7 @@ export class EventsVideosService {
         return this.__requester.get(`/getVideosDataByEventId/${eventId}`).then(response => response.data)
     }
 
-    delete(videoId) {
-        return this.__requester.delete(`/delete/${videoId}`).then(response => response.data)
+    delete(videoId, videoEventId, videoFilename) {
+        return this.__requester.delete(`/delete/${videoId}/${videoEventId}/${videoFilename}`).then(response => response.data)
     }
 }
