@@ -45,7 +45,7 @@ $routes->group('events', static function($routes) {
 
     $routes->group('videos', static function($routes) {
         $routes->get('/', [\Modules\Manager\Controllers\EventsVideos::class, 'index'], ['as' => 'events.videos']);
-        $routes->delete('delete/(:num)',
+        $routes->delete('delete/(:num)/(:num)/(:segment)',
             [\Modules\Manager\Controllers\EventsVideos::class, 'delete'],
             ['as' => 'events.videos.delete']
         );
