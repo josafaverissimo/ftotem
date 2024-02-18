@@ -14,6 +14,6 @@ class EventsRepository
      */
     public function getAll(string $columnsString = '*'): array
     {
-        return $this->eventModel->select($columnsString)->findAll();
+        return $this->eventModel->select($columnsString)->orderBy('name', 'asc')->findAll();
     }
 }
