@@ -62,9 +62,15 @@ a.sidebar__nav-link {
     padding: .6rem 0;
     border-left: 3px solid transparent;
     width: 100%;
+    transition: all .1s;
 }
 
 .sidebar__nav-link:hover {
+    background-color: #3D3B3C;
+    border-left: 3px solid #F7C873;
+}
+
+.sidebar__nav:not(:has(.sidebar__nav-link:hover)) .sidebar__nav-link.active {
     background-color: #3D3B3C;
     border-left: 3px solid #F7C873;
 }
