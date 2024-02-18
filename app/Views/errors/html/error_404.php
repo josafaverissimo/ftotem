@@ -79,6 +79,8 @@
                 <?= lang('Errors.sorryCannotFind') ?>
             <?php endif; ?>
         </p>
+
+        <a href="<?= route_to('dashboard') ?>">Voltar à Dashboard</a>
     </div>
 </body>
 </html>
