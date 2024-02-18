@@ -39,7 +39,9 @@
             <thead>
                 <tr>
                     <?php foreach($columns as $columName): ?>
-                        <th><?= esc($columName) ?></th>
+                        <th data-original-name="<?= $columName ?>">
+                            <?= esc(lang("Words.{$columName}")) ?>
+                        </th>
                     <?php endforeach; ?>
                 </tr>
             </thead>

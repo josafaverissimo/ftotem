@@ -88,7 +88,7 @@ export class MyTable {
         this.__orderColumnName = column
         this.__resetCheckedRows()
         const tableEvent = this.__getTableEvent()
-        const th = [].find.call(this.__table.querySelectorAll('th'), th => th.textContent === column)
+        const th = [].find.call(this.__table.querySelectorAll('th'), th => th.dataset.originalName === column)
 
         th.dataset.order = th.dataset.order === 'asc' ? 'desc' : 'asc'
 
@@ -354,7 +354,7 @@ export class MyTable {
                 }
 
                 this.__order = th.dataset.order
-                this.__orderColumnName = th.textContent
+                this.__orderColumnName = th.dataset.originalName
 
                 this.__resetCheckedRows()
                 const tableEvent = this.__getTableEvent()
@@ -364,7 +364,7 @@ export class MyTable {
                 this.__onOrderBy(tableEvent)
             })
 
-            this.__tableColumnsName.push(th.textContent)
+            this.__tableColumnsName.push(th.dataset.originalName)
         })
 
         const firstHeader = headers[0]
