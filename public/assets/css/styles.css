@@ -155,8 +155,9 @@ header img {
     }
 
     header img {
-        width: 5rem;
-        height: 5rem;
+        width: 7rem;
+        height: 7rem;
         margin-bottom: 0;
+        object-fit: contain;
     }
 }
