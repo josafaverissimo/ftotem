@@ -117,12 +117,15 @@ export class EventsVideosPage {
             const modal = document.querySelector('#confirm-delete')
             const modalVideoContainer = modal.querySelector('.modal__video-container')
             const bsModal = bootstrap.Modal.getOrCreateInstance(modal)
+            const deleteButton = modal.querySelector('button.delete')
 
             videoElement.style.width = '100%'
             modalVideoContainer.innerHTML = ''
             modalVideoContainer.appendChild(videoElement.cloneNode(true))
 
-            modal.querySelector('button.delete').dataset.videoId = video.id
+            deleteButton.dataset.videoId = video.id
+            deleteButton.dataset.videoEventId = video.event_id
+            deleteButton.dataset.videoFilename = video.video
 
             bsModal.show()
         })
@@ -151,7 +154,7 @@ export class EventsVideosPage {
         const bsModal = bootstrap.Modal.getOrCreateInstance(modal)
 
         deleteButton.addEventListener('click', async () => {
-            const { videoId } = deleteButton.dataset
+            const { videoId, videoEventId, videoFilename } = deleteButton.dataset
 
             if(!videoId) {
                 return
@@ -160,22 +163,20 @@ export class EventsVideosPage {
             deleteButton.classList.add('disabled', 'pe-none')
 
             try {
-                const data = await this.__eventsVideosService.delete(videoId)
+                const data = await this.__eventsVideosService.delete(videoId, videoEventId, videoFilename)
 
                 if(data.success) {
                     bsModal.hide()
                     toastify('Vídeo deletado com sucesso', 'success')
                     document.querySelector(`li[data-video-id="${videoId}"]`).remove()
-                    return
+                } else {
+                    toastify('Não foi possível deletar o vídeo', 'danger')
                 }
-
-                toastify('Não foi possível deletar o vídeo', 'danger')
             } catch(error) {
-                console.log(error)
-                toastify('Não foi possível deletat o vídeo devido a um erro interno', 'danger')
+                toastify('Não foi possível deletar o vídeo devido a um erro interno', 'danger')
+            } finally {
+                deleteButton.classList.remove('disabled', 'pe-none')
             }
-
-            deleteButton.classList.remove('disabled', 'pe-none')
         })
     }
 
