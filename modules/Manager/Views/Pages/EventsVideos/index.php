@@ -12,8 +12,9 @@
 
                     <div class="input-group input-group-lg">
                         <input id="mytable__form-input-state" type="text" class="form-control" required readonly
-                            placeholder="e.g.: aniversário">
-                        <span class="input-group-text">
+                            placeholder="e.g.: Aniversário">
+                        <span id="event-icon-wrapper" class="input-group-text">
+                            <span class="spinner-border event-spinner d-none"></span>
                             <i class="bi bi-calendar-event-fill"></i>
                         </span>
                     </div>
@@ -32,6 +33,10 @@
         </div>
 
         <div class="events-videos-wrapper__videos">
+            <div class="loading__spinner">
+                <div class="spinner-border videos-spinner" role="status"></div>
+            </div>
+
             <p class="h3 d-none animate__animated animate__fadeIn text-center">Não há vídeos gravados</p>
 
             <div class="videos-container"></div>
@@ -44,11 +49,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Deletar Vídeo</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Você quer mesmo deletar este vídeo?
+                <p>Você quer mesmo deletar este vídeo?</p>
 
                 <div class="modal__video-container"></div>
             </div>
