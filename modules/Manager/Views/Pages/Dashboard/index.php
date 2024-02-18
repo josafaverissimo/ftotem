@@ -38,6 +38,15 @@
                     </div>
                 </a>
             </div>
+
+            <div class="col animate__animated animate__fadeInRight w-100">
+                <a href="<?= route_to('events.videos') ?>" class="card text-bg-dark">
+                    <div class="card-header fw-bold">Vídeos dos Eventos</div>
+                    <div class="card-body">
+                        <i class="bi bi-play-circle-fill"></i>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 <?= $this->endSection() ?>

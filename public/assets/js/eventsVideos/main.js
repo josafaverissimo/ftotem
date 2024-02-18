@@ -15,16 +15,26 @@ export class EventsVideosPage {
         this.__videosContainer = this.__videosWrapper.querySelector('.videos-container')
 
         this.__mySelectEvent.loadSelect('myselect-event')
-        this.__mySelectEvent.setOnChange(this.loadVideosEventDataBySelectOption.bind(this))
+        this.__mySelectEvent.setOnChange(this.__loadVideosEventDataBySelectOption.bind(this))
         this.fillMySelectEvent()
     }
 
-    async loadVideosEventDataBySelectOption(option) {
+    async __loadVideosEventDataBySelectOption(option) {
+        const eventsVideosWrapper = document.querySelector('.events-videos-wrapper__videos')
         const eventId = Object.keys(option)[0]
 
-        const { data: videosData } = await this.__eventsVideosService.getDataByEventId(eventId)
+        eventsVideosWrapper.classList.add('loading')
 
-        this.__showVideos(videosData)
+        try {
+            const {data: videosData} = await this.__eventsVideosService.getDataByEventId(eventId)
+
+            this.__showVideos(videosData)
+        } catch(e) {
+            toastify('Não foi possível carregar os vídeos', 'danger')
+
+        } finally {
+            eventsVideosWrapper.classList.remove('loading')
+        }
     }
 
     __clearVideos() {
@@ -65,19 +75,19 @@ export class EventsVideosPage {
             <span class="placeholder col-12" style="height: 15rem"></span>
           </div>
           <div class="card-footer text-body-secondary d-flex justify-content-between align-items-end">
+            <span>${intLDate}</span>
+          
             <div role="button">
-              <button class="btn btn-outline-primary btn-sm fullscreen">
+              <button class="action-btn fullscreen">
                 <i class="bi bi-arrows-fullscreen"></i>
               </button>
-              <button class="btn btn-outline-dark btn-sm download">
+              <button class="action-btn download">
                 <i class="bi bi-download"></i>
               </button>
-              <button class="btn btn-outline-danger btn-sm delete">
+              <button class="action-btn delete">
                 <i class="bi bi-trash-fill"></i>
               </button>
             </div>
-          
-            <span>${intLDate}</span>
           </div
         </div>`
 
@@ -125,13 +135,14 @@ export class EventsVideosPage {
         const ul = document.createElement('ul')
 
         container.classList.add('container')
-        ul.classList.add('row', 'row-cols-3')
+        container.appendChild(ul)
+        ul.classList.add('row', 'rol-cols-1', 'row-cols-lg-2', 'row-cols-xl-3')
 
         videos.forEach(video => {
             ul.appendChild(this.__getCardVideo(video))
         })
 
-        this.__videosContainer.appendChild(ul)
+        this.__videosContainer.appendChild(container)
     }
 
     __listenConfirmDelete() {
@@ -170,7 +181,7 @@ export class EventsVideosPage {
 
     __showVideos(data) {
         this.__clearVideos()
-        const noVideosTextElement = this.__videosWrapper.firstChild
+        const noVideosTextElement = this.__videosWrapper.querySelector('p')
 
         if(data.length === 0) {
             noVideosTextElement.classList.remove('d-none')
@@ -192,10 +203,27 @@ export class EventsVideosPage {
     }
 
     async fillMySelectEvent() {
-        const { data } = await this.__eventsService.getAll()
-        const options = this.__getSelectOptionsByEventData(data)
+        const mySelectContainer = document.querySelector('#myselect-event')
+        const eventIconWrapper = mySelectContainer.querySelector('#event-icon-wrapper')
+        const eventSpinner = eventIconWrapper.querySelector('.event-spinner')
+        const eventIcon = eventIconWrapper.querySelector('.bi')
 
-        this.__mySelectEvent.setOptions(options)
-        this.__mySelectEvent.fill()
+        mySelectContainer.classList.add('loading')
+        eventIcon.classList.add('d-none')
+        eventSpinner.classList.remove('d-none')
+
+        try {
+            const {data} = await this.__eventsService.getAll()
+            const options = this.__getSelectOptionsByEventData(data)
+
+            this.__mySelectEvent.setOptions(options)
+            this.__mySelectEvent.fill()
+        } catch(e) {
+            toastify('Não foi possível carregar os eventos', 'danger')
+        } finally {
+            mySelectContainer.classList.remove('loading')
+            eventSpinner.classList.add('d-none')
+            eventIcon.classList.remove('d-none')
+        }
     }
 }

@@ -18,6 +18,8 @@
 
         <p class="lead"><?= lang('Errors.weHitASnag') ?></p>
 
+        <a href="<?= route_to('dashboard') ?>">Voltar à Dashboard</a>
+
     </div>
 
 </body>

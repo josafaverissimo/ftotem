@@ -15,6 +15,10 @@ li {
 }
 
 body {
+    background-color: #f8f8f8;
+}
+
+header {
     background-color: #fff;
 }
 
@@ -29,7 +33,6 @@ main {
 .main-content {
     width: 100%;
     transition: all .55s ease-in-out;
-    background-color: #f8f8f8;
 }
 
 input[type="text"], input[type="password"] {
@@ -155,8 +158,9 @@ header img {
     }
 
     header img {
-        width: 5rem;
-        height: 5rem;
+        width: 7rem;
+        height: 7rem;
         margin-bottom: 0;
+        object-fit: contain;
     }
 }

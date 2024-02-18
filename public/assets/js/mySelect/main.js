@@ -127,11 +127,11 @@ export class MySelect {
         updateFieldValue(this.__inputReadonly, li.textContent)
 
         this.__onChange(this.__selectedOptions)
+        this.__mySelectList.classList.remove('d-block')
     }
 
     changeTo(value) {
         this.__changeByLi(this.__getLiOptionByValue(value))
-        this.__mySelectList.classList.remove('d-block')
     }
 
     changeToByTextContent(textContent) {
@@ -167,7 +167,7 @@ export class MySelect {
             })
 
             if(this.__isLiOptionSelected(li)) {
-                this.__changeByLi(li)
+                this.__selectLiOption(li)
 
                 ul.prepend(li)
 
