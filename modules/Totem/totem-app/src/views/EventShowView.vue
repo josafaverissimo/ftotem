@@ -207,9 +207,9 @@ setEventIfNotInStore()
   </div>
 
   <div class="background-image wrapper" :style="backgroundImgStyle">
-    <div class="container">
+    <div class="container-fluid">
       <div class="card border">
-        <span class="h2 title">Deixe uma Mensagem</span>
+        <span class="h4 title">Deixe sua mensagem</span>
 
         <div class="video-wrapper">
           <span class="timer" v-if="!isRecording && !isRecorded">{{beforeRecordingTimer}}</span>
@@ -276,7 +276,7 @@ setEventIfNotInStore()
     height: 100vh;
     overflow: hidden;
 
-    .container {
+    .container-fluid {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -294,7 +294,7 @@ setEventIfNotInStore()
       flex-direction: column;
       align-items: center;
       border-radius: 1rem;
-      width: 40rem;
+      width: 100%;
 
       .video-wrapper {
         width: 100%;
@@ -321,7 +321,9 @@ setEventIfNotInStore()
 
       video {
         width: 100%;
-        aspect-ratio: 4/3;
+        background: #000;
+        max-height: 80vh;
+        border-radius: .7rem;
       }
 
       .btn-actions-wrapper {
