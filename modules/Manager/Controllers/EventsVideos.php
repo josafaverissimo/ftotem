@@ -41,8 +41,10 @@ class EventsVideos extends BaseController
         ]);
     }
 
-    public function delete(int $videoId): ResponseInterface
+    public function delete(int $videoId, int $eventId, string $filename): ResponseInterface
     {
+        unlink(ROOTPATH . "public/uploads/events-videos/{$eventId}/{$filename}");
+
         return $this->response->setJSON([
             'success' => $this->eventsVideosService->deleteByVideoId($videoId)
         ]);
