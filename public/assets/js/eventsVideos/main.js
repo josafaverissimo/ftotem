@@ -135,13 +135,14 @@ export class EventsVideosPage {
         const ul = document.createElement('ul')
 
         container.classList.add('container')
-        ul.classList.add('row', 'row-cols-3')
+        container.appendChild(ul)
+        ul.classList.add('row', 'rol-cols-1', 'row-cols-lg-2', 'row-cols-xl-3')
 
         videos.forEach(video => {
             ul.appendChild(this.__getCardVideo(video))
         })
 
-        this.__videosContainer.appendChild(ul)
+        this.__videosContainer.appendChild(container)
     }
 
     __listenConfirmDelete() {
