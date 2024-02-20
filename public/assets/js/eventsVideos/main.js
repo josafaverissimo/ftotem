@@ -137,7 +137,7 @@ export class EventsVideosPage {
         const container = document.createElement('div')
         const ul = document.createElement('ul')
 
-        container.classList.add('container')
+        container.classList.add('container-fluid')
         container.appendChild(ul)
         ul.classList.add('row', 'rol-cols-1', 'row-cols-lg-2', 'row-cols-xl-3')
 
