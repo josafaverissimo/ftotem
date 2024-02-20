@@ -80,7 +80,7 @@ class EventsController extends ManagerController
             'rules' => [
                 'uploaded[background]',
                 'is_image[background]',
-                'mime_in[background,image/jpeg,image/jpg,image/png]',
+                'mime_in[background,image/jpeg,image/png]',
                 'max_size[background,5120]'
             ]
         ];
