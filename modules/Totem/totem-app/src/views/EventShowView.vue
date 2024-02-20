@@ -180,6 +180,7 @@ async function sendVideo() {
       isRecording.value = false
       videoRecorded.value.src = ''
 
+      resetVideoRecordedControls()
     } else {
       if(errors) {
         toastContainer.value.pushToast(errors.video, 'danger')
