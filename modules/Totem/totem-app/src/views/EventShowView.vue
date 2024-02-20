@@ -98,6 +98,8 @@ async function startRecord(event) {
     return
   }
 
+  resetVideoRecordedControls()
+
   const buttonStart = event.target
   buttonStart.classList.add('disabled', 'pe-none')
 
