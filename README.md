@@ -5,7 +5,9 @@
 ![Docker](https://img.shields.io/badge/Codeigniter-orange)
 ![vue](https://img.shields.io/badge/Vue.js-55ff55)
 
-O repositório foi descontinuado, veja o [novo repositório](https://github.com/josafaverissimo/hi-party)
+**O repositório foi descontinuado, veja o** [novo repositório](https://github.com/josafaverissimo/hi-party)
+
+Este repositório é uma nova perspectiva do respotório: https://github.com/josafaverissimo/totem-project
 
 Sistema web para eventos, onde o objeto é manter uma base de dados dos usuários, clientes e eventos.
 
