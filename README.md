@@ -1,4 +1,5 @@
 # FTOTEM
+
 ![version](https://img.shields.io/badge/Version-v1.0.0-white)
 ![License](https://img.shields.io/badge/License-MIT-ff4)
 ![Docker](https://img.shields.io/badge/Codeigniter-orange)
@@ -11,6 +12,51 @@ poderá gravar um vídeo que será exibido posteriormente.
 
 Na aplicação onde se administra os dados, é possível ver e baixar os vídeos gravados pelos clientes.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/jNXnE-PY-Qs?si=RBavUNih1lo9VMCC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+**Clique na imagem abaixo** para ver o vídeo de apresentação do sistema
 
-[![Video](https://i.imgur.com/LZ18eqI.png)](https://youtu.be/jNXnE-PY-Qs)
+[![Video](https://i.imgur.com/yJz7Biz.png)](https://youtu.be/jNXnE-PY-Qs)
+
+## Configurando o projeto
+
+O sistema foi desenvolvido com PHP 8.3, Vue.js 3, MariaDB e Codeigniter 4.5.0. 
+
+### Docker
+
+*Em breve*
+
+### Manualmente
+
+Siga as instruções abaixo na raiz do projeto
+
+#### Configurando a aplicação de administração
+
+* Configure a conexão do banco de dados através das variáveis de ambiente no arquivo .env
+    ```shell
+    cp env .env
+    ```
+    * Agora basta definir os valores às respectivas variáveis:
+      * database.default.hostname = *hostname*
+      * database.default.database = *database*
+      * database.default.username = *username*
+      * database.default.password = *password*
+      * database.default.DBDriver = **MySQLi** *#Deve ser **exatamente** MySQLi*
+      * database.default.port = *database*
+* Execute as migrations: `php spark migrate`
+* Popule o banco de dados: `php spark db:seed Populate`
+  * **A tabelas tabelas referentes aos eventos não serão populadas**
+* Define um valor à variável de ambiente encryption.key
+  * O comando `php spark key:generate` já define automaticamente um valor à variável
+* Instale as dependências do projeto
+    ```shell
+    composer install
+    ```
+* Suba o servidor: `php spark serve --host 0.0.0.0`
+
+#### Configurando a aplicação que rodará no totem
+
+Siga o script abaixo
+```shell
+cd modules/Totem/totem-app
+npm install
+npm run dev -- --port 9090 --host
+```
