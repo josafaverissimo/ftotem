@@ -1,6 +1,6 @@
 # FTOTEM
 
-![version](https://img.shields.io/badge/Version-v1.0.0-white)
+![version](https://img.shields.io/badge/Version-v1.7.0-white)
 ![License](https://img.shields.io/badge/License-MIT-ff4)
 ![Docker](https://img.shields.io/badge/Codeigniter-orange)
 ![vue](https://img.shields.io/badge/Vue.js-55ff55)
