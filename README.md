@@ -1,9 +1,11 @@
-# FTOTEM
+# FTOTEM (🚫descontinuado)
 
 ![version](https://img.shields.io/badge/Version-v1.7.0-white)
 ![License](https://img.shields.io/badge/License-MIT-ff4)
 ![Docker](https://img.shields.io/badge/Codeigniter-orange)
 ![vue](https://img.shields.io/badge/Vue.js-55ff55)
+
+O repositório foi descontinuado, veja o [novo repositório](https://github.com/josafaverissimo/hi-party)
 
 Sistema web para eventos, onde o objeto é manter uma base de dados dos usuários, clientes e eventos.
 
@@ -60,3 +62,8 @@ cd modules/Totem/totem-app
 npm install
 npm run dev -- --port 9090 --host
 ```
+
+## Acessando o sistema
+
+Faça login com o usuário e senha padrão: josafa.verissimo e josafa123. As credenciais são válidos tanto para
+a aplicação do totem quanto para a aplicação de administração.
